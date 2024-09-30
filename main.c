@@ -7,6 +7,9 @@
 void tela_menu_principal(void);
 void tela_equipe(void);
 void tela_sobre(void);
+void tela_menu_cliente(void);
+void tela_cadastrar_cliente(void);
+void tela_pesquisar_cliente(void);
 
 /////
 // Programa principal
@@ -17,6 +20,9 @@ int main(void) {
     tela_menu_principal();
     tela_equipe();
     tela_sobre();
+    tela_menu_cliente();
+    tela_cadastrar_cliente();
+    tela_pesquisar_cliente();
     return 0;
 }
 
@@ -91,7 +97,7 @@ void tela_sobre(void) {
     printf("        clientes, dos medicamentos e produtos comercializados, além da gestão \n");
     printf("        das vendas e outros serviços prestados por farmácias ou drogarias     \n");
     printf("        convencionais. O projeto faz parte da disciplina DCT-1106 - Programa- \n");
-    printf("        ção, ministrada pelo docente Flavius Gorgônio, no 2° período do curso \n");
+    printf("        ção, ministrada pelo docente Flavius Gorgônio, no 2 período do curso \n");
     printf("        de Bacharelado em Sistemas de Informação, pela UFRN (CERES), durante o\n");
     printf("        semestre de 2024.2, sendo desenvolvido por estudantes da disciplina.  \n");
     printf("------------------------------------------------------------------------------------\n");
@@ -114,6 +120,76 @@ void tela_sobre(void) {
     printf("                                                              Atenciosamente, \n");
     printf("                                                          os Desenvolvedores. \n");
     printf("------------------------------------------------------------------------------------\n");
+    printf("\n");
+    printf("\t\t\t>>> Tecle <ENTER> para continuar...");
+    getchar();
+}
+
+void tela_menu_cliente(void) {
+    system("clear||cls");
+    printf("\n");
+    printf("-------------------------------------------------------------------------- \n");
+    printf("                                                                           \n");
+    printf("          = = = = = Sistema de Gestão SIG-PHARMACY = = = = =               \n");
+    printf("                                                                           \n");
+    printf("---------------------------------------------------------------------------\n");
+    printf("                                                                           \n");
+    printf("                = = = = = Módulo Cliente = = = = =                         \n");
+    printf("                                                                           \n");
+    printf("           1. Cadastrar novo cliente                                       \n");
+    printf("           2. Pesquisar dados de um cliente                                \n");
+    printf("           3. Atualizar dados de um cliente                                \n");
+    printf("           4. Excluir cliente                                              \n");
+    printf("           0. Voltar ao Menu Principal                                     \n");
+    printf("                                                                           \n");
+    printf("           Digite o número da sua opção:                                   \n");
+    printf("                                                                           \n");
+    printf("---------------------------------------------------------------------------\n");
+    printf("\n");
+    printf("\t\t\t>>> Tecle <ENTER> para continuar...");
+    getchar();
+}
+
+void tela_cadastrar_cliente(void) {
+    system("clear||cls");
+    printf("\n");
+    printf("---------------------------------------------------------------------------\n");
+    printf("                                                                           \n");
+    printf("          = = = = = Sistema de Gestão SIG-PHARMACY = = = = =               \n");
+    printf("                                                                           \n");
+    printf("---------------------------------------------------------------------------\n");
+    printf("                                                                           \n");
+    printf("               = = = = = Cadastrar Novo Cliente = = = = =                  \n");
+    printf("                                                                           \n");
+    printf("          Nome Completo:                                                   \n");
+    printf("          Data de nascimento (dd/mm/aaaa):                                 \n");
+    printf("          CPF (somente números):                                           \n");
+    printf("          Telefone:                                                        \n");
+    printf("          Email:                                                           \n");
+    printf("          Bairro:                                                          \n");
+    printf("          Rua:                                                             \n");
+    printf("          Nº da casa:                                                      \n");
+    printf("\n");
+    printf("---------------------------------------------------------------------------\n");
+    printf("\n");
+    printf("\t\t\t>>> Tecle <ENTER> para continuar...");
+    getchar();
+}
+
+void tela_pesquisar_cliente(void) {
+    system("clear||cls");
+    printf("\n");
+    printf("---------------------------------------------------------------------------\n");
+    printf("                                                                           \n");
+    printf("          = = = = = Sistema de Gestão SIG-PHARMACY = = = = =               \n");
+    printf("                                                                           \n");
+    printf("---------------------------------------------------------------------------\n");
+    printf("                                                                           \n");
+    printf("           = = = = = Pesquisar dados de um Cliente = = = = =               \n");
+    printf("                                                                           \n");
+    printf("     Digite o CPF do cliente para pesquisar (apenas números):              \n");
+    printf("                                                                           \n");
+    printf("---------------------------------------------------------------------------\n");
     printf("\n");
     printf("\t\t\t>>> Tecle <ENTER> para continuar...");
     getchar();
