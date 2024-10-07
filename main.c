@@ -3,7 +3,7 @@
 #include <stdlib.h>
 
 /////
-// Assinatura das funï¿½ï¿½es
+// Assinatura das funções
 void tela_menu_principal(void);
 void tela_equipe(void);
 void tela_sobre(void);
@@ -12,6 +12,11 @@ void tela_cadastrar_cliente(void);
 void tela_pesquisar_cliente(void);
 void tela_atualizar_cliente(void);
 void tela_excluir_cliente(void);
+void tela_menu_remedio(void);
+void tela_cadastrar_remedio(void);
+void tela_pesquisar_remedio(void);
+void tela_atualizar_remedio(void);
+void tela_excluir_remedio(void);
 /////
 // Programa principal
 int main(void) {
@@ -26,11 +31,15 @@ int main(void) {
     tela_pesquisar_cliente();
     tela_atualizar_cliente();
     tela_excluir_cliente();
+    tela_menu_remedio();
+    tela_cadastrar_remedio();
+    tela_pesquisar_remedio();
+    tela_atualizar_remedio();
+    tela_excluir_remedio();
     return 0;
 }
 
-
-// Funï¿½ï¿½es
+// Funções
 
 void tela_menu_principal(void) {
     char op;
@@ -39,15 +48,15 @@ void tela_menu_principal(void) {
     printf("-------------------------------------------------------------------------\n");
     printf("\n");
     printf("                                                                         \n");
-    printf("            = = = = = Sistema de Gestï¿½o SIG-PHARMACY = = = = =           \n");
+    printf("            = = = = = Sistema de Gestão SIG-PHARMACY = = = = =           \n");
     printf("                                                                         \n");
-    printf("            1. Mï¿½dulo Produtos                                           \n");
-    printf("            2. Mï¿½dulo Vendas                                             \n");
-    printf("            3. Mï¿½dulo Clientes                                           \n");
-    printf("            4. Mï¿½dulo Informaï¿½ï¿½es                                        \n");
+    printf("            1. Módulo Produtos                                           \n");
+    printf("            2. Módulo Vendas                                             \n");
+    printf("            3. Módulo Clientes                                           \n");
+    printf("            4. Módulo Informações                                        \n");
     printf("            0. Sair                                                      \n");
     printf("                                                                         \n");
-    printf("            Escolha a opï¿½ï¿½o desejada: ");
+    printf("            Escolha a opção desejada: ");
     scanf("%c", &op);
     getchar();
     printf("                                                                          \n");
@@ -57,21 +66,19 @@ void tela_menu_principal(void) {
     getchar();
 }
 
-
-
 void tela_equipe(void) {
     system("clear||cls");
     printf("\n");
     printf("-------------------------------------------------------------------------\n");
     printf("                                                                         \n");
-    printf("            = = = = = Sistema de Gestï¿½o SIG-PHARMACY = = = = =           \n");
+    printf("            = = = = = Sistema de Gestão SIG-PHARMACY = = = = =           \n");
     printf("                                                                         \n");
     printf("            Este projeto foi desenvolvido por:                           \n");
     printf("                                                                         \n");
     printf("            Dupla: Julia Costa e Juliany Tairis                          \n");
     printf("            E-mail: juliajs.costa@gmail.com | Julianytairis04@gmail.com  \n");
     printf("            Git: https://github.com/jtairis/SIG-Pharmacy.git             \n");
-    printf("            Este projeto teve como base o Sistema De Gestï¿½o Escolar      \n");
+    printf("            Este projeto teve como base o Sistema De Gestão Escolar      \n");
     printf("            disponibilizado pelo professor Flavius Gorgonio.             \n");
     printf("                                                                         \n");
     printf("-------------------------------------------------------------------------\n");
@@ -85,41 +92,41 @@ void tela_sobre(void) {
     printf("\n");
     printf("------------------------------------------------------------------------------------\n");
     printf("                    UNIVERSIDADE FEDERAL DO RIO GRANDE DO NORTE               \n");
-    printf("                      CENTRO DE ENSINO SUPERIOR DO SERIDï¿½                     \n");
-    printf("                     DEPARTAMENTO DE COMPUTAï¿½ï¿½O E TECNOLOGIA                  \n");
-    printf("                       BACHARELADO EM SISTEMAS DE INFORMAï¿½ï¿½O                  \n");
-    printf("                        DISCIPLINA: DCT-1106 -- PROGRAMAï¿½ï¿½O                   \n");
-    printf("                           PROFESSOR: FLAVIUS GORGï¿½NIO                        \n");
-    printf("                            CAICï¿½-RN, Setembro de 2024                        \n");
+    printf("                      CENTRO DE ENSINO SUPERIOR DO SERIDÓ                     \n");
+    printf("                     DEPARTAMENTO DE COMPUTAÇÃO E TECNOLOGIA                  \n");
+    printf("                       BACHARELADO EM SISTEMAS DE INFORMAÇÃO                  \n");
+    printf("                        DISCIPLINA: DCT-1106 -- PROGRAMAÇÃO                   \n");
+    printf("                           PROFESSOR: FLAVIUS GORGÔNIO                        \n");
+    printf("                            CAICÓ-RN, Setembro de 2024                        \n");
     printf("                                                                              \n");
-    printf("               = = = = = Sistema de Gestï¿½o SIG-Pharmacy = = = = =             \n");
+    printf("               = = = = = Sistema de Gestão SIG-Pharmacy = = = = =             \n");
     printf("                                                                              \n");
-    printf("     >> O que ï¿½?                                                              \n");
+    printf("     >> O que é?                                                              \n");
     printf("        O projeto SIG-Pharmacy consiste no desenvolvimento de um sistema de   \n");
-    printf("        computador que realiza a gestï¿½o de uma farmï¿½cia, armazenando dados de \n");
-    printf("        clientes, dos medicamentos e produtos comercializados, alï¿½m da gestï¿½o \n");
-    printf("        das vendas e outros serviï¿½os prestados por farmï¿½cias ou drogarias     \n");
+    printf("        computador que realiza a gestão de uma farmácia, armazenando dados de \n");
+    printf("        clientes, dos medicamentos e produtos comercializados, além da gestão \n");
+    printf("        das vendas e outros serviços prestados por farmácias ou drogarias     \n");
     printf("        convencionais. O projeto faz parte da disciplina DCT-1106 - Programa- \n");
-    printf("        ï¿½ï¿½o, ministrada pelo docente Flavius Gorgï¿½nio, no 2 perï¿½odo do curso \n");
-    printf("        de Bacharelado em Sistemas de Informaï¿½ï¿½o, pela UFRN (CERES), durante o\n");
+    printf("        ção, ministrada pelo docente Flavius Gorgônio, no 2º período do curso \n");
+    printf("        de Bacharelado em Sistemas de Informação, pela UFRN (CERES), durante o\n");
     printf("        semestre de 2024.2, sendo desenvolvido por estudantes da disciplina.  \n");
     printf("------------------------------------------------------------------------------------\n");
-    printf("     >> Como ï¿½ desenvolvido?                                                  \n");
-    printf("        Para o desenvolvimento do projeto, ï¿½ utilizada a linguagem de progra- \n");
-    printf("        maï¿½ï¿½o C, linguagem compilada, relativamente simples e acessï¿½vel. Du-  \n");
-    printf("        rante o semestre de 2024.2, o projeto serï¿½ dividido em vï¿½rias etapas: \n");
-    printf("        a cada semana, serï¿½o implementadas novas partes do programa, com no-  \n");
-    printf("        vas funcionalidades, buscando o aprimoramento contï¿½nuo do sistema.    \n");
+    printf("     >> Como é desenvolvido?                                                  \n");
+    printf("        Para o desenvolvimento do projeto, é utilizada a linguagem de progra- \n");
+    printf("        mação C, linguagem compilada, relativamente simples e acessível. Du-  \n");
+    printf("        rante o semestre de 2024.2, o projeto será dividido em várias etapas: \n");
+    printf("        a cada semana, serão implementadas novas partes do programa, com no-  \n");
+    printf("        vas funcionalidades, buscando o aprimoramento contínuo do sistema.    \n");
     printf("------------------------------------------------------------------------------------\n");
     printf("     >> O que se espera do projeto?                                           \n");
     printf("        Espera-se que o sistema do projeto atinja sua finalidade: garantir uma\n");
-    printf("        boa gestï¿½o de uma farmï¿½cia, proporcionando uma boa e eficiente experi-\n");
-    printf("        ï¿½ncia em sua utilizaï¿½ï¿½o. Tambï¿½m espera-se que, ao tï¿½rmino do projeto, \n");
-    printf("        os alunos envolvidos possam ter ampliado suas habilidades prï¿½ticas de \n");
-    printf("        programaï¿½ï¿½o, aprendido mais sobre o uso da linguagem C, sobre planeja-\n");
-    printf("        mento e gerenciamento de projetos, alï¿½m de poderem ter conquistado ha-\n");
-    printf("        bilidades essenciais, como foco, organizaï¿½ï¿½o, paciï¿½ncia, disciplina,  \n");
-    printf("        pontualidade, comunicaï¿½ï¿½o e trabalho em equipe.                       \n");
+    printf("        boa gestão de uma farmácia, proporcionando uma boa e eficiente experi-\n");
+    printf("        ência em sua utilização. Também espera-se que, ao término do projeto, \n");
+    printf("        os alunos envolvidos possam ter ampliado suas habilidades práticas de \n");
+    printf("        programação, aprendido mais sobre o uso da linguagem C, sobre planeja-\n");
+    printf("        mento e gerenciamento de projetos, além de poderem ter conquistado ha-\n");
+    printf("        bilidades essenciais, como foco, organização, paciência, disciplina,  \n");
+    printf("        pontualidade, comunicação e trabalho em equipe.                       \n");
     printf("                                                              Atenciosamente, \n");
     printf("                                                          os Desenvolvedores. \n");
     printf("------------------------------------------------------------------------------------\n");
@@ -127,25 +134,25 @@ void tela_sobre(void) {
     printf("\t\t\t>>> Tecle <ENTER> para continuar...");
     getchar();
 }
-
+//Clientes
 void tela_menu_cliente(void) {
     system("clear||cls");
     printf("\n");
     printf("-------------------------------------------------------------------------- \n");
     printf("                                                                           \n");
-    printf("          = = = = = Sistema de Gestï¿½o SIG-PHARMACY = = = = =               \n");
+    printf("          = = = = = Sistema de Gestão SIG-PHARMACY = = = = =               \n");
     printf("                                                                           \n");
     printf("---------------------------------------------------------------------------\n");
     printf("                                                                           \n");
-    printf("                = = = = = Mï¿½dulo Cliente = = = = =                         \n");
+    printf("                = = = = = Módulo Cliente = = = = =                         \n");
     printf("                                                                           \n");
     printf("           1. Cadastrar novo cliente                                       \n");
-    printf("           2. Pesquisar dados de um cliente                                \n");
-    printf("           3. Atualizar dados de um cliente                                \n");
+    printf("           2. Pesquisar cliente                                            \n");
+    printf("           3. Atualizar cliente                                            \n");
     printf("           4. Excluir cliente                                              \n");
     printf("           0. Voltar ao Menu Principal                                     \n");
     printf("                                                                           \n");
-    printf("           Digite o nï¿½mero da sua opï¿½ï¿½o:                                   \n");
+    printf("           Digite o número da sua opção:                                   \n");
     printf("                                                                           \n");
     printf("---------------------------------------------------------------------------\n");
     printf("\n");
@@ -158,7 +165,7 @@ void tela_cadastrar_cliente(void) {
     printf("\n");
     printf("---------------------------------------------------------------------------\n");
     printf("                                                                           \n");
-    printf("          = = = = = Sistema de Gestï¿½o SIG-PHARMACY = = = = =               \n");
+    printf("          = = = = = Sistema de Gestão SIG-PHARMACY = = = = =               \n");
     printf("                                                                           \n");
     printf("---------------------------------------------------------------------------\n");
     printf("                                                                           \n");
@@ -166,12 +173,12 @@ void tela_cadastrar_cliente(void) {
     printf("                                                                           \n");
     printf("          Nome Completo:                                                   \n");
     printf("          Data de nascimento (dd/mm/aaaa):                                 \n");
-    printf("          CPF (somente nï¿½meros):                                           \n");
+    printf("          CPF (somente números):                                           \n");
     printf("          Telefone:                                                        \n");
     printf("          Email:                                                           \n");
     printf("          Bairro:                                                          \n");
     printf("          Rua:                                                             \n");
-    printf("          Nï¿½ da casa:                                                      \n");
+    printf("          Nº da casa:                                                      \n");
     printf("\n");
     printf("---------------------------------------------------------------------------\n");
     printf("\n");
@@ -184,13 +191,13 @@ void tela_pesquisar_cliente(void) {
     printf("\n");
     printf("---------------------------------------------------------------------------\n");
     printf("                                                                           \n");
-    printf("          = = = = = Sistema de Gestï¿½o SIG-PHARMACY = = = = =               \n");
+    printf("          = = = = = Sistema de Gestão SIG-PHARMACY = = = = =               \n");
     printf("                                                                           \n");
     printf("---------------------------------------------------------------------------\n");
     printf("                                                                           \n");
-    printf("           = = = = = Pesquisar dados de um Cliente = = = = =               \n");
+    printf("                = = = = = Pesquisar Cliente = = = = =                      \n");
     printf("                                                                           \n");
-    printf("     Digite o CPF do cliente para pesquisar (apenas nï¿½meros):              \n");
+    printf("      Digite o CPF do cliente para pesquisar (apenas números):             \n");
     printf("                                                                           \n");
     printf("---------------------------------------------------------------------------\n");
     printf("\n");
@@ -203,11 +210,11 @@ void tela_atualizar_cliente(void) {
     printf("\n");
     printf("---------------------------------------------------------------------------\n");
     printf("                                                                           \n");
-    printf("          = = = = = Sistema de Gestï¿½o SIG-PHARMACY = = = = =               \n");
+    printf("          = = = = = Sistema de Gestão SIG-PHARMACY = = = = =               \n");
     printf("                                                                           \n");
     printf("---------------------------------------------------------------------------\n");
     printf("                                                                           \n");
-    printf("               = = = = = Atualizar Dados Cliente = = = = =                 \n");
+    printf("               = = = = = Atualizar Dados de Cliente = = = = =              \n");
     printf("                                                                           \n");
     printf("          Digite o CPF:                                                    \n");
     printf("                                                                           \n");
@@ -222,7 +229,7 @@ void tela_excluir_cliente(void) {
     printf("\n");
     printf("---------------------------------------------------------------------------\n");
     printf("                                                                           \n");
-    printf("          = = = = = Sistema de Gestï¿½o SIG-PHARMACY = = = = =               \n");
+    printf("          = = = = = Sistema de Gestão SIG-PHARMACY = = = = =               \n");
     printf("                                                                           \n");
     printf("---------------------------------------------------------------------------\n");
     printf("                                                                           \n");
@@ -236,3 +243,109 @@ void tela_excluir_cliente(void) {
     getchar();
 }
 
+//Remédios
+void tela_menu_remedio(void) {
+    system("clear||cls");
+    printf("\n");
+    printf("-------------------------------------------------------------------------- \n");
+    printf("                                                                           \n");
+    printf("          = = = = = Sistema de Gestão SIG-PHARMACY = = = = =               \n");
+    printf("                                                                           \n");
+    printf("---------------------------------------------------------------------------\n");
+    printf("                                                                           \n");
+    printf("                = = = = = Módulo Remédios = = = = =                        \n");
+    printf("                                                                           \n");
+    printf("           1. Cadastrar novo remédio                                       \n");
+    printf("           2. Pesquisar remédio                                            \n");
+    printf("           3. Atualizar remédio                                            \n");
+    printf("           4. Excluir remédio                                              \n");
+    printf("           0. Voltar ao Menu Principal                                     \n");
+    printf("                                                                           \n");
+    printf("           Digite o número da sua opção:                                   \n");
+    printf("                                                                           \n");
+    printf("---------------------------------------------------------------------------\n");
+    printf("\n");
+    printf("\t\t\t>>> Tecle <ENTER> para continuar...");
+    getchar();
+}
+
+void tela_cadastrar_remedio(void) {
+    system("clear||cls");
+    printf("---------------------------------------------------------------------------\n");
+    printf("                                                                           \n");
+    printf("          = = = = = Sistema de Gestão SIG-PHARMACY = = = = =               \n");
+    printf("                                                                           \n");
+    printf("---------------------------------------------------------------------------\n");
+    printf("                                                                           \n");
+    printf("               = = = = = Cadastrar Novo Remédio = = = = =                  \n");
+    printf("                                                                           \n");
+    printf("          Nome do remédio:                                                 \n");
+    printf("          Código:                                                          \n");
+    printf("          Marca:                                                           \n");
+    printf("          Categoria:                                                       \n");
+    printf("          Data de validade (dd/mm/aaaa):                                   \n");
+    printf("          Valor:                                                           \n");
+    printf("          Descrição:                                                       \n");
+    printf("\n");
+    printf("---------------------------------------------------------------------------\n");
+    printf("\n");
+    printf("\t\t\t>>> Tecle <ENTER> para continuar...");
+    getchar();
+}
+
+void tela_pesquisar_remedio(void) {
+    system("clear||cls");
+    printf("\n");
+    printf("---------------------------------------------------------------------------\n");
+    printf("                                                                           \n");
+    printf("          = = = = = Sistema de Gestão SIG-PHARMACY = = = = =               \n");
+    printf("                                                                           \n");
+    printf("---------------------------------------------------------------------------\n");
+    printf("                                                                           \n");
+    printf("                 = = = = = Pesquisar Remédio = = = = =                     \n");
+    printf("                                                                           \n");
+    printf("       Digite o código do remédio para pesquisar:                          \n");
+    printf("                                                                           \n");
+    printf("---------------------------------------------------------------------------\n");
+    printf("\n");
+    printf("\t\t\t>>> Tecle <ENTER> para continuar...");
+    getchar();
+}
+
+void tela_atualizar_remedio(void) {
+    system("clear||cls");
+    printf("\n");
+    printf("---------------------------------------------------------------------------\n");
+    printf("                                                                           \n");
+    printf("          = = = = = Sistema de Gestão SIG-PHARMACY = = = = =               \n");
+    printf("                                                                           \n");
+    printf("---------------------------------------------------------------------------\n");
+    printf("                                                                           \n");
+    printf("                  = = = = = Atualizar Remédio = = = = =                    \n");
+    printf("                                                                           \n");
+    printf("          Digite o código para atualizar o remédio:                        \n");
+    printf("                                                                           \n");
+    printf("---------------------------------------------------------------------------\n");
+    printf("\n");
+    printf("\t\t\t>>> Tecle <ENTER> para continuar...");
+    getchar();
+}
+
+void tela_excluir_remedio(void) {
+    system("clear||cls");
+    printf("\n");
+    printf("---------------------------------------------------------------------------\n");
+    printf("                                                                           \n");
+    printf("          = = = = = Sistema de Gestão SIG-PHARMACY = = = = =               \n");
+    printf("                                                                           \n");
+    printf("---------------------------------------------------------------------------\n");
+    printf("                                                                           \n");
+    printf("                  = = = = = Excluir Remédio = = = = =                      \n");
+    printf("                                                                           \n");
+    printf("            Digite o código para excluir o remédio:                        \n");
+    printf("                                                                           \n");
+    printf("---------------------------------------------------------------------------\n");
+    printf("\n");
+    printf("\t\t\t>>> Tecle <ENTER> para continuar...");
+    getchar();
+}
