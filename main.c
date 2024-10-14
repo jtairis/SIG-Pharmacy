@@ -20,8 +20,6 @@ void tela_excluir_remedio(void);
 void tela_menu_venda(void);
 void tela_cadastrar_venda(void);
 void tela_pesquisar_venda(void);
-void tela_atualizar_venda(void);
-void tela_excluir_venda(void);
 
 /////
 // Programa principal
@@ -45,8 +43,6 @@ int main(void) {
     tela_menu_venda();
     tela_cadastrar_venda();
     tela_pesquisar_venda();
-    tela_atualizar_venda();
-    tela_excluir_venda();
     return 0;
 }
 
@@ -375,8 +371,6 @@ void tela_menu_venda(void) {
     printf("                                                                           \n");
     printf("           1. Cadastrar Venda                                              \n");
     printf("           2. Pesquisar Venda                                              \n");
-    printf("           3. Atualizar Venda                                              \n");
-    printf("           4. Excluir Venda                                                \n");
     printf("           0. Voltar ao Menu Principal                                     \n");
     printf("                                                                           \n");
     printf("           Digite o n�mero da sua op��o:                                   \n");
@@ -419,44 +413,6 @@ void tela_pesquisar_venda(void) {
     printf("                 = = = = = Pesquisar Venda = = = = =                       \n");
     printf("                                                                           \n");
     printf("       Digite o CPF do cliente que efetuou a compra:                       \n");
-    printf("                                                                           \n");
-    printf("---------------------------------------------------------------------------\n");
-    printf("\n");
-    printf("\t\t\t>>> Tecle <ENTER> para continuar...");
-    getchar();
-}
-
-void tela_atualizar_venda(void) {
-    system("clear||cls");
-    printf("\n");
-    printf("---------------------------------------------------------------------------\n");
-    printf("                                                                           \n");
-    printf("          = = = = = Sistema de Gest�o SIG-PHARMACY = = = = =               \n");
-    printf("                                                                           \n");
-    printf("---------------------------------------------------------------------------\n");
-    printf("                                                                           \n");
-    printf("                  = = = = = Atualizar Venda = = = = =                      \n");
-    printf("                                                                           \n");
-    printf("       Digite o CPF do cliente que efetuou a compra:                       \n");
-    printf("                                                                           \n");
-    printf("---------------------------------------------------------------------------\n");
-    printf("\n");
-    printf("\t\t\t>>> Tecle <ENTER> para continuar...");
-    getchar();
-}
-
-void tela_excluir_venda(void) {
-    system("clear||cls");
-    printf("\n");
-    printf("---------------------------------------------------------------------------\n");
-    printf("                                                                           \n");
-    printf("          = = = = = Sistema de Gest�o SIG-PHARMACY = = = = =               \n");
-    printf("                                                                           \n");
-    printf("---------------------------------------------------------------------------\n");
-    printf("                                                                           \n");
-    printf("                  = = = = = Excluir Venda = = = = =                        \n");
-    printf("                                                                           \n");
-    printf("            Digite o CPF do cliente:                                       \n");
     printf("                                                                           \n");
     printf("---------------------------------------------------------------------------\n");
     printf("\n");
