@@ -5,6 +5,7 @@
 /////
 // Assinatura das funções
 int tela_menu_principal(void);
+int tela_menu_informacoes(void);
 void tela_equipe(void);
 void tela_sobre(void);
 int tela_menu_cliente(void);
@@ -30,7 +31,7 @@ int main(void) {
     int op_produtos;
     int op_clientes;
     int op_vendas;
-    //int op_informacoes;
+    int op_informacoes;
     do{
         opcao = tela_menu_principal();
 
@@ -96,12 +97,24 @@ int main(void) {
             break;
             
             case 4:
-            tela_sobre();
+            do{
+                op_informacoes = tela_menu_informacoes();
+
+                switch (op_informacoes){
+                case 1:
+                tela_equipe();
+                break;
+                case 2:
+                tela_sobre();
+                break;
+            }
+            }while(op_informacoes != 0);
             break;
         }
 
     }while(opcao != 0);
-    tela_equipe();
+
+
     return 0;
 }
 
@@ -129,6 +142,30 @@ int tela_menu_principal(void) {
     printf("--------------------------------------------------------------------------\n");
     printf("\n");
     printf("\t\t\t>>> Tecle <ENTER> para continuar...\n");
+    return op;
+}
+
+int tela_menu_informacoes(void) {
+    int op;
+    printf("\n");
+    printf("-------------------------------------------------------------------------- \n");
+    printf("                                                                           \n");
+    printf("          = = = = = Sistema de Gestão SIG-PHARMACY = = = = =               \n");
+    printf("                                                                           \n");
+    printf("---------------------------------------------------------------------------\n");
+    printf("                                                                           \n");
+    printf("                = = = = = Módulo Informações = = = = =                     \n");
+    printf("                                                                           \n");
+    printf("           1. Equipe                                                       \n");
+    printf("           2. Sobre                                                        \n");
+    printf("           0. Voltar ao Menu Principal                                     \n");
+    printf("                                                                           \n");
+    printf("           Digite o número da sua opção:                                   \n");
+    scanf("%d", &op);
+    printf("                                                                           \n");
+    printf("---------------------------------------------------------------------------\n");
+    printf("\n");
+    printf("\t\t\t>>> Tecle <ENTER> para continuar...");
     return op;
 }
 
