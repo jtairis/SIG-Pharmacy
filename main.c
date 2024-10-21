@@ -266,8 +266,8 @@ int tela_menu_cliente(void) {
 
 void tela_cadastrar_cliente(void) {
     char nome [51];
-    char data [10];
-    char cpf [11];
+    char data [11];
+    char cpf [13];
     char tele [12];
     char email [30];
 
@@ -281,26 +281,21 @@ system("clear");
     printf("                                                                           \n");
     printf("               = = = = = Cadastrar Novo Cliente = = = = =                  \n");
     printf("                                                                           \n");
-    printf("          Nome Completo:                                                   \n");
-    printf("          Data de nascimento (dd/mm/aaaa):                                 \n");
-    printf("          CPF (somente números):                                           \n");
-    printf("          Telefone:                                                        \n");
-    printf("          Email:                                                           \n");
     getchar();
     printf("          Nome Completo: ");
-    scanf("%[A-ZAÁÉÍÓÚÇÃÕ a-zéíóúãõç]", nome);
+    scanf("%50[A-ZAÁÉÍÓÚÇÃÕ a-zéíóúãõç]", nome);
     getchar();
     printf("          Data de nascimento (dd/mm/aaaa): ");
-    scanf("%[0-9/]", data);
+    scanf("%10[0-9/]", data);
     getchar();
     printf("          CPF (somente números): ");
     scanf("%11s", cpf);
     getchar();
     printf("          Telefone: ");
-    scanf("%[0-9]", tele);
+    scanf("%12[0-9]", tele);
     getchar();
     printf("          Email: ");
-    scanf("%[a-z@.]", email);
+    scanf("%29[a-z@.]", email);
     getchar();
     printf("\n");
     printf("---------------------------------------------------------------------------\n");
@@ -379,6 +374,7 @@ void tela_excluir_cliente(void) {
 int tela_menu_produto(void) {
     int op;
     printf("\n");
+    system("clear||cls");
     printf("-------------------------------------------------------------------------- \n");
     printf("                                                                           \n");
     printf("          = = = = = Sistema de Gestão SIG-PHARMACY = = = = =               \n");
@@ -403,6 +399,13 @@ int tela_menu_produto(void) {
 }
 
 void tela_cadastrar_remedio(void) {
+    char nomeproduto [30];
+    char codigo [8];
+    char validade [11];
+    char valor [8];
+    char descricao [30];
+
+
     system("clear||cls");
     printf("---------------------------------------------------------------------------\n");
     printf("                                                                           \n");
@@ -412,13 +415,22 @@ void tela_cadastrar_remedio(void) {
     printf("                                                                           \n");
     printf("               = = = = = Cadastrar Novo Produto = = = = =                  \n");
     printf("                                                                           \n");
-    printf("          Nome do produto:                                                 \n");
-    printf("          Código:                                                          \n");
-    printf("          Marca:                                                           \n");
-    printf("          Categoria:                                                       \n");
-    printf("          Data de validade (dd/mm/aaaa):                                   \n");
-    printf("          Valor:                                                           \n");
-    printf("          Descrição:                                                       \n");
+    getchar();
+    printf("          Nome do produto: ");
+    scanf("%29[A-ZAÁÉÍÓÚÇÃÕ a-zéíóúãõç]", nomeproduto);
+    getchar();
+    printf("          Código: ");
+    scanf("%7[0-9]", codigo);
+    getchar();
+    printf("          Data de validade (dd/mm/aaaa): ");
+    scanf("%10[0-9/]", validade);
+    getchar();
+    printf("          Valor: ");
+    scanf("%7s", valor);
+    getchar();
+    printf("          Descrição: ");
+    scanf("%29[A-ZAÁÉÍÓÚÇÃÕ a-zéíóúãõç]", descricao);
+    getchar();
     printf("\n");
     printf("---------------------------------------------------------------------------\n");
     printf("\n");
@@ -427,6 +439,8 @@ void tela_cadastrar_remedio(void) {
 }
 
 void tela_pesquisar_remedio(void) {
+    char codigo [8];
+
     system("clear||cls");
     printf("\n");
     printf("---------------------------------------------------------------------------\n");
@@ -437,7 +451,10 @@ void tela_pesquisar_remedio(void) {
     printf("                                                                           \n");
     printf("                 = = = = = Pesquisar Produto = = = = =                     \n");
     printf("                                                                           \n");
-    printf("       Digite o código do produto para pesquisar:                          \n");
+    getchar();
+    printf("       Digite o código do produto para pesquisar: ");
+    scanf("%7[0-9]", codigo);
+    getchar();
     printf("                                                                           \n");
     printf("---------------------------------------------------------------------------\n");
     printf("\n");
@@ -446,6 +463,8 @@ void tela_pesquisar_remedio(void) {
 }
 
 void tela_atualizar_remedio(void) {
+    char codigo [8];
+
     system("clear||cls");
     printf("\n");
     printf("---------------------------------------------------------------------------\n");
@@ -456,7 +475,10 @@ void tela_atualizar_remedio(void) {
     printf("                                                                           \n");
     printf("                  = = = = = Atualizar Produto = = = = =                    \n");
     printf("                                                                           \n");
-    printf("          Digite o código para atualizar o produto:                        \n");
+    getchar();
+    printf("          Digite o código para atualizar o produto: ");
+    scanf("%7[0-9]", codigo);
+    getchar();
     printf("                                                                           \n");
     printf("---------------------------------------------------------------------------\n");
     printf("\n");
@@ -465,6 +487,8 @@ void tela_atualizar_remedio(void) {
 }
 
 void tela_excluir_remedio(void) {
+    char codigo [8];
+    
     system("clear||cls");
     printf("\n");
     printf("---------------------------------------------------------------------------\n");
@@ -475,7 +499,10 @@ void tela_excluir_remedio(void) {
     printf("                                                                           \n");
     printf("                  = = = = = Excluir Produto = = = = =                      \n");
     printf("                                                                           \n");
-    printf("            Digite o código para excluir o produto:                        \n");
+    getchar();
+    printf("            Digite o código para excluir o produto: ");
+    scanf("%7[0-9]", codigo);
+    getchar();
     printf("                                                                           \n");
     printf("---------------------------------------------------------------------------\n");
     printf("\n");
