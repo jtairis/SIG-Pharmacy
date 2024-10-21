@@ -265,6 +265,13 @@ int tela_menu_cliente(void) {
 }
 
 void tela_cadastrar_cliente(void) {
+    char nome [51];
+    char data [10];
+    char cpf [11];
+    char tele [12];
+    char email [30];
+
+system("clear");
     printf("\n");
     printf("---------------------------------------------------------------------------\n");
     printf("                                                                           \n");
@@ -279,9 +286,22 @@ void tela_cadastrar_cliente(void) {
     printf("          CPF (somente números):                                           \n");
     printf("          Telefone:                                                        \n");
     printf("          Email:                                                           \n");
-    printf("          Bairro:                                                          \n");
-    printf("          Rua:                                                             \n");
-    printf("          Nº da casa:                                                      \n");
+    getchar();
+    printf("          Nome Completo: ");
+    scanf("%[A-ZAÁÉÍÓÚÇÃÕ a-zéíóúãõç]", nome);
+    getchar();
+    printf("          Data de nascimento (dd/mm/aaaa): ");
+    scanf("%[0-9/]", data);
+    getchar();
+    printf("          CPF (somente números): ");
+    scanf("%[0-9]", cpf);
+    getchar();
+    printf("          Telefone: ");
+    scanf("%[0-9]", tele);
+    getchar();
+    printf("          Email: ");
+    scanf("%[a-z@.]", email);
+    getchar();
     printf("\n");
     printf("---------------------------------------------------------------------------\n");
     printf("\n");
