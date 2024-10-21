@@ -21,6 +21,7 @@ void tela_excluir_remedio(void);
 int tela_menu_venda(void);
 void tela_cadastrar_venda(void);
 void tela_pesquisar_venda(void);
+int tela_menu_relatorio(void);
 
 /////
 // Programa principal
@@ -32,6 +33,7 @@ int main(void) {
     int op_clientes;
     int op_vendas;
     int op_informacoes;
+    int op_relatorio;
     do{
         opcao = tela_menu_principal();
 
@@ -110,6 +112,10 @@ int main(void) {
             }
             }while(op_informacoes != 0);
             break;
+            case 5:
+            do{
+                op_relatorio = tela_menu_relatorio();
+            }while(opcao != 0);
         }
 
     }while(opcao != 0);
@@ -130,9 +136,10 @@ int tela_menu_principal(void) {
     printf("            = = = = = Sistema de Gestão SIG-PHARMACY = = = = =           \n");
     printf("                                                                         \n");
     printf("            1. Módulo Produtos                                           \n");
-    printf("            2. Módulo Clientes                                             \n");
-    printf("            3. Módulo Vendas                                           \n");
+    printf("            2. Módulo Clientes                                           \n");
+    printf("            3. Módulo Vendas                                             \n");
     printf("            4. Módulo Informações                                        \n");
+    printf("            5. Módulo Relatório                                          \n");    
     printf("            0. Sair                                                      \n");
     printf("                                                                         \n");
     printf("            Escolha a opção desejada: ");
@@ -565,7 +572,7 @@ void tela_cadastrar_venda(void) {
 
 void tela_pesquisar_venda(void) {
     char cpf [12];
-    
+
     system("clear||cls");
     printf("\n");
     printf("---------------------------------------------------------------------------\n");
@@ -585,4 +592,27 @@ void tela_pesquisar_venda(void) {
     printf("\n");
     printf("\t\t\t>>> Tecle <ENTER> para continuar...");
     getchar();
+}
+
+int tela_menu_relatorio(void) {
+    system("clear||cls");
+    printf("\n");
+    printf("-------------------------------------------------------------------------- \n");
+    printf("                                                                           \n");
+    printf("          = = = = = Sistema de Gestão SIG-PHARMACY = = = = =               \n");
+    printf("                                                                           \n");
+    printf("---------------------------------------------------------------------------\n");
+    printf("                                                                           \n");
+    printf("                 = = = = = Módulo Relatório = = = = =                      \n");
+    printf("                                                                           \n");
+    printf("           1. Relatório de Produtos                                        \n");
+    printf("           2. Relatório de Clientes                                        \n");
+    printf("           3. Relatório de Vendas                                          \n");
+    printf("           0. Voltar ao Menu Principal                                     \n");
+    printf("                                                                           \n");
+    printf("           Digite o número da sua opção:                                   \n");
+    printf("                                                                           \n");
+    printf("---------------------------------------------------------------------------\n");
+    printf("\n");
+    printf("\t\t\t>>> Tecle <ENTER> para continuar...");
 }
