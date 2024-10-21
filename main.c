@@ -267,7 +267,7 @@ int tela_menu_cliente(void) {
 void tela_cadastrar_cliente(void) {
     char nome [51];
     char data [11];
-    char cpf [13];
+    char cpf [12];
     char tele [12];
     char email [30];
 
@@ -305,7 +305,7 @@ system("clear");
 }
 
 void tela_pesquisar_cliente(void) {
-    char cpf [11];
+    char cpf [12];
 
     system("clear||cls");
     printf("\n");
@@ -327,7 +327,7 @@ void tela_pesquisar_cliente(void) {
 }
 
 void tela_atualizar_cliente(void) {
-    char cpf [11];
+    char cpf [12];
     system("clear||cls");
     printf("\n");
     printf("---------------------------------------------------------------------------\n");
@@ -349,7 +349,7 @@ void tela_atualizar_cliente(void) {
 }
 
 void tela_excluir_cliente(void) {
-    char cpf [11];
+    char cpf [12];
     system("clear||cls");
     printf("\n");
     printf("---------------------------------------------------------------------------\n");
@@ -536,6 +536,9 @@ int tela_menu_venda(void) {
 }
 
 void tela_cadastrar_venda(void) {
+    char cpf [12];
+    char codigo [8];
+
     system("clear||cls");
     printf("---------------------------------------------------------------------------\n");
     printf("                                                                           \n");
@@ -545,8 +548,13 @@ void tela_cadastrar_venda(void) {
     printf("                                                                           \n");
     printf("               = = = = = Cadastrar Nova Venda = = = = =                    \n");
     printf("                                                                           \n");
-    printf("          CPF do cliente:                                                  \n");
-    printf("          Código do rémedio:                                               \n");
+    getchar();
+    printf("          CPF do cliente: ");
+    scanf("%11s", cpf);
+    getchar();
+    printf("          Código do rémedio: ");
+    scanf("%7[0-9]", codigo);
+    getchar();
     printf("                                                                           \n");
     printf("\n");
     printf("---------------------------------------------------------------------------\n");
@@ -556,6 +564,8 @@ void tela_cadastrar_venda(void) {
 }
 
 void tela_pesquisar_venda(void) {
+    char cpf [12];
+    
     system("clear||cls");
     printf("\n");
     printf("---------------------------------------------------------------------------\n");
@@ -566,7 +576,10 @@ void tela_pesquisar_venda(void) {
     printf("                                                                           \n");
     printf("                 = = = = = Pesquisar Venda = = = = =                       \n");
     printf("                                                                           \n");
-    printf("       Digite o CPF do cliente que efetuou a compra:                       \n");
+    getchar();
+    printf("       Digite o CPF do cliente que efetuou a compra: ");
+    scanf("%11s", cpf);
+    getchar();
     printf("                                                                           \n");
     printf("---------------------------------------------------------------------------\n");
     printf("\n");
