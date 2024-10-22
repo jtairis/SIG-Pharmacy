@@ -5,6 +5,7 @@
 
 /////
 // Assinatura das funções
+
 int tela_menu_principal(void);
 int tela_menu_informacoes(void);
 void tela_equipe(void);
