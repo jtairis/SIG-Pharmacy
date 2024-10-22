@@ -8,6 +8,7 @@
 
 /////
 // Assinatura das funções
+
 int tela_menu_principal(void);
 int tela_menu_relatorio(void);
 
