@@ -1,0 +1,6 @@
+#Arquivos para ignorar...
+
+#Ignore arquivos .o
+.o
+#Ignore arquivos .exe:
+.exe
