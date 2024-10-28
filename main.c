@@ -5,12 +5,13 @@
 #include "clientes.h"    //inclusão da biblioteca "clientes.h"
 #include "vendas.h"      //inclusão da biblioteca "vendas.h"
 #include "informacoes.h"  //inclusão da biblioteca "informacoes.h"
+#include "relatorios.h"   //inclusão da biblioteca "relatorios.h"
 
 /////
 // Assinatura das funções
 
 int tela_menu_principal(void);
-int tela_menu_relatorio(void);
+void tela_final(void);
 
 /////
 // Programa principal
@@ -23,6 +24,7 @@ int main(void) {
     int op_vendas;
     int op_informacoes;
     int op_relatorio;
+
     do{
         opcao = tela_menu_principal();
 
@@ -101,23 +103,38 @@ int main(void) {
                 op_informacoes = tela_menu_informacoes();
 
                 switch (op_informacoes){
-                case 1:
-                tela_equipe();
-                break;
-                case 2:
-                tela_sobre();
-                break;
-                default:
-                printf("Opção inválida!");
-                break;
-            }
+                    case 1:
+                    tela_equipe();
+                    break;
+                    case 2:
+                    tela_sobre();
+                    break;
+                    default:
+                    printf("Opção inválida!");
+                    break;
+                }
             }while(op_informacoes != 0);
             break;
 
             case 5:
             do{
                 op_relatorio = tela_menu_relatorio();
-            }while(opcao != 0);
+
+                switch (op_relatorio){
+                    case 1:
+                    tela_relatorios_produtos();
+                    break;
+                    case 2:
+                    tela_relatorios_clientes();
+                    break;
+                    case 3:
+                    tela_relatorios_vendas();
+                    break;
+                    default:
+                    printf("Opção inválida! \n");
+                    break;
+                }
+            }while(op_relatorio != 0);
             break;
 
             default:
@@ -127,6 +144,7 @@ int main(void) {
 
     }while(opcao != 0);
 
+    tela_final();
 
     return 0;
 }
@@ -159,25 +177,16 @@ int tela_menu_principal(void) {
     return op;
 }
 
-int tela_menu_relatorio(void) {
+void tela_final(void) {
     system("clear||cls");
     printf("\n");
     printf("-------------------------------------------------------------------------- \n");
     printf("                                                                           \n");
-    printf("          = = = = = Sistema de Gestão SIG-PHARMACY = = = = =               \n");
-    printf("                                                                           \n");
-    printf("---------------------------------------------------------------------------\n");
-    printf("                                                                           \n");
-    printf("                 = = = = = Módulo Relatório = = = = =                      \n");
-    printf("                                                                           \n");
-    printf("           1. Relatório de Produtos                                        \n");
-    printf("           2. Relatório de Clientes                                        \n");
-    printf("           3. Relatório de Vendas                                          \n");
-    printf("           0. Voltar ao Menu Principal                                     \n");
-    printf("                                                                           \n");
-    printf("           Digite o número da sua opção:                                   \n");
-    printf("                                                                           \n");
-    printf("---------------------------------------------------------------------------\n");
+    printf("    = = = = = Obrigado por utilizar o sistema SIG-PHARMACY! = = = = =      \n");
     printf("\n");
-    printf("\t\t\t>>> Tecle <ENTER> para continuar...");
+    printf("-------------------------------------------------------------------------- \n");
+    getchar();
+    printf("\n");
+    printf("\t\t\t>>> Tecle <ENTER> para encerrar o sistema!");
+    getchar();
 }
