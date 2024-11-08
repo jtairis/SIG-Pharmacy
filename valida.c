@@ -26,13 +26,17 @@ int validar_data(const char *data) {
 }
 
 int validar_cpf(const char *cpf) {
-    if (strlen(cpf) != 11) return 0;
+    if (strlen(cpf) != 11) {
+        return 0; // CPF inválido, pois não tem 11 caracteres
+    }
+
     for (int i = 0; i < 11; i++) {
         if (!isdigit(cpf[i])) {
-            return 0;  // CPF inválido
+            return 0; // Se algum caractere não for número, CPF inválido
         }
     }
-    return 1;  // CPF válido
+
+    return 1; // CPF válido
 }
 
 int validar_telefone(const char *tele) {
