@@ -142,25 +142,27 @@ void tela_pesquisar_cliente(void) {
 }
 
 void tela_atualizar_cliente(void) {
-    char cpf [12];
+    char cpf[12];
+
     system("clear||cls");
-    printf("\n");
     printf("---------------------------------------------------------------------------\n");
-    printf("                                                                           \n");
-    printf("          = = = = = Sistema de Gestão SIG-PHARMACY = = = = =               \n");
-    printf("                                                                           \n");
+    printf("          = = = = Sistema de Gestão SIG-PHARMACY = = = = = \n");
     printf("---------------------------------------------------------------------------\n");
-    printf("                                                                           \n");
-    printf("               = = = = = Atualizar Dados de Cliente = = = = =              \n");
-    printf("                                                                           \n");
-    printf("          Digite o CPF: ");
-    scanf("%11s", cpf);
+    printf("               = = = = = Atualizar Dados de Cliente = = = = = \n");
+    printf("---------------------------------------------------------------------------\n");
+
+    do {
+        printf("Digite o CPF: ");
+        scanf("%11s", cpf);
+        if (!validar_cpf(cpf)) {
+            printf("CPF inválido! Digite novamente.\n");
+        }
+    } while (!validar_cpf(cpf));
+
+    printf("---------------------------------------------------------------------------\n");
+    printf(">>> Tecle <ENTER> para continuar...");
     getchar();
-    printf("                                                                           \n");
-    printf("---------------------------------------------------------------------------\n");
-    printf("\n");
-    printf("\t\t\t>>> Tecle <ENTER> para continuar...");
-    getchar();
+    getchar(); // Para esperar o Enter
 }
 
 void tela_excluir_cliente(void) {
