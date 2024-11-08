@@ -11,5 +11,6 @@ int validar_telefone(const char *tele);
 int validar_email(const char *email);
 int validar_codigo(const char *codigo);
 int validar_valor(const char *valor);
+int validar_descricao(const char *descricao);
 
 #endif

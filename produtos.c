@@ -33,42 +33,69 @@ int tela_menu_produto(void) {
     return op;
 }
 
+// Função para cadastrar produto
 void tela_cadastrar_produto(void) {
-    char nomeproduto [30];
-    char codigo [8];
-    char validade [11];
-    char valor [8];
-    char descricao [30];
-
+    char nome[30];
+    char codigo[8];
+    char data[11];
+    char valor[8];
+    char descricao[30];
 
     system("clear||cls");
     printf("---------------------------------------------------------------------------\n");
-    printf("                                                                           \n");
-    printf("          = = = = = Sistema de Gestão SIG-PHARMACY = = = = =               \n");
-    printf("                                                                           \n");
+    printf("          = = = = Sistema de Gestão SIG-PHARMACY = = = = =               \n");
     printf("---------------------------------------------------------------------------\n");
-    printf("                                                                           \n");
     printf("               = = = = = Cadastrar Novo Produto = = = = =                  \n");
-    printf("                                                                           \n");
-    getchar();
-    printf("          Nome do produto: ");
-    scanf("%s 29[A-ZAÁÉÍÓÚÇÃÕ a-zéíóúãõç]", nomeproduto);
-    getchar();
-    printf("          Código: ");
-    scanf("%s 7[0-9]", codigo);
-    getchar();
-    printf("          Data de validade (dd/mm/aaaa): ");
-    scanf("%10s[0-9/]", validade);
-    getchar();
-    printf("          Valor: ");
-    scanf("%7s", valor);
-    getchar();
-    printf("          Descrição: ");
-    scanf("%29s[A-ZAÁÉÍÓÚÇÃÕ a-zéíóúãõç]", descricao);
-    getchar();
-    printf("\n");
     printf("---------------------------------------------------------------------------\n");
-    printf("\n");
+    getchar();
+
+    do {
+        printf("Nome do produto: ");
+        scanf("%29[^\n]", nome);
+        getchar();
+        if (!validar_nome(nome)) {
+            printf("Nome inválido! Digite novamente.\n");
+        }
+    } while (!validar_nome(nome));
+
+    do {
+        printf("Código: ");
+        scanf("%7s", codigo);
+        getchar();  // Limpa o buffer
+        if (!validar_codigo(codigo)) {
+            printf("Código inválido! Digite um código com 7 dígitos numéricos.\n");
+        }
+    } while (!validar_codigo(codigo));
+
+    do {
+        printf("Data de validade (dd/mm/aaaa): ");
+        scanf("%10s", data);
+        getchar();  // Limpa o buffer
+        if (!validar_data(data)) {
+            printf("Data inválida! Digite no formato dd/mm/aaaa.\n");
+        }
+    } while (!validar_data(data));
+
+    do {
+        printf("Valor: ");
+        scanf("%7s", valor);
+        getchar();  // Limpa o buffer
+        if (!validar_valor(valor)) {
+            printf("Valor inválido! Digite um valor numérico com até 7 caracteres,com ou sem , \n");
+        }
+    } while (!validar_valor(valor));
+
+    do {
+        printf("Descrição: ");
+        scanf("%29[^\n]", descricao);
+        getchar();  // Limpa o buffer
+        if (!validar_descricao(descricao)) {
+            printf("Descrição inválida! Digite uma descrição válida.\n");
+        }
+    } while (!validar_descricao(descricao));
+
+    printf("\nProduto cadastrado com sucesso.\n");
+    printf("---------------------------------------------------------------------------\n");
     printf("\t\t\t>>> Tecle <ENTER> para continuar...");
     getchar();
 }

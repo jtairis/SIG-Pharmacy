@@ -79,3 +79,13 @@ int validar_valor(const char *valor) {
     }
     return 1; // Valor válido
 }
+
+// Função para validar a descrição (somente letras e espaços)
+int validar_descricao(const char *descricao) {
+    for (int i = 0; descricao[i] != '\0'; i++) {
+        if (!(isalpha(descricao[i]) || descricao[i] == ' ' || strchr("áéíóúçãõàâô", descricao[i]) != NULL)) {
+            return 0; // Descrição inválida
+        }
+    }
+    return 1; // Descrição válida
+}
