@@ -100,26 +100,27 @@ void tela_cadastrar_produto(void) {
     getchar();
 }
 
+// Função para pesquisar produto
 void tela_pesquisar_produto(void) {
-    char codigo [8];
+    char codigo[8];
 
     system("clear||cls");
-    printf("\n");
     printf("---------------------------------------------------------------------------\n");
-    printf("                                                                           \n");
     printf("          = = = = = Sistema de Gestão SIG-PHARMACY = = = = =               \n");
-    printf("                                                                           \n");
     printf("---------------------------------------------------------------------------\n");
-    printf("                                                                           \n");
     printf("                 = = = = = Pesquisar Produto = = = = =                     \n");
-    printf("                                                                           \n");
-    getchar();
-    printf("       Digite o código do produto para pesquisar: ");
-    scanf("%s 7[0-9]", codigo);
-    getchar();
-    printf("                                                                           \n");
     printf("---------------------------------------------------------------------------\n");
-    printf("\n");
+
+    do {
+        printf("       Digite o código do produto para pesquisar: ");
+        scanf("%7s", codigo);
+        getchar();  // Limpa o buffer
+        if (!validar_codigo(codigo)) {
+            printf("Código inválido! Digite um código com 7 dígitos numéricos.\n");
+        }
+    } while (!validar_codigo(codigo));
+
+    printf("---------------------------------------------------------------------------\n");
     printf("\t\t\t>>> Tecle <ENTER> para continuar...");
     getchar();
 }
