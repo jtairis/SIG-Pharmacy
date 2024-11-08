@@ -3,6 +3,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include "valida.h"
 
 //Funções para mostrar telas
 int tela_menu_produto(void) {

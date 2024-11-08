@@ -2,9 +2,6 @@
 #include <string.h>
 #include <ctype.h>
 
-#include <ctype.h>
-#include <string.h>
-
 int validar_nome(const char *nome) {
     for (int i = 0; nome[i] != '\0'; i++) {
         if (!isalpha(nome[i]) && nome[i] != ' ') {
@@ -55,4 +52,30 @@ int validar_email(const char *email) {
         if (email[i] == '@') at_symbol++;
     }
     return (at_symbol == 1);  // Email válido se houver exatamente um '@'
+}
+
+
+// Valida o código (somente números, 7 dígitos)
+int validar_codigo(const char *codigo) {
+    if (strlen(codigo) != 7) return 0;  // Verifica se o código tem exatamente 7 caracteres
+    for (int i = 0; i < 7; i++) {
+        if (!isdigit(codigo[i])) return 0;  // Verifica se cada caractere é um número
+    }
+    return 1; // Código válido
+}
+
+// Valida o valor (aceita números e vírgula)
+int validar_valor(const char *valor) {
+    int ponto_virgula = 0;  // Para controlar se já encontramos uma vírgula
+
+    for (int i = 0; valor[i] != '\0'; i++) {
+        if (valor[i] == ',') {
+            // Aceita apenas uma vírgula, que deve ser um separador decimal
+            if (ponto_virgula) return 0;
+            ponto_virgula = 1;
+        } else if (!isdigit(valor[i])) {
+            return 0;  // Verifica se é um número ou vírgula
+        }
+    }
+    return 1; // Valor válido
 }
