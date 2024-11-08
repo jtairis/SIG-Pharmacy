@@ -6,6 +6,7 @@
 #include "vendas.h"      //inclusão da biblioteca "vendas.h"
 #include "informacoes.h"  //inclusão da biblioteca "informacoes.h"
 #include "relatorios.h"   //inclusão da biblioteca "relatorios.h"
+#include "valida.h"       //inclusão da biblioteca "valida.h"
 
 /////
 // Assinatura das funções

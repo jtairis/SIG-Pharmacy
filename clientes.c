@@ -2,6 +2,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include "valida.h"
 
 //Funções para mostrar telas
 int tela_menu_cliente(void) {
@@ -31,12 +32,14 @@ int tela_menu_cliente(void) {
     return op;
 }
 
+
 void tela_cadastrar_cliente(void) {
-    char nome [51];
-    char data [11];
-    char cpf [12];
-    char tele [12];
-    char email [30];
+    char nome[51];
+    char data[11];
+    char cpf[12];
+    char tele[12];
+    char email[30];
+    int valido;
 
     system("clear||cls");
     printf("\n");
@@ -48,28 +51,71 @@ void tela_cadastrar_cliente(void) {
     printf("                                                                           \n");
     printf("               = = = = = Cadastrar Novo Cliente = = = = =                  \n");
     printf("                                                                           \n");
-    getchar();
-    printf("          Nome Completo: ");
-    scanf("%50[A-ZAÁÉÍÓÚÇÃÕ a-zéíóúãõç]", nome);
-    getchar();
-    printf("          Data de nascimento (dd/mm/aaaa): ");
-    scanf("%10[0-9/]", data);
-    getchar();
-    printf("          CPF (somente números): ");
-    scanf("%11s", cpf);
-    getchar();
-    printf("          Telefone: ");
-    scanf("%12[0-9]", tele);
-    getchar();
-    printf("          Email: ");
-    scanf("%29[a-z@.]", email);
-    getchar();
+
+    // Entrada e validação do Nome
+    do {
+        printf("Nome Completo: ");
+        scanf("%50[^\n]", nome);
+        getchar();  // Limpa o buffer
+        valido = validar_nome(nome);
+        if (!valido) {
+            printf("Nome inválido! Digite novamente.\n");
+        }
+    } while (!valido);
+
+    // Entrada e validação da Data de Nascimento
+    do {
+        printf("Data de nascimento (dd/mm/aaaa): ");
+        scanf("%10s", data);
+        getchar();  // Limpa o buffer
+        valido = validar_data(data);
+        if (!valido) {
+            printf("Data inválida! Digite novamente.\n");
+        }
+    } while (!valido);
+
+    // Entrada e validação do CPF
+    do {
+        printf("CPF (somente números): ");
+        scanf("%11s", cpf);
+        getchar();  // Limpa o buffer
+        valido = validar_cpf(cpf);
+        if (!valido) {
+            printf("CPF inválido! Digite novamente.\n");
+        }
+    } while (!valido);
+
+    // Entrada e validação do Telefone
+    do {
+        printf("Telefone (com DDD): ");
+        scanf("%11s", tele);
+        getchar();  // Limpa o buffer
+        valido = validar_telefone(tele);
+        if (!valido) {
+            printf("Telefone inválido! Digite novamente.\n");
+        }
+    } while (!valido);
+
+    // Entrada e validação do Email
+    do {
+        printf("Email: ");
+        scanf("%29s", email);
+        getchar();  // Limpa o buffer
+        valido = validar_email(email);
+        if (!valido) {
+            printf("Email inválido! Digite novamente.\n");
+        }
+    } while (!valido);
+
+    printf("\n");
+    printf("cliente cadastrado com sucesso\n");
     printf("\n");
     printf("---------------------------------------------------------------------------\n");
     printf("\n");
     printf("\t\t\t>>> Tecle <ENTER> para continuar...");
     getchar();
 }
+
 
 void tela_pesquisar_cliente(void) {
     char cpf [12];

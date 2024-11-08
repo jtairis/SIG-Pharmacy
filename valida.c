@@ -2,66 +2,53 @@
 #include <string.h>
 #include <ctype.h>
 
+#include <ctype.h>
+#include <string.h>
+
 int validar_nome(const char *nome) {
-    int i;
-    for (i = 0; nome[i] != '\0'; i++) {
-        if (!isalpha(nome[i]) && nome[i] != ' ' && nome[i] != 'á' && nome[i] != 'é' && nome[i] != 'í' && 
-            nome[i] != 'ó' && nome[i] != 'ú' && nome[i] != 'ã' && nome[i] != 'õ' && nome[i] != 'ç') {
-            return 0;
+    for (int i = 0; nome[i] != '\0'; i++) {
+        if (!isalpha(nome[i]) && nome[i] != ' ') {
+            return 0;  // Nome inválido
         }
     }
-    return strlen(nome) > 0 && strlen(nome) < 51;
+    return 1;  // Nome válido
 }
-
-//fonte:openIA
 
 int validar_data(const char *data) {
-    if (strlen(data) != 10 || data[2] != '/' || data[5] != '/') {
-        return 0;
-    }
+    if (strlen(data) != 10) return 0;  // Verifica o tamanho
+    if (data[2] != '/' || data[5] != '/') return 0;  // Verifica os separadores
     for (int i = 0; i < 10; i++) {
-        if ((i != 2 && i != 5) && !isdigit(data[i])) {
-            return 0;
+        if (i != 2 && i != 5 && !isdigit(data[i])) {
+            return 0;  // Data inválida
         }
     }
-    return 1;
+    return 1;  // Data válida
 }
-
-//fonte:openIA
 
 int validar_cpf(const char *cpf) {
     if (strlen(cpf) != 11) return 0;
     for (int i = 0; i < 11; i++) {
         if (!isdigit(cpf[i])) {
-            return 0;
+            return 0;  // CPF inválido
         }
     }
-    return 1;
+    return 1;  // CPF válido
 }
 
-//fonte:openIA
-
-int validar_telefone(const char *telefone) {
-    int len = strlen(telefone);
-    if (len < 10 || len > 11) return 0;  // Considerando formatos com e sem DDD
-    for (int i = 0; i < len; i++) {
-        if (!isdigit(telefone[i])) {
-            return 0;
+int validar_telefone(const char *tele) {
+    if (strlen(tele) < 10 || strlen(tele) > 11) return 0;
+    for (int i = 0; tele[i] != '\0'; i++) {
+        if (!isdigit(tele[i])) {
+            return 0;  // Telefone inválido
         }
     }
-    return 1;
+    return 1;  // Telefone válido
 }
-
-//fonte:openIA
 
 int validar_email(const char *email) {
-    int len = strlen(email);
-    int arroba = 0, ponto = 0;
-    for (int i = 0; i < len; i++) {
-        if (email[i] == '@') arroba++;
-        if (email[i] == '.') ponto++;
+    int at_symbol = 0;
+    for (int i = 0; email[i] != '\0'; i++) {
+        if (email[i] == '@') at_symbol++;
     }
-    return arroba == 1 && ponto >= 1 && len < 30;
+    return (at_symbol == 1);  // Email válido se houver exatamente um '@'
 }
-
-//fonte:openIA

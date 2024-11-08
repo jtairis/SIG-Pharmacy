@@ -1,5 +1,13 @@
 //assinaturas das validações
-int validar_nome();
-int validar_data();
-int validar_cpf();
-int validar_email();
+// validacoes.h
+#ifndef VALIDA_H
+#define VALIDA_H
+
+
+int validar_nome(const char *nome);
+int validar_data(const char *data);
+int validar_cpf(const char *cpf);
+int validar_telefone(const char *tele);
+int validar_email(const char *email);
+
+#endif
