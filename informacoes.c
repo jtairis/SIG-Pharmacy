@@ -31,6 +31,7 @@ int tela_menu_informacoes(void) {
 
 void tela_equipe(void) {
     system("clear||cls");
+    getchar();
     printf("\n");
     printf("-------------------------------------------------------------------------\n");
     printf("                                                                         \n");
@@ -52,6 +53,7 @@ void tela_equipe(void) {
 
 void tela_sobre(void) {
     system("clear||cls");
+    getchar();
     printf("\n");
     printf("------------------------------------------------------------------------------------\n");
     printf("                    UNIVERSIDADE FEDERAL DO RIO GRANDE DO NORTE               \n");
