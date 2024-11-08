@@ -151,25 +151,26 @@ void tela_atualizar_produto(void) {
 }
 
 void tela_excluir_produto(void) {
-    char codigo [8];
-    
+    char codigo[8];
+
     system("clear||cls");
     printf("\n");
     printf("---------------------------------------------------------------------------\n");
-    printf("                                                                           \n");
-    printf("          = = = = = Sistema de Gestão SIG-PHARMACY = = = = =             \n");
-    printf("                                                                           \n");
+    printf("          = = = = = Sistema de Gestão SIG-PHARMACY = = = = =               \n");
     printf("---------------------------------------------------------------------------\n");
-    printf("                                                                           \n");
     printf("                  = = = = = Excluir Produto = = = = =                      \n");
-    printf("                                                                           \n");
-    getchar();
-    printf("            Digite o código para excluir o produto: ");
-    scanf("%s 7[0-9]", codigo);
-    getchar();
-    printf("                                                                           \n");
     printf("---------------------------------------------------------------------------\n");
-    printf("\n");
+
+    do {
+        printf("            Digite o código para excluir o produto: ");
+        scanf("%7s", codigo);
+        getchar();  // Limpa o buffer
+        if (!validar_codigo(codigo)) {
+            printf("Código inválido! Digite um código com 7 dígitos numéricos.\n");
+        }
+    } while (!validar_codigo(codigo));
+
+    printf("---------------------------------------------------------------------------\n");
     printf("\t\t\t>>> Tecle <ENTER> para continuar...");
     getchar();
 }
