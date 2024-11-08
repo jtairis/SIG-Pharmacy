@@ -44,74 +44,63 @@ void tela_cadastrar_cliente(void) {
     system("clear||cls");
     printf("\n");
     printf("---------------------------------------------------------------------------\n");
-    printf("                                                                           \n");
-    printf("          = = = = = Sistema de Gestão SIG-PHARMACY = = = = =               \n");
-    printf("                                                                           \n");
+    printf("          = = = = Sistema de Gestão SIG-PHARMACY = = = = = \n");
     printf("---------------------------------------------------------------------------\n");
-    printf("                                                                           \n");
-    printf("               = = = = = Cadastrar Novo Cliente = = = = =                  \n");
-    printf("                                                                           \n");
+    printf("               = = = = = Cadastrar Novo Cliente = = = = = \n");
+    printf("---------------------------------------------------------------------------\n");
 
-    // Entrada e validação do Nome
     do {
         printf("Nome Completo: ");
         scanf("%50[^\n]", nome);
-        getchar();  // Limpa o buffer
+        getchar();
         valido = validar_nome(nome);
         if (!valido) {
             printf("Nome inválido! Digite novamente.\n");
         }
     } while (!valido);
 
-    // Entrada e validação da Data de Nascimento
     do {
         printf("Data de nascimento (dd/mm/aaaa): ");
         scanf("%10s", data);
-        getchar();  // Limpa o buffer
+        getchar();
         valido = validar_data(data);
         if (!valido) {
             printf("Data inválida! Digite novamente.\n");
         }
     } while (!valido);
 
-    // Entrada e validação do CPF
     do {
         printf("CPF (somente números): ");
         scanf("%11s", cpf);
-        getchar();  // Limpa o buffer
+        getchar();  
         valido = validar_cpf(cpf);
         if (!valido) {
             printf("CPF inválido! Digite novamente.\n");
         }
     } while (!valido);
 
-    // Entrada e validação do Telefone
     do {
         printf("Telefone (com DDD): ");
         scanf("%11s", tele);
-        getchar();  // Limpa o buffer
+        getchar();
         valido = validar_telefone(tele);
         if (!valido) {
             printf("Telefone inválido! Digite novamente.\n");
         }
     } while (!valido);
 
-    // Entrada e validação do Email
     do {
         printf("Email: ");
         scanf("%29s", email);
-        getchar();  // Limpa o buffer
+        getchar();
         valido = validar_email(email);
         if (!valido) {
             printf("Email inválido! Digite novamente.\n");
         }
     } while (!valido);
 
-    printf("\n");
-    printf("cliente cadastrado com sucesso\n");
-    printf("\n");
-    printf("---------------------------------------------------------------------------\n");
-    printf("\n");
+    printf("\nCliente cadastrado com sucesso!\n");
+    printf("\n---------------------------------------------------------------------------\n");
     printf("\t\t\t>>> Tecle <ENTER> para continuar...");
     getchar();
 }
@@ -130,15 +119,16 @@ void tela_pesquisar_cliente(void) {
     do {
         printf("Digite o CPF (apenas números): ");
         scanf("%11s", cpf);
+        getchar();
         if (!validar_cpf(cpf)) {
             printf("CPF inválido! Digite novamente.\n");
         }
     } while (!validar_cpf(cpf));
 
+    printf("cliente encontrado com sucesso\n");
     printf("---------------------------------------------------------------------------\n");
     printf(">>> Tecle <ENTER> para continuar...");
     getchar();
-    getchar(); // Para esperar o Enter
 }
 
 void tela_atualizar_cliente(void) {
@@ -154,35 +144,39 @@ void tela_atualizar_cliente(void) {
     do {
         printf("Digite o CPF: ");
         scanf("%11s", cpf);
+        getchar();
         if (!validar_cpf(cpf)) {
             printf("CPF inválido! Digite novamente.\n");
         }
     } while (!validar_cpf(cpf));
 
+    printf("cliente foi atualizado com sucesso\n");
     printf("---------------------------------------------------------------------------\n");
     printf(">>> Tecle <ENTER> para continuar...");
     getchar();
-    getchar(); // Para esperar o Enter
 }
 
 void tela_excluir_cliente(void) {
-    char cpf [12];
+    char cpf[12];
+
     system("clear||cls");
-    printf("\n");
     printf("---------------------------------------------------------------------------\n");
-    printf("                                                                           \n");
-    printf("          = = = = = Sistema de Gestão SIG-PHARMACY = = = = =               \n");
-    printf("                                                                           \n");
+    printf("          = = = = Sistema de Gestão SIG-PHARMACY = = = = = \n");
     printf("---------------------------------------------------------------------------\n");
-    printf("                                                                           \n");
-    printf("                   = = = = = Excluir Cliente = = = = =                     \n");
-    printf("                                                                           \n");
-    printf("          Digite o CPF para excluir o cliente: ");
-    scanf("%11s", cpf);
-    getchar();
-    printf("                                                                           \n");
+    printf("                   = = = = = Excluir Cliente = = = = = \n");
     printf("---------------------------------------------------------------------------\n");
-    printf("\n");
-    printf("\t\t\t>>> Tecle <ENTER> para continuar...");
+
+    do {
+        printf("Digite o CPF para excluir o cliente: ");
+        scanf("%11s", cpf);
+        getchar();
+        if (!validar_cpf(cpf)) {
+            printf("CPF inválido! Digite novamente.\n");
+        }
+    } while (!validar_cpf(cpf));
+
+    printf("cliente excluido com sucesso\n");
+    printf("---------------------------------------------------------------------------\n");
+    printf(">>> Tecle <ENTER> para continuar...");
     getchar();
 }
