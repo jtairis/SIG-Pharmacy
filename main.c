@@ -8,7 +8,6 @@
 #include "relatorios.h"   //inclusão da biblioteca "relatorios.h"
 #include "valida.h"       //inclusão da biblioteca "valida.h"
 
-/////
 // Assinatura das funções
 
 int tela_menu_principal(void);
@@ -16,8 +15,8 @@ void tela_final(void);
 
 /////
 // Programa principal
-int main(void) {
-
+int main() {
+    
     setlocale(LC_ALL, "Portuguese");
     int opcao;
     int op_produtos;

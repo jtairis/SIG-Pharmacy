@@ -33,9 +33,37 @@ int validar_cpf(const char *cpf) {
         }
     }
 
+int soma = 0; 
+    for (int i = 0; i < 9; i++) {
+        soma += (cpf[i] - '0') * (10 - i);
+    }
+    int primeiro_digito = (soma * 10) % 11;
+    if (primeiro_digito == 10) {
+        primeiro_digito = 0;
+    }
+
+    // Verifica o primeiro dígito verificador
+    if (primeiro_digito != (cpf[9] - '0')) {
+        return 0; // CPF inválido
+    }
+
+    // Cálculo do segundo dígito verificador
+    soma = 0; 
+    for (int i = 0; i < 10; i++) {
+        soma += (cpf[i] - '0') * (11 - i);
+    }
+    int segundo_digito = (soma * 10) % 11;
+    if (segundo_digito == 10) {
+        segundo_digito = 0;
+    }
+
+    // Verifica o segundo dígito verificador
+    if (segundo_digito != (cpf[10] - '0')) {
+        return 0; // CPF inválido
+    }
+
     return 1; // CPF válido
 }
-
 int validar_telefone(const char *tele) {
     if (strlen(tele) < 10 || strlen(tele) > 11) return 0;
     for (int i = 0; tele[i] != '\0'; i++) {
