@@ -13,6 +13,12 @@
 int tela_menu_principal(void);
 void tela_final(void);
 
+// Funções de alocação e liberação
+Produto* alocar_produtos(int quantidade);
+Cliente* alocar_clientes(int quantidade);
+void liberar_produtos(Produto* produtos);
+void liberar_clientes(Cliente* clientes);
+
 /////
 // Programa principal
 int main() {
@@ -24,6 +30,15 @@ int main() {
     int op_vendas;
     int op_informacoes;
     int op_relatorio;
+
+    // Alocar memória inicial
+    Produto* produtos = alocar_produtos(10); 
+    Cliente* clientes = alocar_clientes(10); 
+
+    if (produtos == NULL || clientes == NULL) {
+        printf("Erro ao alocar memória.\n");
+        return 1; // Encerra o programa em caso de erro de alocação
+    }
 
     do{
         opcao = tela_menu_principal();
@@ -144,6 +159,10 @@ int main() {
 
     }while(opcao != 0);
 
+// Liberação de memória ao final
+    liberar_produtos(produtos);
+    liberar_clientes(clientes);
+    
     tela_final();
 
     return 0;
@@ -189,4 +208,32 @@ void tela_final(void) {
     printf("\n");
     printf("\t\t\t>>> Tecle <ENTER> para encerrar o sistema!");
     getchar();
+}
+
+// Funções de alocação e liberação
+
+Produto* alocar_produtos(int quantidade) {
+    Produto* produtos = malloc(quantidade * sizeof(Produto));
+    if (produtos == NULL) {
+        printf("Erro ao alocar memória para produtos.\n");
+        return NULL;
+    }
+    return produtos;
+}
+
+Cliente* alocar_clientes(int quantidade) {
+    Cliente* clientes = malloc(quantidade * sizeof(Cliente));
+    if (clientes == NULL) {
+        printf("Erro ao alocar memória para clientes.\n");
+        return NULL;
+    }
+    return clientes;
+}
+
+void liberar_produtos(Produto* produtos) {
+    free(produtos);
+}
+
+void liberar_clientes(Cliente* clientes) {
+    free(clientes);
 }

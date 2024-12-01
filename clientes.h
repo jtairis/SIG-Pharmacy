@@ -6,9 +6,11 @@ void tela_cadastrar_cliente(void);
 void tela_pesquisar_cliente(void);
 void tela_atualizar_cliente(void);
 void tela_excluir_cliente(void);
+
 // Definição do tipo Cliente
 #ifndef CLIENTES_H
 #define CLIENTES_H
+
 typedef struct cliente {
     char nome[51];
     char data[11];
@@ -16,7 +18,13 @@ typedef struct cliente {
     char tele[12];
     char email[30];
 } Cliente;
+
+// Adicionando funções para alocar e liberar clientes
+Cliente* alocar_clientes(int quantidade);
+void liberar_clientes(Cliente* clientes);
+
 // Declarações de funções que usam o tipo Cliente
 void preencheCliente(Cliente*, int);
 void exibeCliente(Cliente*, int);
+
 #endif 

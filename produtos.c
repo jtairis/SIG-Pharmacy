@@ -4,6 +4,15 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "valida.h"
+#include <string.h>
+
+typedef struct produto {
+    char nome[51];
+    char codigo[8];
+    char dataValidade[11];
+    char valor[12];
+    char descricao[101];
+} Produto;
 
 //Funções para mostrar telas
 int tela_menu_produto(void) {
@@ -34,12 +43,8 @@ int tela_menu_produto(void) {
 }
 
 // Função para cadastrar produto
-void tela_cadastrar_produto(void) {
-    char nome[30];
-    char codigo[8];
-    char data[11];
-    char valor[8];
-    char descricao[30];
+void tela_cadastrar_produto(Produto *p) {
+    int valido;
 
     system("clear||cls");
     printf("---------------------------------------------------------------------------\n");
@@ -50,49 +55,54 @@ void tela_cadastrar_produto(void) {
     getchar();
 
     do {
-        printf("Nome do produto: ");
-        scanf("%29[^\n]", nome);
+        printf("Nome do Produto: ");
+        scanf("%50[^\n]", p->nome);
         getchar();
-        if (!validar_nome(nome)) {
+        valido = validar_nome(p->nome);
+        if (!valido) {
             printf("Nome inválido! Digite novamente.\n");
         }
-    } while (!validar_nome(nome));
+    } while (!valido);
 
     do {
-        printf("Código: ");
-        scanf("%7s", codigo);
-        getchar();  // Limpa o buffer
-        if (!validar_codigo(codigo)) {
-            printf("Código inválido! Digite um código com 7 dígitos numéricos.\n");
+        printf("Código (7 dígitos): ");
+        scanf("%7[^\n]", p->codigo);
+        getchar();
+        valido = validar_codigo(p->codigo);
+        if (!valido) {
+            printf("Código inválido! Digite novamente.\n");
         }
-    } while (!validar_codigo(codigo));
+    } while (!valido);
 
     do {
-        printf("Data de validade (dd/mm/aaaa): ");
-        scanf("%10s", data);
-        getchar();  // Limpa o buffer
-        if (!validar_data(data)) {
-            printf("Data inválida! Digite no formato dd/mm/aaaa.\n");
+        printf("Data de Validade (dd/mm/aaaa): ");
+        scanf("%10[^\n]", p->dataValidade);
+        getchar();
+        valido = validar_data(p->dataValidade);
+        if (!valido) {
+            printf("Data inválida! Digite novamente.\n");
         }
-    } while (!validar_data(data));
+    } while (!valido);
 
     do {
-        printf("Valor: ");
-        scanf("%7s", valor);
-        getchar();  // Limpa o buffer
-        if (!validar_valor(valor)) {
-            printf("Valor inválido! Digite um valor numérico com até 7 caracteres,com ou sem , \n");
+        printf("Valor (ex: 100,50): ");
+        scanf("%11[^\n]", p->valor);
+        getchar();
+        valido = validar_valor(p->valor);
+        if (!valido) {
+            printf("Valor inválido! Digite novamente.\n");
         }
-    } while (!validar_valor(valor));
+    } while (!valido);
 
     do {
-        printf("Descrição: ");
-        scanf("%29[^\n]", descricao);
-        getchar();  // Limpa o buffer
-        if (!validar_descricao(descricao)) {
-            printf("Descrição inválida! Digite uma descrição válida.\n");
+        printf("Descrição do Produto: ");
+        scanf("%100[^\n]", p->descricao);
+        getchar();
+        valido = validar_descricao(p->descricao);
+        if (!valido) {
+            printf("Descrição inválida! Digite novamente.\n");
         }
-    } while (!validar_descricao(descricao));
+    } while (!valido);
 
     printf("\nProduto cadastrado com sucesso.\n");
     printf("---------------------------------------------------------------------------\n");
@@ -101,8 +111,9 @@ void tela_cadastrar_produto(void) {
 }
 
 // Função para pesquisar produto
-void tela_pesquisar_produto(void) {
+void tela_pesquisar_produto(Produto produtos[], int qtdProdutos) {
     char codigo[8];
+    int encontrado = 0;
 
     system("clear||cls");
     printf("---------------------------------------------------------------------------\n");
@@ -112,21 +123,39 @@ void tela_pesquisar_produto(void) {
     printf("---------------------------------------------------------------------------\n");
 
     do {
-        printf("       Digite o código do produto para pesquisar: ");
+        printf("Digite o código do produto: ");
         scanf("%7s", codigo);
-        getchar();  // Limpa o buffer
+        getchar();
         if (!validar_codigo(codigo)) {
-            printf("Código inválido! Digite um código com 7 dígitos numéricos.\n");
+            printf("Código inválido! Digite novamente.\n");
         }
     } while (!validar_codigo(codigo));
+
+    for (int i = 0; i < qtdProdutos; i++) {
+        if (strcmp(produtos[i].codigo, codigo) == 0) {
+            printf("\nProduto encontrado com sucesso:\n");
+            printf("Nome: %s\n", produtos[i].nome);
+            printf("Código: %s\n", produtos[i].codigo);
+            printf("Validade: %s\n", produtos[i].dataValidade);
+            printf("Valor: %s\n", produtos[i].valor);
+            printf("Descrição: %s\n", produtos[i].descricao);
+            encontrado = 1;
+            break;
+        }
+    }
+
+    if (!encontrado) {
+        printf("\nProduto com código %s não encontrado.\n", codigo);
+    }
 
     printf("---------------------------------------------------------------------------\n");
     printf("\t\t\t>>> Tecle <ENTER> para continuar...");
     getchar();
 }
 
-void tela_atualizar_produto(void) {
+void tela_atualizar_produto(Produto produtos[], int qtdProdutos) {
     char codigo[8];
+    int encontrado = 0;
 
     system("clear||cls");
     printf("\n");
@@ -137,21 +166,78 @@ void tela_atualizar_produto(void) {
     printf("---------------------------------------------------------------------------\n");
 
     do {
-        printf("          Digite o código para atualizar o produto: ");
+        printf("Digite o código do produto para atualizar: ");
         scanf("%7s", codigo);
-        getchar();  // Limpa o buffer
+        getchar();
         if (!validar_codigo(codigo)) {
-            printf("Código inválido! Digite um código com 7 dígitos numéricos.\n");
+            printf("Código inválido! Digite novamente.\n");
         }
     } while (!validar_codigo(codigo));
+
+    for (int i = 0; i < qtdProdutos; i++) {
+        if (strcmp(produtos[i].codigo, codigo) == 0) {
+            encontrado = 1;
+
+            printf("\nProduto encontrado! Digite as novas informações:\n");
+
+            int valido;
+            do {
+                printf("Nome do Produto: ");
+                scanf("%50[^\n]", produtos[i].nome);
+                getchar();
+                valido = validar_nome(produtos[i].nome);
+                if (!valido) {
+                    printf("Nome inválido! Digite novamente.\n");
+                }
+            } while (!valido);
+
+            do {
+                printf("Data de Validade (dd/mm/aaaa): ");
+                scanf("%10[^\n]", produtos[i].dataValidade);
+                getchar();
+                valido = validar_data(produtos[i].dataValidade);
+                if (!valido) {
+                    printf("Data inválida! Digite novamente.\n");
+                }
+            } while (!valido);
+
+            do {
+                printf("Valor (ex: 100,50): ");
+                scanf("%11[^\n]", produtos[i].valor);
+                getchar();
+                valido = validar_valor(produtos[i].valor);
+                if (!valido) {
+                    printf("Valor inválido! Digite novamente.\n");
+                }
+            } while (!valido);
+
+            do {
+                printf("Descrição do Produto: ");
+                scanf("%100[^\n]", produtos[i].descricao);
+                getchar();
+                valido = validar_descricao(produtos[i].descricao);
+                if (!valido) {
+                    printf("Descrição inválida! Digite novamente.\n");
+                }
+            } while (!valido);
+
+            printf("\nProduto atualizado com sucesso!\n");
+            break;
+        }
+    }
+
+    if (!encontrado) {
+        printf("\nProduto com código %s não encontrado.\n", codigo);
+    }
 
     printf("---------------------------------------------------------------------------\n");
     printf("\t\t\t>>> Tecle <ENTER> para continuar...");
     getchar();
 }
 
-void tela_excluir_produto(void) {
+void tela_excluir_produto(Produto produtos[], int *qtdProdutos) {
     char codigo[8];
+    int encontrado = 0;
 
     system("clear||cls");
     printf("\n");
@@ -162,13 +248,47 @@ void tela_excluir_produto(void) {
     printf("---------------------------------------------------------------------------\n");
 
     do {
-        printf("            Digite o código para excluir o produto: ");
+        printf("Digite o código do produto para excluir: ");
         scanf("%7s", codigo);
-        getchar();  // Limpa o buffer
+        getchar();
         if (!validar_codigo(codigo)) {
-            printf("Código inválido! Digite um código com 7 dígitos numéricos.\n");
+            printf("Código inválido! Digite novamente.\n");
         }
     } while (!validar_codigo(codigo));
+
+    for (int i = 0; i < *qtdProdutos; i++) {
+        if (strcmp(produtos[i].codigo, codigo) == 0) {
+            encontrado = 1;
+
+            printf("\nProduto encontrado com sucesso:\n");
+            printf("Nome: %s\n", produtos[i].nome);
+            printf("Código: %s\n", produtos[i].codigo);
+            printf("Validade: %s\n", produtos[i].dataValidade);
+            printf("Valor: %s\n", produtos[i].valor);
+            printf("Descrição: %s\n", produtos[i].descricao);
+
+            char confirmacao;
+            printf("\nDeseja realmente excluir este produto (S/N)? ");
+            scanf(" %c", &confirmacao);
+            getchar();
+
+            if (confirmacao == 'S' || confirmacao == 's') {
+                for (int j = i; j < (*qtdProdutos) - 1; j++) {
+                    produtos[j] = produtos[j + 1];
+                }
+                (*qtdProdutos)--; 
+                printf("\nProduto excluído com sucesso!\n");
+            } else {
+                printf("\nOperação cancelada.\n");
+            }
+            break;
+        }
+    }
+
+    if (!encontrado) {
+        printf("\nProduto com código %s não encontrado.\n", codigo);
+    }
+
 
     printf("---------------------------------------------------------------------------\n");
     printf("\t\t\t>>> Tecle <ENTER> para continuar...");
