@@ -1,13 +1,7 @@
-//Nesse arquivo estarão contidas as funções relacionadas ao Módulo Clientes
-
-#include <string.h>  
 #include <stdio.h>
 #include <stdlib.h>
-#include "valida.h"
+#include <string.h>
 #include "clientes.h"
-
-typedef struct cliente Cliente;
-
 
 void modulocliente(void) {
     int opcao;
@@ -15,16 +9,16 @@ void modulocliente(void) {
         opcao = tela_menu_cliente();  // Função que exibe o menu e retorna a escolha
         switch(opcao) {
             case 1:
-                tela_cadastrar_cliente();
+                cadastrarCliente();
                 break;
             case 2:
-                tela_pesquisar_cliente();
+                pesquisarCliente();
                 break;
             case 3:
-                tela_atualizar_cliente();
+                atualizarCliente();
                 break;
             case 4:
-                tela_excluir_cliente();
+                excluirCliente();
                 break;
             case 0:
                 printf("Retornando ao menu principal...\n");
@@ -33,98 +27,100 @@ void modulocliente(void) {
                 printf("\nOpção inválida! Tente novamente.\n");
                 getchar();  // Pausa para o usuário ler a mensagem
                 break;
-        }
-    } while (opcao != 0);
+        }        
+    } while (opcao != 0);  // Continua até que o usuário escolha a opção 0
 }
 
 void cadastrarCliente(void) {
-	Cliente *clt;
-
-	clt = tela_cadastrar_cliente();
-	gravarCliente(clt);
-	free(clt);
+    Cliente *cli;
+    cli = tela_cadastrar_cliente();
+    gravarCliente(cli);
+    free(cli);
 }
-
 
 void pesquisarCliente(void) {
-	Cliente* clt;
-	char* cpf;
-
-	cpf = tela_pesquisar_cliente();
-	clt = buscarCliente(cpf);
-	exibirCliente(clt);
-	free(clt); 
-	free(cpf);
+    Cliente* cli;
+    char* cpf;
+    cpf = tela_pesquisar_cliente();
+    cli = buscarCliente(cpf);
+    exibirCliente(cli);
+    free(cli); 
+    free(cpf);
 }
-
 
 void atualizarCliente(void) {
-	Cliente* clt;
-	char* cpf;
-
-	cpf = tela_pesquisar_cliente();
-	clt = buscarCliente(cpf);
-	if (clt == NULL) {
-    	printf("\n\nCliente não encontrado!\n\n");
-  	} else {
-		  clt = tela_cadastrar_cliente();
-		  strcpy(clt->cpf, cpf);
-		  regravarCliente(clt);
-		  free(clt);
-	}
-	free(cpf);
+    Cliente* cli;
+    char* cpf;
+    cpf = tela_atualizar_cliente();
+    cli = buscarCliente(cpf);
+    if (cli == NULL) {
+        printf("\n\nCliente não encontrado!\n\n");
+    } else {
+        printf("\nCliente encontrado! Atualizando dados...\n");
+        cli = tela_cadastrar_cliente();
+        strcpy(cli->cpf, cpf);
+        regravarCliente(cli);
+        free(cli);
+    }
+    free(cpf);
 }
-
 
 void excluirCliente(void) {
-	Cliente* clt;
-	char *cpf;
+    Cliente* cli;
+    char* cpf;
+    char opcao;
 
-	cpf = tela_excluir_cliente();
-	clt = (Cliente*) malloc(sizeof(Cliente));
-	clt = buscarCliente(cpf);
-	if (clt == NULL) {
-    	printf("\n\nCliente não encontrado!\n\n");
-  	} else {
-		  clt->status = 0;
-		  regravarCliente(clt);
-		  free(clt);
-	}
-	free(cpf);
+    // Solicita o CPF do cliente a ser excluído
+    cpf = tela_excluir_cliente();
+
+    // Busca o cliente no arquivo
+    cli = buscarCliente(cpf);
+
+    if (cli == NULL) {
+        printf("\n\nCliente não encontrado!\n\n");
+    } else {
+        printf("\nCliente encontrado:\n");
+        exibirCliente(cli);
+
+        printf("\nDeseja realmente excluir este cliente? (s/n): ");
+        scanf(" %c", &opcao);
+        getchar();
+
+        if (opcao == 's' || opcao == 'S') {
+            cli->status = 0;
+            regravarCliente(cli);
+            printf("\nCliente excluído com sucesso!\n");
+        } else {
+            printf("\nA exclusão foi cancelada.\n");
+        }
+    }
+
+    free(cli);
+    free(cpf);
 }
 
-
-int tela_menu_cliente(void) {
+int tela_menu_cliente() {
     int op;
-    printf("\n");
+    system("clear||cls");
     printf("-------------------------------------------------------------------------- \n");
-    printf("                                                                           \n");
-    printf("          = = = = = Sistema de Gestão SIG-PHARMACY = = = = =               \n");
-    printf("                                                                           \n");
+    printf("          = = = = Sistema de Gestão SIG-PHARMACY = = = = =               \n");
     printf("---------------------------------------------------------------------------\n");
-    printf("                                                                           \n");
-    printf("                = = = = = Módulo Cliente = = = = =                         \n");
-    printf("                                                                           \n");
+    printf("                = = = = = Módulo Clientes = = = = =                        \n");
+    printf("---------------------------------------------------------------------------\n");
     printf("           1. Cadastrar novo cliente                                       \n");
     printf("           2. Pesquisar cliente                                            \n");
     printf("           3. Atualizar cliente                                            \n");
     printf("           4. Excluir cliente                                              \n");
     printf("           0. Voltar ao Menu Principal                                     \n");
-    printf("                                                                           \n");
+    printf("---------------------------------------------------------------------------\n");
     printf("           Digite o número da sua opção:                                   \n");
     scanf("%d", &op);
     getchar();
-    printf("                                                                           \n");
-    printf("---------------------------------------------------------------------------\n");
-    printf("\n");
-    printf("\t\t\t>>> Tecle <ENTER> para continuar...");
     return op;
 }
 
 Cliente* tela_cadastrar_cliente(void) {
-    Cliente *clt;
-	clt = (Cliente*) malloc(sizeof(Cliente));
-
+    Cliente *cli = (Cliente*) malloc(sizeof(Cliente));
     printf("\n");
     printf("---------------------------------------------------------------------------\n");
     printf("          = = = = Sistema de Gestão SIG-PHARMACY = = = = = \n");
@@ -132,156 +128,109 @@ Cliente* tela_cadastrar_cliente(void) {
     printf("               = = = = = Cadastrar Novo Cliente = = = = = \n");
     printf("---------------------------------------------------------------------------\n");
     do {
-		printf("-----           cpf(apenas números): ");
-		scanf("%[^\n]", clt->cpf);
-		getchar();
-	} while (!validar_cpf(clt->cpf));
-	printf("-----           Nome completo: ");
-	scanf("%[A-ZÁÉÍÓÚÂÊÔÇÀÃÕ a-záéíóúâêôçàãõ]", clt->nome);
-	getchar();
-	printf("-----           E-mail: ");
-	scanf("%[a-z0-9@.]", clt->email);
-	getchar();
-	printf("-----           Data de Nascimento (dd/mm/aaaa):  ");
-	scanf("%[0-9/]", clt->data);
-	getchar();
-	do {
-		printf("-----           Telefone  (apenas números com DDD): ");
-		scanf("%[^\n]", clt->tele);
-		getchar();
-	} while (!validar_telefone(clt->tele));
-	clt->status = 1;
-    printf("\nCliente cadastrado com sucesso!\n");
-    printf("\n---------------------------------------------------------------------------\n");
-    printf("\t\t\t>>> Tecle <ENTER> para continuar...");
-	getchar();
-    return clt;
-} 
-
+        printf("-----           CPF (apenas números): ");
+        scanf("%14[^\n]", cli->cpf);
+        getchar();
+    } while (strlen(cli->cpf) == 0);
+    printf("-----           Nome: ");
+    scanf("%51[^\n]", cli->nome);
+    getchar();
+    printf("-----           Telefone: ");
+    scanf("%12[^\n]", cli->tele);
+    getchar();
+    printf("-----           E-mail: ");
+    scanf("%30[^\n]", cli->email);
+    getchar();
+    printf("-----           Data (dd/mm/aaaa): ");
+    scanf("%10[^\n]", cli->data);
+    getchar();
+    cli->status = 1;  // Cliente ativo
+    return cli;
+}
 
 char* tela_pesquisar_cliente(void) {
-    char* cpf;
-	cpf = (char*) malloc(12*sizeof(char));
-
-    printf("---------------------------------------------------------------------------\n");
-    printf("          = = = = Sistema de Gestão SIG-PHARMACY = = = = = \n");
-    printf("---------------------------------------------------------------------------\n");
-    printf("                = = = = = Pesquisar Cliente = = = = = \n");
-    printf("---------------------------------------------------------------------------\n");
-    printf("///           Informe o cpf do cliente (apenas números): ");
-	scanf("%[0-9]", cpf);
-	getchar();
-    printf("---------------------------------------------------------------------------\n");
-    printf(">>> Tecle <ENTER> para continuar...");
-	getchar();
+    char* cpf = (char*) malloc(15 * sizeof(char));
+    printf("Informe o CPF do cliente: ");
+    scanf("%14[^\n]", cpf);
+    getchar();  
     return cpf;
 }
 
 char* tela_atualizar_cliente(void) {
-    char* cpf;
-	cpf = (char*) malloc(12*sizeof(char));
-
-    printf("---------------------------------------------------------------------------\n");
-    printf("          = = = = Sistema de Gestão SIG-PHARMACY = = = = = \n");
-    printf("---------------------------------------------------------------------------\n");
-    printf("               = = = = = Atualizar Dados de Cliente = = = = = \n");
-    printf("---------------------------------------------------------------------------\n");
-    printf("///           Informe o cpf do cliente (apenas números): ");
-	scanf("%[0-9]", cpf);
-	getchar();
-    printf("---------------------------------------------------------------------------\n");
-    printf(">>> Tecle <ENTER> para continuar...");
-	getchar();
+    char* cpf = (char*) malloc(15 * sizeof(char));
+    printf("Informe o CPF do cliente: ");
+    scanf("%14[^\n]", cpf);
+    getchar();
     return cpf;
 }
 
 char* tela_excluir_cliente(void) {
-    char *cpf;
-	cpf = (char*) malloc(12*sizeof(char));
-
-    printf("---------------------------------------------------------------------------\n");
-    printf("          = = = = Sistema de Gestão SIG-PHARMACY = = = = = \n");
-    printf("---------------------------------------------------------------------------\n");
-    printf("                   = = = = = Excluir Cliente = = = = = \n");
-    printf("---------------------------------------------------------------------------\n");
-    printf("///           Informe o cpf do cliente (apenas números): ");
-	scanf("%[0-9]", cpf);
-	getchar();
-    printf("---------------------------------------------------------------------------\n");
-    printf(">>> Tecle <ENTER> para continuar...");
-	getchar();
+    char* cpf = (char*) malloc(15 * sizeof(char));
+    printf("Informe o CPF do cliente: ");
+    scanf("%14[^\n]", cpf);
+    getchar();
     return cpf;
 }
 
-
-void gravarCliente(Cliente* clt) {
-	FILE* fp;
-
-	fp = fopen("Cliente.dat", "ab");
-	if (fp == NULL) {
-		tela_erro();
-	}
-	fwrite(clt, sizeof(Cliente), 1, fp);
-	fclose(fp);
+void gravarCliente(Cliente* cli) {
+    FILE* fp = fopen("Cliente.dat", "ab");
+    if (fp == NULL) {
+        printf("Erro ao abrir o arquivo para gravação!\n");
+        return;
+    }
+    fwrite(cli, sizeof(Cliente), 1, fp);
+    fclose(fp);
 }
-
 
 Cliente* buscarCliente(char* cpf) {
-	FILE* fp;
-	Cliente* clt;
-
-	clt = (Cliente*) malloc(sizeof(Cliente));
-	fp = fopen("Cliente.dat", "rb");
-	if (fp == NULL) {
-		tela_erro();
-	}
-	while(fread(clt, sizeof(Cliente), 1, fp)) {
-		if ((strcmp(clt->cpf, cpf) == 0) && (clt->status == 1)) {
-			fclose(fp);
-			return clt;
-		}
-	}
-	fclose(fp);
-	return NULL;
+    FILE* fp = fopen("Cliente.dat", "rb");
+    if (fp == NULL) {
+        printf("Erro ao abrir o arquivo para leitura!\n");
+        return NULL;
+    }
+    Cliente* cli = (Cliente*) malloc(sizeof(Cliente));
+    while (fread(cli, sizeof(Cliente), 1, fp)) {
+        if (strcmp(cli->cpf, cpf) == 0 && cli->status == 1) {
+            fclose(fp);
+            return cli;
+        }
+    }
+    fclose(fp);
+    free(cli);
+    return NULL;
 }
 
-
-void exibirCliente(Cliente* clt) {
-
-	if (clt == NULL) {
-		printf("\n- - - Cliente Inexistente - - -\n");
-	} else {
-		printf("\n- - - Cliente Cadastrado - - -\n");
-		printf("Cpf: %s\n", clt->cpf);
-		printf("Nome do Cliente: %s\n", clt->nome);
-		printf("Email do cliente: %s\n", clt->email);
-		printf("Data de Nascimento: %s\n", clt->data);
-		printf("Telefone: %s\n", clt->tele);
-		printf("Status: %d\n", clt->status);
-	}
-	printf("\n\nTecle ENTER para continuar!\n\n");
-	getchar();
+void exibirCliente(Cliente* cli) {
+    if (cli == NULL) {
+        printf("\n= = = Cliente Inexistente = = =\n");
+    } else {
+        printf("\n= = = Cliente Cadastrado = = =\n");
+        printf("CPF: %s\n", cli->cpf);
+        printf("Nome: %s\n", cli->nome);
+        printf("Telefone: %s\n", cli->tele);
+        printf("E-mail: %s\n", cli->email);
+        printf("Data de nascimento: %s\n", cli->data);
+        printf("Status: %d\n", cli->status);
+    }
+    printf("\n\nTecle ENTER para continuar!\n");
+    getchar();
 }
 
-
-void regravarCliente(Cliente* clt) {
-	int achou;
-	FILE* fp;
-	Cliente* cltLido;
-
-	cltLido = (Cliente*) malloc(sizeof(Cliente));
-	fp = fopen("Cliente.dat", "r+b");
-	if (fp == NULL) {
-		tela_erro();
-	}
-	achou = 0;
-	while(fread(cltLido, sizeof(Cliente), 1, fp) && !achou) {
-		if (strcmp(cltLido->cpf, clt->cpf) == 0) {
-			achou = 1;
-			fseek(fp, -1*sizeof(Cliente), SEEK_CUR);
-        	fwrite(clt, sizeof(Cliente), 1, fp);
-		}
-	}
-	fclose(fp);
-	free(cltLido);
+void regravarCliente(Cliente* cli) {
+    FILE* fp = fopen("Cliente.dat", "r+b");
+    if (fp == NULL) {
+        printf("Erro ao abrir o arquivo para atualização!\n");
+        return;
+    }
+    Cliente* cliLido = (Cliente*) malloc(sizeof(Cliente));
+    int achou = 0;
+    while (fread(cliLido, sizeof(Cliente), 1, fp) && !achou) {
+        if (strcmp(cliLido->cpf, cli->cpf) == 0) {
+            achou = 1;
+            fseek(fp, -1 * sizeof(Cliente), SEEK_CUR);  // Voltar para o começo do registro
+            fwrite(cli, sizeof(Cliente), 1, fp);  // Sobrescrever com os novos dados
+        }
+    }
+    fclose(fp);
+    free(cliLido);
 }
