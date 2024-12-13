@@ -15,7 +15,7 @@ void cadastrarCliente(void);
 void pesquisarCliente(void);
 void atualizarCliente(void);
 void excluirCliente(void);
-char tela_menu_cliente(void);
+int tela_menu_cliente(void);
 Cliente* tela_cadastrar_cliente(void);
 char* tela_pesquisar_cliente(void);
 char* tela_atualizar_cliente(void);

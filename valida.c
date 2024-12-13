@@ -11,15 +11,26 @@ int validar_nome(const char *nome) {
     return 1;  // Nome válido
 }
 
-int validar_data(const char *data) {
-    if (strlen(data) != 10) return 0;  // Verifica o tamanho
-    if (data[2] != '/' || data[5] != '/') return 0;  // Verifica os separadores
+int validar_data(char* data) {
+    // Verificar o formato dd/mm/aaaa
+    if (strlen(data) != 10) {
+        return 0;  // Se o tamanho da string não for 10, retorna falso
+    }
+
+    // Verificar se os separadores são '/'
+    if (data[2] != '/' || data[5] != '/') {
+        return 0;  // Se os separadores não forem '/', retorna falso
+    }
+
+    // Verificar se os caracteres restantes são dígitos
     for (int i = 0; i < 10; i++) {
-        if (i != 2 && i != 5 && !isdigit(data[i])) {
-            return 0;  // Data inválida
+        if ((i != 2 && i != 5) && (data[i] < '0' || data[i] > '9')) {
+            return 0;  // Se qualquer caractere não for dígito, retorna falso
         }
     }
-    return 1;  // Data válida
+
+    // A data está no formato correto, agora você pode adicionar uma validação adicional para o conteúdo (mês, ano, etc.) se necessário.
+    return 1;
 }
 
 int validar_cpf(const char *cpf) {
@@ -118,26 +129,3 @@ int validar_descricao(const char *descricao) {
     return 1; // Descrição válida
 }
 
-void limpaTela(void) {
-  if (system("clear") || system("cls")) {
-    // limpa a tela, Linux, Mac e Windows
-  }
-}
-
-void tela_erro(void) {
-	printf("\n");
-	printf("/////////////////////////////////////////////////////////////////////////////\n");
-	printf("///          ===================================================          ///\n");
-	printf("///          = = = =              ERRO                   = = = =          ///\n");
-	printf("///          ===================================================          ///\n");
-	printf("/////////////////////////////////////////////////////////////////////////////\n");
-	printf("///                                                                       ///\n");
-	printf("///           = = = = = = = = = = = = = = = = = = = = = = = =             ///\n");
-	printf("///           = = = = = = =  Ops! Ocorreu em erro = = = = = =             ///\n");
-	printf("///           = = = =    Por favor repotar aos devs   = = = =             ///\n");
-	printf("///           = = = = = = = = = = = = = = = = = = = = = = = =             ///\n");
-	printf("///                                                                       ///\n");
-	printf("\n\nTecle ENTER para continuar!\n\n");
-	getchar();
-	exit(1);
-}

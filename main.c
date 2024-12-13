@@ -15,25 +15,36 @@ void tela_final(void);
 
 
 
-int main(void){
-    char opcao;
-    do{
-        opcao=tela_menu_principal();
-        switch (opcao){
-        case '1': moduloproduto();
-            break;
-        case '2': modulocliente();
-            break;
-        case '3': modulovenda();
-            break;
-        case '4': moduloinformacoes();
-            break;
-        case '5': modulorelatorio();
-            break;
+int main(void) {
+    int opcao;
+    do {
+        opcao = tela_menu_principal();
+        switch (opcao) {
+            case 1:
+                moduloproduto();
+                break;
+            case 2:
+                modulocliente();
+                break;
+            case 3:
+                modulovenda();
+                break;
+            case 4:
+                moduloinformacoes();
+                break;
+            case 5:
+                modulorelatorio();
+                break;
+            case 0:
+                tela_final();
+                break;
+            default:
+                printf("\nOpção inválida! Tente novamente.\n");
+                getchar();  // Pausa para o usuário ler a mensagem
+                break;
         }
-    }while ((opcao!='0'));
+    } while (opcao != 0);
     return 0;
-    
 }
 
 

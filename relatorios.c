@@ -5,20 +5,28 @@
 #include <stdlib.h>
 
 void modulorelatorio(void) {
-	char opcao;
-	do {
-		opcao = menu_produto();
-		switch(opcao) {
-			case '1': 	tela_cadastrar_produto();
-						break;
-			case '2': 	tela_pesquisar_produto();
-						break;
-			case '3': 	tela_atualizar_produto();
-						break;
-			case '4': 	tela_excluir_produto();
-						break;
-		} 		
-	} while (opcao != '0');
+    int opcao;
+    do {
+        opcao = tela_menu_relatorio();  // Função que exibe o menu e retorna a escolha
+        switch(opcao) {
+            case 1:
+                tela_relatorios_produtos();
+                break;
+            case 2:
+                tela_relatorios_clientes();
+                break;
+            case 3:
+                tela_relatorios_vendas();
+                break;
+            case 0:
+                printf("Retornando ao menu principal...\n");
+                break;
+            default:
+                printf("\nOpção inválida! Tente novamente.\n");
+                getchar();  // Pausa para o usuário ler a mensagem
+                break;
+        }
+    } while (opcao != 0);
 }
 
 //Funções de telas
@@ -26,11 +34,8 @@ int tela_menu_relatorio(void) {
     int op;
     printf("\n");
     printf("-------------------------------------------------------------------------- \n");
-    printf("                                                                           \n");
     printf("          = = = = = Sistema de Gestão SIG-PHARMACY = = = = =               \n");
-    printf("                                                                           \n");
     printf("---------------------------------------------------------------------------\n");
-    printf("                                                                           \n");
     printf("                 = = = = = Módulo Relatório = = = = =                      \n");
     printf("                                                                           \n");
     printf("           1. Relatório de Produtos                                        \n");
@@ -44,6 +49,7 @@ int tela_menu_relatorio(void) {
     printf("---------------------------------------------------------------------------\n");
     printf("\n");
     printf("\t\t\t>>> Tecle <ENTER> para continuar...");
+    getchar();
     return op;
 }
 

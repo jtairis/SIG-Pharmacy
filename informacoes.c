@@ -5,20 +5,25 @@
 #include <stdlib.h>
 
 void moduloinformacoes(void) {
-	char opcao;
-	do {
-		opcao = tela_menu_cliente();
-		switch(opcao) {
-			case '1': 	tela_cadastrar_cliente();
-						break;
-			case '2': 	tela_pesquisar_cliente();
-						break;
-			case '3': 	tela_atualizar_cliente();
-						break;
-			case '4': 	tela_excluir_cliente();
-						break;
-		} 		
-	} while (opcao != '0');
+    int opcao;
+    do {
+        opcao = tela_menu_informacoes();
+        switch(opcao) {
+            case 1:
+                tela_equipe();
+                break;
+            case 2:
+                tela_sobre(); 
+                break;
+            case 0:
+                printf("Retornando ao menu principal...\n");
+                break;
+            default:
+                printf("\nOpção inválida! Tente novamente.\n");
+                getchar();
+                break;
+        }
+    } while (opcao != 0);
 }
 
 //Funções para mostrar telas

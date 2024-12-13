@@ -10,20 +10,31 @@ typedef struct cliente Cliente;
 
 
 void modulocliente(void) {
-	char opcao;
-	do {
-		opcao = tela_menu_cliente();
-		switch(opcao) {
-			case '1': 	tela_cadastrar_cliente();
-						break;
-			case '2': 	tela_pesquisar_cliente();
-						break;
-			case '3': 	tela_atualizar_cliente();
-						break;
-			case '4': 	tela_excluir_cliente();
-						break;
-		} 		
-	} while (opcao != '0');
+    int opcao;
+    do {
+        opcao = tela_menu_cliente();  // Função que exibe o menu e retorna a escolha
+        switch(opcao) {
+            case 1:
+                tela_cadastrar_cliente();
+                break;
+            case 2:
+                tela_pesquisar_cliente();
+                break;
+            case 3:
+                tela_atualizar_cliente();
+                break;
+            case 4:
+                tela_excluir_cliente();
+                break;
+            case 0:
+                printf("Retornando ao menu principal...\n");
+                break;
+            default:
+                printf("\nOpção inválida! Tente novamente.\n");
+                getchar();  // Pausa para o usuário ler a mensagem
+                break;
+        }
+    } while (opcao != 0);
 }
 
 void cadastrarCliente(void) {
@@ -83,9 +94,8 @@ void excluirCliente(void) {
 }
 
 
-char tela_menu_cliente(void) {
-    char op;
-    system("clear||cls");
+int tela_menu_cliente(void) {
+    int op;
     printf("\n");
     printf("-------------------------------------------------------------------------- \n");
     printf("                                                                           \n");
@@ -102,7 +112,8 @@ char tela_menu_cliente(void) {
     printf("           0. Voltar ao Menu Principal                                     \n");
     printf("                                                                           \n");
     printf("           Digite o número da sua opção:                                   \n");
-    scanf("%c", &op);
+    scanf("%d", &op);
+    getchar();
     printf("                                                                           \n");
     printf("---------------------------------------------------------------------------\n");
     printf("\n");
@@ -114,8 +125,6 @@ Cliente* tela_cadastrar_cliente(void) {
     Cliente *clt;
 	clt = (Cliente*) malloc(sizeof(Cliente));
 
-
-    system("clear||cls");
     printf("\n");
     printf("---------------------------------------------------------------------------\n");
     printf("          = = = = Sistema de Gestão SIG-PHARMACY = = = = = \n");
@@ -145,6 +154,7 @@ Cliente* tela_cadastrar_cliente(void) {
     printf("\nCliente cadastrado com sucesso!\n");
     printf("\n---------------------------------------------------------------------------\n");
     printf("\t\t\t>>> Tecle <ENTER> para continuar...");
+	getchar();
     return clt;
 } 
 
@@ -153,7 +163,6 @@ char* tela_pesquisar_cliente(void) {
     char* cpf;
 	cpf = (char*) malloc(12*sizeof(char));
 
-    system("clear||cls");
     printf("---------------------------------------------------------------------------\n");
     printf("          = = = = Sistema de Gestão SIG-PHARMACY = = = = = \n");
     printf("---------------------------------------------------------------------------\n");
@@ -164,6 +173,7 @@ char* tela_pesquisar_cliente(void) {
 	getchar();
     printf("---------------------------------------------------------------------------\n");
     printf(">>> Tecle <ENTER> para continuar...");
+	getchar();
     return cpf;
 }
 
@@ -171,7 +181,6 @@ char* tela_atualizar_cliente(void) {
     char* cpf;
 	cpf = (char*) malloc(12*sizeof(char));
 
-    system("clear||cls");
     printf("---------------------------------------------------------------------------\n");
     printf("          = = = = Sistema de Gestão SIG-PHARMACY = = = = = \n");
     printf("---------------------------------------------------------------------------\n");
@@ -182,6 +191,7 @@ char* tela_atualizar_cliente(void) {
 	getchar();
     printf("---------------------------------------------------------------------------\n");
     printf(">>> Tecle <ENTER> para continuar...");
+	getchar();
     return cpf;
 }
 
@@ -189,7 +199,6 @@ char* tela_excluir_cliente(void) {
     char *cpf;
 	cpf = (char*) malloc(12*sizeof(char));
 
-    system("clear||cls");
     printf("---------------------------------------------------------------------------\n");
     printf("          = = = = Sistema de Gestão SIG-PHARMACY = = = = = \n");
     printf("---------------------------------------------------------------------------\n");
@@ -200,6 +209,7 @@ char* tela_excluir_cliente(void) {
 	getchar();
     printf("---------------------------------------------------------------------------\n");
     printf(">>> Tecle <ENTER> para continuar...");
+	getchar();
     return cpf;
 }
 

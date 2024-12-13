@@ -4,20 +4,31 @@
 #include <stdlib.h>
 
 void modulovenda(void) {
-	char opcao;
-	do {
-		opcao = menu_produto();
-		switch(opcao) {
-			case '1': 	tela_cadastrar_produto();
-						break;
-			case '2': 	tela_pesquisar_produto();
-						break;
-			case '3': 	tela_atualizar_produto();
-						break;
-			case '4': 	tela_excluir_produto();
-						break;
-		} 		
-	} while (opcao != '0');
+    int opcao;
+    do {
+        opcao = tela_menu_venda();  // Função que exibe o menu e retorna a escolha
+        switch(opcao) {
+            case 1:
+                tela_cadastrar_venda();
+                break;
+            case 2:
+                tela_pesquisar_venda();
+                break;
+            case 3:
+                tela_atualizar_venda();
+                break;
+            case 4:
+                tela_excluir_venda();
+                break;
+            case 0:
+                printf("Retornando ao menu principal...\n");
+                break;
+            default:
+                printf("\nOpção inválida! Tente novamente.\n");
+                getchar();  // Pausa para o usuário ler a mensagem
+                break;
+        }
+    } while (opcao != 0);
 }
 
 //Funções de telas
@@ -95,4 +106,12 @@ void tela_pesquisar_venda(void) {
     printf("\n");
     printf("\t\t\t>>> Tecle <ENTER> para continuar...");
     getchar();
+}
+
+void tela_atualizar_venda(void){
+
+}
+
+void tela_excluir_venda(void){
+
 }

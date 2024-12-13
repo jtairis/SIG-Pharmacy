@@ -2,6 +2,8 @@
 
 //Assinaturas das funções
 void modulovenda(void);
-int menu_venda(void);
+int tela_menu_venda(void);
 void tela_cadastrar_venda(void);
 void tela_pesquisar_venda(void);
+void tela_atualizar_venda(void);
+void tela_excluir_venda(void);

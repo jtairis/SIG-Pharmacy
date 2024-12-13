@@ -11,17 +11,17 @@ typedef struct produto {
     int status;
 }Produto;
 
-void moduloproduto(void);
-void cadastrarProduto(void);
-void pesquisarProduto(void);
-void atualizarProduto(void);
-void excluirProduto(void);
+void moduloproduto();
+void cadastrarProduto();
+void pesquisarProduto();
+void atualizarProduto();
+void excluirProduto();
 
-char menu_produto(void);
-Produto* tela_cadastrar_produto(void);
-char* tela_pesquisar_produto(void);
-char* tela_atualizar_produto(void);
-char* tela_excluir_produto(void);
+int tela_menu_produto();
+Produto* tela_cadastrar_produto();
+char* tela_pesquisar_produto();
+char* tela_atualizar_produto();
+char* tela_excluir_produto();
 
 void gravarProduto(Produto* prod);
 Produto* buscarProduto(char* codigo);

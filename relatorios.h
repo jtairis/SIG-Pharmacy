@@ -2,7 +2,7 @@
 
 //Assinatura das funções
 void modulorelatorio();
-int menu_relatorio(void);
+int tela_menu_relatorio(void);
 void tela_relatorios_produtos(void);
 void tela_relatorios_clientes(void);
 void tela_relatorios_vendas(void);
