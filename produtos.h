@@ -6,7 +6,7 @@ typedef struct produto {
     char nome[51];
     char codigo[8];
     char data[11];
-    char valor[12];
+    float valor;
     char descricao[101];
     int status;
 }Produto;

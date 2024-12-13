@@ -2,35 +2,23 @@
 #include <string.h>
 #include <ctype.h>
 
-int validar_nome(const char *nome) {
-    for (int i = 0; nome[i] != '\0'; i++) {
-        if (!isalpha(nome[i]) && nome[i] != ' ') {
-            return 0;  // Nome inválido
-        }
-    }
-    return 1;  // Nome válido
+int validar_nome(char* nome) {
+    return strlen(nome) > 0; // Nome não pode ser vazio
 }
 
 int validar_data(char* data) {
-    // Verificar o formato dd/mm/aaaa
     if (strlen(data) != 10) {
-        return 0;  // Se o tamanho da string não for 10, retorna falso
+        return 0; // Tamanho incorreto
     }
-
-    // Verificar se os separadores são '/'
     if (data[2] != '/' || data[5] != '/') {
-        return 0;  // Se os separadores não forem '/', retorna falso
+        return 0; // Formato incorreto
     }
-
-    // Verificar se os caracteres restantes são dígitos
     for (int i = 0; i < 10; i++) {
-        if ((i != 2 && i != 5) && (data[i] < '0' || data[i] > '9')) {
-            return 0;  // Se qualquer caractere não for dígito, retorna falso
+        if (i != 2 && i != 5 && !isdigit(data[i])) {
+            return 0; // Se algum caractere não for número (exceto as barras)
         }
     }
-
-    // A data está no formato correto, agora você pode adicionar uma validação adicional para o conteúdo (mês, ano, etc.) se necessário.
-    return 1;
+    return 1; // Data no formato correto
 }
 
 int validar_cpf(const char *cpf) {
@@ -95,37 +83,26 @@ int validar_email(const char *email) {
 
 
 // Valida o código (somente números, 7 dígitos)
-int validar_codigo(const char *codigo) {
-    if (strlen(codigo) != 7) return 0;  // Verifica se o código tem exatamente 7 caracteres
+int validar_codigo(char* codigo) {
+    // Verificar se o código possui exatamente 7 caracteres numéricos
+    if (strlen(codigo) != 7) {
+        return 0; // Código inválido
+    }
     for (int i = 0; i < 7; i++) {
-        if (!isdigit(codigo[i])) return 0;  // Verifica se cada caractere é um número
+        if (!isdigit(codigo[i])) {
+            return 0; // Se algum caractere não for número
+        }
     }
     return 1; // Código válido
 }
 
 // Valida o valor (aceita números e vírgula)
-int validar_valor(const char *valor) {
-    int ponto_virgula = 0;  // Para controlar se já encontramos uma vírgula
-
-    for (int i = 0; valor[i] != '\0'; i++) {
-        if (valor[i] == ',') {
-            // Aceita apenas uma vírgula, que deve ser um separador decimal
-            if (ponto_virgula) return 0;
-            ponto_virgula = 1;
-        } else if (!isdigit(valor[i])) {
-            return 0;  // Verifica se é um número ou vírgula
-        }
-    }
-    return 1; // Valor válido
+int validar_valor(float valor) {
+    return valor > 0; // Valor deve ser positivo
 }
 
 // Função para validar a descrição (somente letras e espaços)
-int validar_descricao(const char *descricao) {
-    for (int i = 0; descricao[i] != '\0'; i++) {
-        if (!(isalpha(descricao[i]) || descricao[i] == ' ' || strchr("áéíóúçãõàâô", descricao[i]) != NULL)) {
-            return 0; // Descrição inválida
-        }
-    }
-    return 1; // Descrição válida
+int validar_descricao(char* descricao) {
+    return strlen(descricao) > 0; // Descrição não pode ser vazia
 }
 

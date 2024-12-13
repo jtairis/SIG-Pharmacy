@@ -133,26 +133,42 @@ Produto* tela_cadastrar_produto(void) {
     printf("---------------------------------------------------------------------------\n");
     printf("               = = = = = Cadastrar Novo Produto = = = = = \n");
     printf("---------------------------------------------------------------------------\n");
+
     do {
-        printf("-----           codigo(apenas números): ");
-        scanf("%11[^\n]", prod->codigo);
+        printf("-----           Codigo (apenas números): ");
+        scanf("%7s", prod->codigo);  
+    } while (!validar_codigo(prod->codigo));
+    getchar();
+
+    do {
+        printf("-----           Nome do produto: ");
+        scanf("%50[^\n]", prod->nome);  
         getchar();
-    } while (strlen(prod->codigo) == 0);
-    printf("-----           Nome do produto: ");
-    scanf("%51[^\n]", prod->nome);
-    getchar();
-    printf("-----           valor: ");
-    scanf("%12[^\n]", prod->valor);
-    getchar();
-    printf("-----           Data de validade (dd/mm/aaaa):  ");
-    scanf("%10[^\n]", prod->data);
-    getchar();
-    printf("-----           descrição: ");
-    scanf("%100[^\n]", prod->descricao);
-    getchar();
-    prod->status = 1; 
+    } while (!validar_nome(prod->nome));
+
+    do {
+        printf("-----           Valor: ");
+        scanf("%f", &prod->valor);  
+        getchar();
+    } while (!validar_valor(prod->valor));
+
+    do {
+        printf("-----           Data de validade (dd/mm/aaaa): ");
+        scanf("%10s", prod->data);  
+        getchar();
+    } while (!validar_data(prod->data));
+
+    do {
+        printf("-----           Descrição: ");
+        scanf("%100[^\n]", prod->descricao);  
+        getchar();
+    } while (!validar_descricao(prod->descricao));
+
+    prod->status = 1;
+
     return prod;
 }
+
 
 // Função para pesquisar produto
 char* tela_pesquisar_produto(void) {
@@ -219,7 +235,7 @@ void exibirProduto(Produto* prod) {
         printf("\n= = = Produto Cadastrado = = =\n");
         printf("Código: %s\n", prod->codigo);
         printf("Nome: %s\n", prod->nome);
-        printf("Valor: %s\n", prod->valor);
+        printf("Valor: %.2f\n", prod->valor);  // Corrigido para imprimir um valor float com 2 casas decimais
         printf("Data de validade: %s\n", prod->data);
         printf("Descrição: %s\n", prod->descricao);
         printf("Status: %d\n", prod->status);
