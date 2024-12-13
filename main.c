@@ -20,15 +20,15 @@ int main(void){
     do{
         opcao=tela_menu_principal();
         switch (opcao){
-        case '1': menu_produto();
+        case '1': moduloproduto();
             break;
-        case '2': menu_cliente();
+        case '2': modulocliente();
             break;
-        case '3': menu_venda();
+        case '3': modulovenda();
             break;
-        case '4': menu_informacoes();
+        case '4': moduloinformacoes();
             break;
-        case '5': menu_relatorio();
+        case '5': modulorelatorio();
             break;
         }
     }while ((opcao!='0'));

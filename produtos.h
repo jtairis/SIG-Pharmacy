@@ -9,9 +9,9 @@ typedef struct produto {
     char valor[12];
     char descricao[101];
     int status;
-} Produto;
+}Produto;
 
-void modulo_produto(void);
+void moduloproduto(void);
 void cadastrarProduto(void);
 void pesquisarProduto(void);
 void atualizarProduto(void);

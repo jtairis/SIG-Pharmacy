@@ -4,6 +4,23 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+void moduloinformacoes(void) {
+	char opcao;
+	do {
+		opcao = tela_menu_cliente();
+		switch(opcao) {
+			case '1': 	tela_cadastrar_cliente();
+						break;
+			case '2': 	tela_pesquisar_cliente();
+						break;
+			case '3': 	tela_atualizar_cliente();
+						break;
+			case '4': 	tela_excluir_cliente();
+						break;
+		} 		
+	} while (opcao != '0');
+}
+
 //Funções para mostrar telas
 int tela_menu_informacoes(void) {
     int op;

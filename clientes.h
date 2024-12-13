@@ -1,15 +1,5 @@
-//Nesse arquivo estão as assinaturas das funções do arquivo clientes.c, relacionadas ao Módulo Clientes
 
-//Assinatura das funções
-int menu_cliente(void);
-void tela_cadastrar_cliente(void);
-void tela_pesquisar_cliente(void);
-void tela_atualizar_cliente(void);
-void tela_excluir_cliente(void);
-
-// Definição do tipo Cliente
-#ifndef CLIENTES_H
-#define CLIENTES_H
+typedef struct cliente Cliente;
 
 typedef struct cliente {
     char nome[51];
@@ -17,14 +7,20 @@ typedef struct cliente {
     char cpf[12];
     char tele[12];
     char email[30];
-} Cliente;
+    int status;
+}Cliente;
 
-// Adicionando funções para alocar e liberar clientes
-Cliente* alocar_clientes(int quantidade);
-void liberar_clientes(Cliente* clientes);
-
-// Declarações de funções que usam o tipo Cliente
-void preencheCliente(Cliente*, int);
-void exibeCliente(Cliente*, int);
-
-#endif 
+void modulocliente(void);
+void cadastrarCliente(void);
+void pesquisarCliente(void);
+void atualizarCliente(void);
+void excluirCliente(void);
+char tela_menu_cliente(void);
+Cliente* tela_cadastrar_cliente(void);
+char* tela_pesquisar_cliente(void);
+char* tela_atualizar_cliente(void);
+char* tela_excluir_cliente(void);
+void gravarCliente(Cliente* clt);
+Cliente* buscarCliente(char* cpf);
+void exibirCliente(Cliente* clt);
+void regravarCliente(Cliente* clt);
