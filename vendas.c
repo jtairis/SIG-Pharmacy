@@ -3,6 +3,23 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+void modulovenda(void) {
+	char opcao;
+	do {
+		opcao = menu_produto();
+		switch(opcao) {
+			case '1': 	tela_cadastrar_produto();
+						break;
+			case '2': 	tela_pesquisar_produto();
+						break;
+			case '3': 	tela_atualizar_produto();
+						break;
+			case '4': 	tela_excluir_produto();
+						break;
+		} 		
+	} while (opcao != '0');
+}
+
 //Funções de telas
 int tela_menu_venda(void) {
     int op;

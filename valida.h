@@ -1,7 +1,3 @@
-//assinaturas das validações
-// validacoes.h
-#ifndef VALIDA_H
-#define VALIDA_H
 
 
 int validar_nome(const char *nome);
@@ -13,4 +9,5 @@ int validar_codigo(const char *codigo);
 int validar_valor(const char *valor);
 int validar_descricao(const char *descricao);
 
-#endif
+void limpaTela(void);
+void tela_erro(void);

@@ -1,22 +1,89 @@
 //Nesse arquivo estarão contidas todas as funções relacionadas ao Módulo Produtos 
-
-
 #include <stdio.h>
 #include <stdlib.h>
-#include "valida.h"
 #include <string.h>
+#include "valida.h"
+#include "produtos.h"
 
-typedef struct produto {
-    char nome[51];
-    char codigo[8];
-    char dataValidade[11];
-    char valor[12];
-    char descricao[101];
-} Produto;
+typedef struct produto Produto;
+
+void moduloproduto(void) {
+	char opcao;
+	do {
+		opcao = menu_produto();
+		switch(opcao) {
+			case '1': 	tela_cadastrar_produto();
+						break;
+			case '2': 	tela_pesquisar_produto();
+						break;
+			case '3': 	tela_atualizar_produto();
+						break;
+			case '4': 	tela_excluir_produto();
+						break;
+		} 		
+	} while (opcao != '0');
+}
+
+void cadastrarProduto(void) {
+	Produto *prod;
+
+	prod = tela_cadastrar_produto();
+	gravarProduto(prod);
+	free(prod);
+}
+
+
+void pesquisarProduto(void) {
+	Produto* prod;
+	char* codigo;
+
+	codigo = tela_pesquisar_produto();
+	prod = buscarProduto(codigo);
+	exibirProduto(prod);
+	free(prod); 
+	free(codigo);
+}
+
+
+void atualizarProduto(void) {
+	Produto* prod;
+	char* codigo;
+
+	codigo = tela_atualizar_produto();
+	prod = buscarProduto(codigo);
+	if (prod == NULL) {
+    	printf("\n\nProduto não encontrado!\n\n");
+  	} else {
+		  prod = tela_cadastrar_produto();
+		  strcpy(prod->codigo, codigo);
+		  regravarProduto(prod);
+		  free(prod);
+	}
+	free(codigo);
+}
+
+
+void excluirProduto(void) {
+	Produto* prod;
+	char *codigo;
+
+	codigo = tela_excluir_produto();
+	prod = (Produto*) malloc(sizeof(Produto));
+	prod = buscarProduto(codigo);
+	if (prod == NULL) {
+    	printf("\n\nProduto não encontrado!\n\n");
+  	} else {
+		  prod->status = 0;
+		  regravarProduto(prod);
+		  free(prod);
+	}
+	free(codigo);
+}
+
 
 //Funções para mostrar telas
-int tela_menu_produto(void) {
-    int op;
+char menu_produto(void) {
+    char op;
     printf("\n");
     system("clear||cls");
     printf("-------------------------------------------------------------------------- \n");
@@ -34,7 +101,7 @@ int tela_menu_produto(void) {
     printf("           0. Voltar ao Menu Principal                                     \n");
     printf("                                                                           \n");
     printf("           Digite o número da sua opção:                                   \n");
-    scanf("%d", &op);
+    scanf("%c", &op);
     printf("                                                                           \n");
     printf("---------------------------------------------------------------------------\n");
     printf("\n");
@@ -43,8 +110,10 @@ int tela_menu_produto(void) {
 }
 
 // Função para cadastrar produto
-void tela_cadastrar_produto(Produto *p) {
-    int valido;
+Produto* tela_cadastrar_produto(void) {
+    Produto *prod;
+    prod = (Produto*) malloc(sizeof(Produto));
+
 
     system("clear||cls");
     printf("---------------------------------------------------------------------------\n");
@@ -52,68 +121,39 @@ void tela_cadastrar_produto(Produto *p) {
     printf("---------------------------------------------------------------------------\n");
     printf("               = = = = = Cadastrar Novo Produto = = = = =                  \n");
     printf("---------------------------------------------------------------------------\n");
-    getchar();
-
     do {
-        printf("Nome do Produto: ");
-        scanf("%50[^\n]", p->nome);
-        getchar();
-        valido = validar_nome(p->nome);
-        if (!valido) {
-            printf("Nome inválido! Digite novamente.\n");
-        }
-    } while (!valido);
-
-    do {
-        printf("Código (7 dígitos): ");
-        scanf("%7[^\n]", p->codigo);
-        getchar();
-        valido = validar_codigo(p->codigo);
-        if (!valido) {
-            printf("Código inválido! Digite novamente.\n");
-        }
-    } while (!valido);
-
-    do {
-        printf("Data de Validade (dd/mm/aaaa): ");
-        scanf("%10[^\n]", p->dataValidade);
-        getchar();
-        valido = validar_data(p->dataValidade);
-        if (!valido) {
-            printf("Data inválida! Digite novamente.\n");
-        }
-    } while (!valido);
-
-    do {
-        printf("Valor (ex: 100,50): ");
-        scanf("%11[^\n]", p->valor);
-        getchar();
-        valido = validar_valor(p->valor);
-        if (!valido) {
-            printf("Valor inválido! Digite novamente.\n");
-        }
-    } while (!valido);
-
-    do {
-        printf("Descrição do Produto: ");
-        scanf("%100[^\n]", p->descricao);
-        getchar();
-        valido = validar_descricao(p->descricao);
-        if (!valido) {
-            printf("Descrição inválida! Digite novamente.\n");
-        }
-    } while (!valido);
+		printf("///           codigo (apenas 7 números): ");
+		scanf("%[^\n]", prod->codigo);
+		getchar();
+	} while (!validar_codigo(prod->codigo));
+	printf("///           Nome do produto: ");
+	scanf("%[A-ZÁÉÍÓÚÂÊÔÇÀÃÕ a-záéíóúâêôçàãõ]", prod->nome);
+	getchar();
+	printf("///           data de validade: ");
+	scanf("%[a-z0-9@.]", prod->data);
+	getchar();
+	printf("///           valor do produto:  ");
+	scanf("%[0-9/]", prod->valor);
+	getchar();
+	do {
+		printf("///           descrição do produto: ");
+		scanf("%[^\n]", prod->descricao);
+		getchar();
+	} while (!validar_descricao(prod->descricao));
+	prod->status = 1;
 
     printf("\nProduto cadastrado com sucesso.\n");
     printf("---------------------------------------------------------------------------\n");
     printf("\t\t\t>>> Tecle <ENTER> para continuar...");
     getchar();
+    return prod;
 }
 
 // Função para pesquisar produto
-void tela_pesquisar_produto(Produto produtos[], int qtdProdutos) {
-    char codigo[8];
-    int encontrado = 0;
+char* tela_pesquisar_produto(void) {
+    char* prod;
+    prod = (char*) malloc(12*sizeof(char));
+
 
     system("clear||cls");
     printf("---------------------------------------------------------------------------\n");
@@ -121,41 +161,17 @@ void tela_pesquisar_produto(Produto produtos[], int qtdProdutos) {
     printf("---------------------------------------------------------------------------\n");
     printf("                 = = = = = Pesquisar Produto = = = = =                     \n");
     printf("---------------------------------------------------------------------------\n");
-
-    do {
-        printf("Digite o código do produto: ");
-        scanf("%7s", codigo);
-        getchar();
-        if (!validar_codigo(codigo)) {
-            printf("Código inválido! Digite novamente.\n");
-        }
-    } while (!validar_codigo(codigo));
-
-    for (int i = 0; i < qtdProdutos; i++) {
-        if (strcmp(produtos[i].codigo, codigo) == 0) {
-            printf("\nProduto encontrado com sucesso:\n");
-            printf("Nome: %s\n", produtos[i].nome);
-            printf("Código: %s\n", produtos[i].codigo);
-            printf("Validade: %s\n", produtos[i].dataValidade);
-            printf("Valor: %s\n", produtos[i].valor);
-            printf("Descrição: %s\n", produtos[i].descricao);
-            encontrado = 1;
-            break;
-        }
-    }
-
-    if (!encontrado) {
-        printf("\nProduto com código %s não encontrado.\n", codigo);
-    }
-
+    printf("-----           Informe o codigo do produto: ");
+	scanf("%[0-9]", prod);
+    getchar();
     printf("---------------------------------------------------------------------------\n");
     printf("\t\t\t>>> Tecle <ENTER> para continuar...");
-    getchar();
+    return prod;
 }
 
-void tela_atualizar_produto(Produto produtos[], int qtdProdutos) {
-    char codigo[8];
-    int encontrado = 0;
+char* tela_atualizar_produto(void) {
+    char* prod;
+    prod = (char*) malloc(12*sizeof(char));
 
     system("clear||cls");
     printf("\n");
@@ -164,80 +180,17 @@ void tela_atualizar_produto(Produto produtos[], int qtdProdutos) {
     printf("---------------------------------------------------------------------------\n");
     printf("                  = = = = = Atualizar Produto = = = = =                    \n");
     printf("---------------------------------------------------------------------------\n");
-
-    do {
-        printf("Digite o código do produto para atualizar: ");
-        scanf("%7s", codigo);
-        getchar();
-        if (!validar_codigo(codigo)) {
-            printf("Código inválido! Digite novamente.\n");
-        }
-    } while (!validar_codigo(codigo));
-
-    for (int i = 0; i < qtdProdutos; i++) {
-        if (strcmp(produtos[i].codigo, codigo) == 0) {
-            encontrado = 1;
-
-            printf("\nProduto encontrado! Digite as novas informações:\n");
-
-            int valido;
-            do {
-                printf("Nome do Produto: ");
-                scanf("%50[^\n]", produtos[i].nome);
-                getchar();
-                valido = validar_nome(produtos[i].nome);
-                if (!valido) {
-                    printf("Nome inválido! Digite novamente.\n");
-                }
-            } while (!valido);
-
-            do {
-                printf("Data de Validade (dd/mm/aaaa): ");
-                scanf("%10[^\n]", produtos[i].dataValidade);
-                getchar();
-                valido = validar_data(produtos[i].dataValidade);
-                if (!valido) {
-                    printf("Data inválida! Digite novamente.\n");
-                }
-            } while (!valido);
-
-            do {
-                printf("Valor (ex: 100,50): ");
-                scanf("%11[^\n]", produtos[i].valor);
-                getchar();
-                valido = validar_valor(produtos[i].valor);
-                if (!valido) {
-                    printf("Valor inválido! Digite novamente.\n");
-                }
-            } while (!valido);
-
-            do {
-                printf("Descrição do Produto: ");
-                scanf("%100[^\n]", produtos[i].descricao);
-                getchar();
-                valido = validar_descricao(produtos[i].descricao);
-                if (!valido) {
-                    printf("Descrição inválida! Digite novamente.\n");
-                }
-            } while (!valido);
-
-            printf("\nProduto atualizado com sucesso!\n");
-            break;
-        }
-    }
-
-    if (!encontrado) {
-        printf("\nProduto com código %s não encontrado.\n", codigo);
-    }
-
+    printf("------           Informe o codigo do produto: ");
+	scanf("%[0-9]", prod);
+	getchar();
     printf("---------------------------------------------------------------------------\n");
     printf("\t\t\t>>> Tecle <ENTER> para continuar...");
-    getchar();
+    return prod;
 }
 
-void tela_excluir_produto(Produto produtos[], int *qtdProdutos) {
-    char codigo[8];
-    int encontrado = 0;
+char* tela_excluir_produto(void) {
+    char *prod;
+    prod = (char*) malloc(12*sizeof(char));
 
     system("clear||cls");
     printf("\n");
@@ -246,51 +199,80 @@ void tela_excluir_produto(Produto produtos[], int *qtdProdutos) {
     printf("---------------------------------------------------------------------------\n");
     printf("                  = = = = = Excluir Produto = = = = =                      \n");
     printf("---------------------------------------------------------------------------\n");
-
-    do {
-        printf("Digite o código do produto para excluir: ");
-        scanf("%7s", codigo);
-        getchar();
-        if (!validar_codigo(codigo)) {
-            printf("Código inválido! Digite novamente.\n");
-        }
-    } while (!validar_codigo(codigo));
-
-    for (int i = 0; i < *qtdProdutos; i++) {
-        if (strcmp(produtos[i].codigo, codigo) == 0) {
-            encontrado = 1;
-
-            printf("\nProduto encontrado com sucesso:\n");
-            printf("Nome: %s\n", produtos[i].nome);
-            printf("Código: %s\n", produtos[i].codigo);
-            printf("Validade: %s\n", produtos[i].dataValidade);
-            printf("Valor: %s\n", produtos[i].valor);
-            printf("Descrição: %s\n", produtos[i].descricao);
-
-            char confirmacao;
-            printf("\nDeseja realmente excluir este produto (S/N)? ");
-            scanf(" %c", &confirmacao);
-            getchar();
-
-            if (confirmacao == 'S' || confirmacao == 's') {
-                for (int j = i; j < (*qtdProdutos) - 1; j++) {
-                    produtos[j] = produtos[j + 1];
-                }
-                (*qtdProdutos)--; 
-                printf("\nProduto excluído com sucesso!\n");
-            } else {
-                printf("\nOperação cancelada.\n");
-            }
-            break;
-        }
-    }
-
-    if (!encontrado) {
-        printf("\nProduto com código %s não encontrado.\n", codigo);
-    }
-
-
+    printf("------           Informe o codigo do produto: ");
+	scanf("%[0-9]", prod);
+	getchar();
     printf("---------------------------------------------------------------------------\n");
     printf("\t\t\t>>> Tecle <ENTER> para continuar...");
-    getchar();
+    return prod;
+}
+
+void gravarProduto(Produto* prod) {
+	FILE* fp;
+
+	fp = fopen("Produto.dat", "ab");
+	if (fp == NULL) {
+		tela_erro();
+	}
+	fwrite(prod, sizeof(Produto), 1, fp);
+	fclose(fp);
+}
+
+Produto* buscarProduto(char* codigo) {
+	FILE* fp;
+	Produto* prod;
+
+	prod = (Produto*) malloc(sizeof(Produto));
+	fp = fopen("Produtos.dat", "rb");
+	if (fp == NULL) {
+		tela_erro();
+	}
+	while(fread(prod, sizeof(Produto), 1, fp)) {
+		if ((strcmp(prod->codigo, codigo) == 0) && (prod->status == 1)) {
+			fclose(fp);
+			return prod;
+		}
+	}
+	fclose(fp);
+	return NULL;
+}
+
+void exibirProduto(Produto* prod) {
+
+	if (prod == NULL) {
+		printf("\n= = = Produto Inexistente = = =\n");
+	} else {
+		printf("\n= = = Produto Cadastrado = = =\n");
+		printf("codigo do produto: %s\n", prod->codigo);
+		printf("Nome do Produto: %s\n", prod->nome);
+		printf("Valor do produto: %s\n", prod->valor);
+		printf("Data de validade: %s\n", prod->data);
+		printf("descricão do produto: %s\n", prod->descricao);
+		printf("Status: %d\n", prod->status);
+	}
+	printf("\n\nTecle ENTER para continuar!\n\n");
+	getchar();
+}
+
+void regravarProduto(Produto* prod) {
+	int achou;
+	FILE* fp;
+	Produto* prodLido;
+
+	prodLido = (Produto*) malloc(sizeof(Produto));
+	fp = fopen("Produto.dat", "r+b");
+	if (fp == NULL) {
+		tela_erro();
+	}
+	achou = 0;
+	while(fread(prodLido, sizeof(Produto), 1, fp) && !achou) {
+		if (strcmp(prodLido->codigo, prod->codigo) == 0) {
+			achou = 1;
+			fseek(fp, -1*sizeof(Produto), SEEK_CUR);
+        	fwrite(prod, sizeof(Produto), 1, fp);
+			//break;
+		}
+	}
+	fclose(fp);
+	free(prodLido);
 }

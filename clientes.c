@@ -5,6 +5,23 @@
 #include <stdlib.h>
 #include "valida.h"
 
+void modulocliente(void) {
+	char opcao;
+	do {
+		opcao = menu_produto();
+		switch(opcao) {
+			case '1': 	tela_cadastrar_produto();
+						break;
+			case '2': 	tela_pesquisar_produto();
+						break;
+			case '3': 	tela_atualizar_produto();
+						break;
+			case '4': 	tela_excluir_produto();
+						break;
+		} 		
+	} while (opcao != '0');
+}
+
 typedef struct cliente {
     char nome[51];
     char data[11];

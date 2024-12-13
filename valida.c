@@ -117,3 +117,27 @@ int validar_descricao(const char *descricao) {
     }
     return 1; // Descrição válida
 }
+
+void limpaTela(void) {
+  if (system("clear") || system("cls")) {
+    // limpa a tela, Linux, Mac e Windows
+  }
+}
+
+void tela_erro(void) {
+	printf("\n");
+	printf("/////////////////////////////////////////////////////////////////////////////\n");
+	printf("///          ===================================================          ///\n");
+	printf("///          = = = =              ERRO                   = = = =          ///\n");
+	printf("///          ===================================================          ///\n");
+	printf("/////////////////////////////////////////////////////////////////////////////\n");
+	printf("///                                                                       ///\n");
+	printf("///           = = = = = = = = = = = = = = = = = = = = = = = =             ///\n");
+	printf("///           = = = = = = =  Ops! Ocorreu em erro = = = = = =             ///\n");
+	printf("///           = = = =    Por favor repotar aos devs   = = = =             ///\n");
+	printf("///           = = = = = = = = = = = = = = = = = = = = = = = =             ///\n");
+	printf("///                                                                       ///\n");
+	printf("\n\nTecle ENTER para continuar!\n\n");
+	getchar();
+	exit(1);
+}
