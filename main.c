@@ -58,7 +58,7 @@ int tela_menu_principal(void) {
     printf("-------------------------------------------------------------------------\n");
     printf("\n");
     printf("                                                                         \n");
-    printf("            = = = = = Sistema de Gestão SIG-PHARMACY = = = = =           \n");
+    printf("            - - - - - Sistema de Gestão SIG-PHARMACY - - - - -           \n");
     printf("                                                                         \n");
     printf("            1. Módulo Produtos                                           \n");
     printf("            2. Módulo Clientes                                           \n");
@@ -82,7 +82,7 @@ void tela_final(void) {
     printf("\n");
     printf("-------------------------------------------------------------------------- \n");
     printf("                                                                           \n");
-    printf("    = = = = = Obrigado por utilizar o sistema SIG-PHARMACY! = = = = =      \n");
+    printf("    - - - - - Obrigado por utilizar o sistema SIG-PHARMACY! - - - - -      \n");
     printf("\n");
     printf("-------------------------------------------------------------------------- \n");
     getchar();

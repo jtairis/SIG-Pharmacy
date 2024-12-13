@@ -40,11 +40,11 @@ int tela_menu_venda(void) {
     printf("\n");
     printf("-------------------------------------------------------------------------- \n");
     printf("                                                                           \n");
-    printf("          = = = = = Sistema de Gestão SIG-PHARMACY = = = = =               \n");
+    printf("          - - - - - Sistema de Gestão SIG-PHARMACY - - - - -               \n");
     printf("                                                                           \n");
     printf("---------------------------------------------------------------------------\n");
     printf("                                                                           \n");
-    printf("                 = = = = = Módulo Vendas = = = = =                         \n");
+    printf("                 - - - - - Módulo Vendas - - - - -                         \n");
     printf("                                                                           \n");
     printf("           1. Cadastrar Venda                                              \n");
     printf("           2. Pesquisar Venda                                              \n");
@@ -68,9 +68,9 @@ void tela_cadastrar_venda(void) {
     
     system("clear||cls");
     printf("---------------------------------------------------------------------------\n");
-    printf("          = = = = = Sistema de Gestão SIG-PHARMACY = = = = =               \n");
+    printf("          - - - - - Sistema de Gestão SIG-PHARMACY - - - - -               \n");
     printf("---------------------------------------------------------------------------\n");
-    printf("               = = = = = Cadastrar Nova Venda = = = = =                    \n");
+    printf("               - - - - - Cadastrar Nova Venda - - - - -                    \n");
     printf("---------------------------------------------------------------------------\n");
 
     // Leitura do CPF do cliente
@@ -122,9 +122,9 @@ void tela_pesquisar_venda(void) {
     
     system("clear||cls");
     printf("---------------------------------------------------------------------------\n");
-    printf("          = = = = = Sistema de Gestão SIG-PHARMACY = = = = =               \n");
+    printf("          - - - - - Sistema de Gestão SIG-PHARMACY - - - - -               \n");
     printf("---------------------------------------------------------------------------\n");
-    printf("               = = = = = Pesquisar Venda = = = = =                        \n");
+    printf("               - - - - - Pesquisar Venda - - - - -                        \n");
     printf("---------------------------------------------------------------------------\n");
 
     printf("Digite o CPF do cliente para pesquisar a venda: ");
@@ -148,9 +148,9 @@ void tela_atualizar_venda(void) {
 
     system("clear||cls");
     printf("---------------------------------------------------------------------------\n");
-    printf("          = = = = = Sistema de Gestão SIG-PHARMACY = = = = =               \n");
+    printf("          - - - - - Sistema de Gestão SIG-PHARMACY - - - - -               \n");
     printf("---------------------------------------------------------------------------\n");
-    printf("               = = = = = Atualizar Venda = = = = =                        \n");
+    printf("               - - - - - Atualizar Venda - - - - -                        \n");
     printf("---------------------------------------------------------------------------\n");
     printf("Digite o CPF do cliente que efetuou a compra: ");
     scanf("%11s", cpf);
@@ -197,9 +197,9 @@ void tela_excluir_venda(void) {
 
     system("clear||cls");
     printf("---------------------------------------------------------------------------\n");
-    printf("          = = = = = Sistema de Gestão SIG-PHARMACY = = = = =               \n");
+    printf("          - - - - - Sistema de Gestão SIG-PHARMACY - - - - -               \n");
     printf("---------------------------------------------------------------------------\n");
-    printf("               = = = = = Excluir Venda = = = = =                         \n");
+    printf("               - - - - - Excluir Venda - - - - -                         \n");
     printf("---------------------------------------------------------------------------\n");
     printf("Digite o CPF do cliente que efetuou a compra: ");
     scanf("%11s", cpf);
@@ -306,7 +306,7 @@ void exibirVenda(Venda* venda) {
     if (venda == NULL) {
         printf("Venda não encontrada!\n");
     } else {
-        printf("\n= = = Detalhes da Venda = = =\n");
+        printf("\n- - - Detalhes da Venda - - -\n");
         printf("CPF do cliente: %s\n", venda->cpfCliente);
         printf("Código do produto: %s\n", venda->codigoProduto);
         printf("Quantidade: %d\n", venda->quantidade);

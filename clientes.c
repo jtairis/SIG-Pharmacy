@@ -103,9 +103,9 @@ int tela_menu_cliente() {
     int op;
     system("clear||cls");
     printf("-------------------------------------------------------------------------- \n");
-    printf("          = = = = Sistema de Gestão SIG-PHARMACY = = = = =               \n");
+    printf("          - - - - Sistema de Gestão SIG-PHARMACY - - - - -               \n");
     printf("---------------------------------------------------------------------------\n");
-    printf("                = = = = = Módulo Clientes = = = = =                        \n");
+    printf("                - - - - - Módulo Clientes - - - - -                        \n");
     printf("---------------------------------------------------------------------------\n");
     printf("           1. Cadastrar novo cliente                                       \n");
     printf("           2. Pesquisar cliente                                            \n");
@@ -123,9 +123,9 @@ Cliente* tela_cadastrar_cliente(void) {
     Cliente *cli = (Cliente*) malloc(sizeof(Cliente));
     printf("\n");
     printf("---------------------------------------------------------------------------\n");
-    printf("          = = = = Sistema de Gestão SIG-PHARMACY = = = = = \n");
+    printf("          - - - - Sistema de Gestão SIG-PHARMACY - - - - - \n");
     printf("---------------------------------------------------------------------------\n");
-    printf("               = = = = = Cadastrar Novo Cliente = = = = = \n");
+    printf("               - - - - - Cadastrar Novo Cliente - - - - - \n");
     printf("---------------------------------------------------------------------------\n");
     do {
         printf("-----           CPF (apenas números): ");
@@ -202,9 +202,9 @@ Cliente* buscarCliente(char* cpf) {
 
 void exibirCliente(Cliente* cli) {
     if (cli == NULL) {
-        printf("\n= = = Cliente Inexistente = = =\n");
+        printf("\n- - - Cliente Inexistente - - -\n");
     } else {
-        printf("\n= = = Cliente Cadastrado = = =\n");
+        printf("\n- - - Cliente Cadastrado - - -\n");
         printf("CPF: %s\n", cli->cpf);
         printf("Nome: %s\n", cli->nome);
         printf("Telefone: %s\n", cli->tele);

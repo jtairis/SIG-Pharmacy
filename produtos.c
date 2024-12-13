@@ -108,9 +108,9 @@ int tela_menu_produto() {
     int op;
     system("clear||cls");
     printf("-------------------------------------------------------------------------- \n");
-    printf("          = = = = Sistema de Gestão SIG-PHARMACY = = = = =               \n");
+    printf("          - - - - Sistema de Gestão SIG-PHARMACY - - - - -               \n");
     printf("---------------------------------------------------------------------------\n");
-    printf("                = = = = = Módulo Produtos = = = = =                        \n");
+    printf("                - - - - - Módulo Produtos - - - - -                        \n");
     printf("---------------------------------------------------------------------------\n");
     printf("           1. Cadastrar novo produto                                       \n");
     printf("           2. Pesquisar produto                                            \n");
@@ -129,9 +129,9 @@ Produto* tela_cadastrar_produto(void) {
     Produto *prod = (Produto*) malloc(sizeof(Produto));
     printf("\n");
     printf("---------------------------------------------------------------------------\n");
-    printf("          = = = = Sistema de Gestão SIG-PHARMACY = = = = = \n");
+    printf("          - - - - Sistema de Gestão SIG-PHARMACY - - - - - \n");
     printf("---------------------------------------------------------------------------\n");
-    printf("               = = = = = Cadastrar Novo Produto = = = = = \n");
+    printf("               - - - - - Cadastrar Novo Produto - - - - - \n");
     printf("---------------------------------------------------------------------------\n");
 
     do {
@@ -230,9 +230,9 @@ Produto* buscarProduto(char* codigo) {
 // Função para exibir dados do produto
 void exibirProduto(Produto* prod) {
     if (prod == NULL) {
-        printf("\n= = = Produto Inexistente = = =\n");
+        printf("\n- - - Produto Inexistente - - -\n");
     } else {
-        printf("\n= = = Produto Cadastrado = = =\n");
+        printf("\n- - - Produto Cadastrado - - -\n");
         printf("Código: %s\n", prod->codigo);
         printf("Nome: %s\n", prod->nome);
         printf("Valor: %.2f\n", prod->valor);  // Corrigido para imprimir um valor float com 2 casas decimais
