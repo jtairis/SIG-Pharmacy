@@ -70,10 +70,8 @@ void excluirCliente(void) {
     char* cpf;
     char opcao;
 
-    // Solicita o CPF do cliente a ser excluído
     cpf = tela_excluir_cliente();
 
-    // Busca o cliente no arquivo
     cli = buscarCliente(cpf);
 
     if (cli == NULL) {
@@ -132,16 +130,16 @@ Cliente* tela_cadastrar_cliente(void) {
         scanf("%14[^\n]", cli->cpf);
         getchar();
     } while (strlen(cli->cpf) == 0);
-    printf("-----           Nome: ");
+    printf("----- Nome: ");
     scanf("%51[^\n]", cli->nome);
     getchar();
-    printf("-----           Telefone: ");
+    printf("----- Telefone: ");
     scanf("%12[^\n]", cli->tele);
     getchar();
-    printf("-----           E-mail: ");
+    printf("----- E-mail: ");
     scanf("%30[^\n]", cli->email);
     getchar();
-    printf("-----           Data (dd/mm/aaaa): ");
+    printf("----- Data de nascimento (dd/mm/aaaa): ");
     scanf("%10[^\n]", cli->data);
     getchar();
     cli->status = 1;  // Cliente ativo

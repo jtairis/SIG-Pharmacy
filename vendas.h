@@ -3,7 +3,7 @@ typedef struct venda {
     char codigoProduto[8];
     int quantidade;
     float valorTotal;
-    char data[11];  // dd/mm/aaaa
+    char data[11]; 
 } Venda;
 
 void modulovenda(void);

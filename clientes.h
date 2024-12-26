@@ -1,4 +1,3 @@
-
 typedef struct cliente Cliente;
 
 typedef struct cliente {

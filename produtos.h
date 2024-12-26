@@ -1,5 +1,3 @@
-
-
 typedef struct produto Produto;
 
 typedef struct produto {

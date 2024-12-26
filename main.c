@@ -40,7 +40,7 @@ int main(void) {
                 break;
             default:
                 printf("\nOpção inválida! Tente novamente.\n");
-                getchar();  // Pausa para o usuário ler a mensagem
+                getchar();
                 break;
         }
     } while (opcao != 0);
