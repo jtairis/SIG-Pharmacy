@@ -235,7 +235,7 @@ void exibirProduto(Produto* prod) {
         printf("\n- - - Produto Cadastrado - - -\n");
         printf("Código: %s\n", prod->codigo);
         printf("Nome: %s\n", prod->nome);
-        printf("Valor: %.2f\n", prod->valor);  // Corrigido para imprimir um valor float com 2 casas decimais
+        printf("Valor: %.2f\n", prod->valor);
         printf("Data de validade: %s\n", prod->data);
         printf("Descrição: %s\n", prod->descricao);
         printf("Status: %d\n", prod->status);
