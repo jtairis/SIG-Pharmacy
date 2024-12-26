@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <string.h>
 #include <stdlib.h>
 #include <locale.h>
 #include "produtos.h"
@@ -69,6 +70,7 @@ void tela_relatorios_produtos(void) {
         printf("---------------------------------------------------------------------------\n");
         printf("           1. Relatório Geral de Produtos                                  \n");
         printf("           2. Relatório de Produtos por Faixa de Preço                     \n");
+        printf("           3. Relatório de Produtos por Data de Validade                   \n");
         printf("           0. Voltar ao Menu de Relatórios                                 \n");
         printf("---------------------------------------------------------------------------\n");
         printf("           Digite o número da sua opção:                                   \n");
@@ -80,6 +82,9 @@ void tela_relatorios_produtos(void) {
                 break;
             case 2:
                 relatorioProdutosPorFaixaPreco();
+                break;
+            case 3:
+                relatorioProdutosPorDataValidade();
                 break;
             case 0:
                 printf("\nVoltando ao menu de relatórios...\n");
@@ -164,6 +169,46 @@ void relatorioProdutosPorFaixaPreco(void) {
     getchar();
     fclose(fp);
     printf("\nPressione <ENTER> para continuar...");
+    getchar();
+}
+
+void relatorioProdutosPorDataValidade(void) {
+    char dataValidade[11];
+    printf("Informe a data de validade (formato DD/MM/AAAA): ");
+    scanf("%s", dataValidade);
+
+    FILE *fp = fopen("Produto.dat", "rb");
+    if (fp == NULL) {
+        printf("Erro ao abrir o arquivo de produtos!\n");
+        return;
+    }
+
+    Produto prod;
+    int produtosEncontrados = 0;
+
+    printf("\n----------------------------------------------------\n");
+    printf("   Relatório de Produtos com Data de Validade: %s\n", dataValidade);
+    printf("----------------------------------------------------\n");
+
+    while (fread(&prod, sizeof(Produto), 1, fp)) {
+        if (prod.status == 1 && strcmp(prod.data, dataValidade) == 0) {
+            printf("Código: %s\n", prod.codigo);
+            printf("Nome: %s\n", prod.nome);
+            printf("Valor: %.2f\n", prod.valor);
+            printf("Data de validade: %s\n", prod.data);
+            printf("Descrição: %s\n", prod.descricao);
+            printf("----------------------------------------------------\n");
+            produtosEncontrados = 1;
+        }
+    }
+
+    if (!produtosEncontrados) {
+        printf("Nenhum produto encontrado com a data de validade informada.\n");
+    }
+
+    fclose(fp);
+    printf("\nPressione <ENTER> para continuar...");
+    getchar();
     getchar();
 }
 

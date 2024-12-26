@@ -8,3 +8,4 @@ void tela_relatorios_clientes(void);
 void tela_relatorios_vendas(void);
 void relatorioProdutosPorFaixaPreco(void);
 void relatorioGeralProdutos(void);
+void relatorioProdutosPorDataValidade(void);
