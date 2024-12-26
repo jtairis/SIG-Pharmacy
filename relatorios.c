@@ -1,8 +1,14 @@
 //Nesse arquivo estão contidas as funções relacionadas ao Módulo Relatórios
 
-
 #include <stdio.h>
 #include <stdlib.h>
+#include <locale.h>
+#include "produtos.h"
+#include "clientes.h"
+#include "vendas.h"
+#include "informacoes.h"
+#include "relatorios.h"
+#include "valida.h"
 
 void modulorelatorio(void) {
     int opcao;

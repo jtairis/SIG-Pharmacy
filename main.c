@@ -1,12 +1,12 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <locale.h>
-#include "produtos.h"     //inclusão da biblioteca "produtos.h"
-#include "clientes.h"    //inclusão da biblioteca "clientes.h"
-#include "vendas.h"      //inclusão da biblioteca "vendas.h"
-#include "informacoes.h"  //inclusão da biblioteca "informacoes.h"
-#include "relatorios.h"   //inclusão da biblioteca "relatorios.h"
-#include "valida.h"       //inclusão da biblioteca "valida.h"
+#include "produtos.h"
+#include "clientes.h"
+#include "vendas.h"
+#include "informacoes.h"
+#include "relatorios.h"
+#include "valida.h"
 
 // Assinatura das funções
 
