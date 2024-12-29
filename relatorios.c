@@ -215,18 +215,115 @@ void relatorioProdutosPorDataValidade(void) {
 
 
 void tela_relatorios_clientes(void) {
-    system("clear||cls");
-    printf("\n");
-    printf("-------------------------------------------------------------------------- \n");
-    printf("          - - - - - Sistema de Gestão SIG-PHARMACY - - - - -               \n");
-    printf("---------------------------------------------------------------------------\n");
-    printf("                 - - - - - Relatórios de Clientes - - - - -                \n");
-    getchar();
-    printf("---------------------------------------------------------------------------\n");
-    printf("\n");
-    printf("\t\t\t>>> Tecle <ENTER> para continuar...");
+    int opcao;
+    do {
+        system("clear||cls");
+        printf("\n");
+        printf("-------------------------------------------------------------------------- \n");
+        printf("          - - - - - Sistema de Gestão SIG-PHARMACY - - - - -               \n");
+        printf("---------------------------------------------------------------------------\n");
+        printf("                 - - - - - Relatórios de Clientes - - - - -                \n");
+        printf("---------------------------------------------------------------------------\n");
+        printf("           1. Relatório Geral de Clientes Ativos                           \n");
+        printf("           2. Relatório de Clientes por Data de Nascimento                 \n");
+        printf("           0. Voltar ao Menu de Relatórios                                 \n");
+        printf("---------------------------------------------------------------------------\n");
+        printf("           Digite o número da sua opção:                                   \n");
+        scanf("%d", &opcao);
+        getchar();
+
+        switch(opcao) {
+            case 1:
+                relatorioGeralClientes();
+                break;
+            case 2:
+                relatorioClientesPorData();
+                break;
+            case 0:
+                printf("\nVoltando ao menu de relatórios...\n");
+                break;
+            default:
+                printf("\nOpção inválida! Tente novamente.\n");
+                break;
+        }
+    } while (opcao != 0);
+}
+
+void relatorioGeralClientes(void) {
+    FILE* fp = fopen("Cliente.dat", "rb");
+    if (fp == NULL) {
+        printf("Erro ao abrir o arquivo de clientes!\n");
+        return;
+    }
+
+    Cliente cli;
+    int clientesEncontrados = 0;
+
+    printf("\n----------------------------------------------------\n");
+    printf("             Relatório Geral de Clientes             \n");
+    printf("----------------------------------------------------\n");
+
+    while (fread(&cli, sizeof(Cliente), 1, fp)) {
+        if (cli.status == 1) {
+            printf("CPF: %s\n", cli.cpf);
+            printf("Nome: %s\n", cli.nome);
+            printf("Telefone: %s\n", cli.tele);
+            printf("E-mail: %s\n", cli.email);
+            printf("Data de Nascimento: %s\n", cli.data);
+            printf("----------------------------------------------------\n");
+            clientesEncontrados = 1;
+        }
+    }
+
+    if (!clientesEncontrados) {
+        printf("Nenhum cliente ativo encontrado.\n");
+    }
+
+    fclose(fp);
+    printf("\nPressione <ENTER> para continuar...");
     getchar();
 }
+
+void relatorioClientesPorData(void) {
+    FILE* fp = fopen("Cliente.dat", "rb");
+    if (fp == NULL) {
+        printf("Erro ao abrir o arquivo de clientes!\n");
+        return;
+    }
+
+    char dataDesejada[11];
+    printf("Informe a data de nascimento desejada (dd/mm/aaaa): ");
+    scanf("%10[^\n]", dataDesejada);
+    getchar();
+
+    Cliente cli;
+    int clientesEncontrados = 0;
+
+    printf("\n----------------------------------------------------\n");
+    printf("      Relatório de Clientes por Data de Nascimento   \n");
+    printf("----------------------------------------------------\n");
+
+    while (fread(&cli, sizeof(Cliente), 1, fp)) {
+        if (cli.status == 1 && strcmp(cli.data, dataDesejada) == 0) {
+            printf("CPF: %s\n", cli.cpf);
+            printf("Nome: %s\n", cli.nome);
+            printf("Telefone: %s\n", cli.tele);
+            printf("E-mail: %s\n", cli.email);
+            printf("Data de Nascimento: %s\n", cli.data);
+            printf("----------------------------------------------------\n");
+            clientesEncontrados = 1;
+        }
+    }
+
+    if (!clientesEncontrados) {
+        printf("Nenhum cliente encontrado com a data de nascimento %s.\n", dataDesejada);
+    }
+
+    fclose(fp);
+    printf("\nPressione <ENTER> para continuar...");
+    getchar();
+}
+
 
 void tela_relatorios_vendas(void) {
     system("clear||cls");
