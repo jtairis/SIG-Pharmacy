@@ -8,8 +8,8 @@
 void modulovenda(void) {
     int opcao;
     do {
-        opcao = tela_menu_venda();  // Função que exibe o menu e retorna a escolha
-        switch(opcao) {
+        opcao = tela_menu_venda();
+        switch (opcao) {
             case 1:
                 tela_cadastrar_venda();
                 break;
@@ -27,55 +27,37 @@ void modulovenda(void) {
                 break;
             default:
                 printf("\nOpção inválida! Tente novamente.\n");
-                getchar();  // Pausa para o usuário ler a mensagem
+                getchar();
                 break;
         }
     } while (opcao != 0);
 }
 
-// Funções de tela
-
 int tela_menu_venda(void) {
     int op;
     printf("\n");
-    printf("-------------------------------------------------------------------------- \n");
-    printf("                                                                           \n");
-    printf("          - - - - - Sistema de Gestão SIG-PHARMACY - - - - -               \n");
-    printf("                                                                           \n");
+    printf("--------------------------------------------------------------------------\n");
+    printf("          - - - - - Sistema de Gestão SIG-PHARMACY - - - - -              \n");
     printf("---------------------------------------------------------------------------\n");
-    printf("                                                                           \n");
-    printf("                 - - - - - Módulo Vendas - - - - -                         \n");
-    printf("                                                                           \n");
-    printf("           1. Cadastrar Venda                                              \n");
-    printf("           2. Pesquisar Venda                                              \n");
-    printf("           3. Atualizar Venda                                              \n");
-    printf("           4. Excluir Venda                                                \n");
-    printf("           0. Voltar ao Menu Principal                                     \n");
-    printf("                                                                           \n");
-    printf("           Digite o número da sua opção:                                   \n");
+    printf("                 - - - - - Módulo Vendas - - - - -                        \n");
+    printf("           1. Cadastrar Venda                                             \n");
+    printf("           2. Pesquisar Venda                                             \n");
+    printf("           3. Atualizar Venda                                             \n");
+    printf("           4. Excluir Venda                                               \n");
+    printf("           0. Voltar ao Menu Principal                                    \n");
+    printf("---------------------------------------------------------------------------\n");
+    printf("Digite o número da sua opção: ");
     scanf("%d", &op);
-    printf("                                                                           \n");
-    printf("---------------------------------------------------------------------------\n");
-    printf("\n");
-    printf("\t\t\t>>> Tecle <ENTER> para continuar...");
     return op;
 }
 
-
 void tela_cadastrar_venda(void) {
-    char cpf[12], codigo[8];
     Venda venda;
-    
-    system("clear||cls");
-    printf("---------------------------------------------------------------------------\n");
-    printf("          - - - - - Sistema de Gestão SIG-PHARMACY - - - - -               \n");
-    printf("---------------------------------------------------------------------------\n");
-    printf("               - - - - - Cadastrar Nova Venda - - - - -                    \n");
-    printf("---------------------------------------------------------------------------\n");
+    char cpf[12], codigo[8];
 
     printf("CPF do cliente: ");
     scanf("%11s", cpf);
-    
+
     if (buscarCliente(cpf) == NULL) {
         printf("Cliente não encontrado!\n");
         return;
@@ -84,7 +66,8 @@ void tela_cadastrar_venda(void) {
     printf("Código do produto: ");
     scanf("%7s", codigo);
 
-    if (buscarProduto(codigo) == NULL) {
+    Produto* prod = buscarProduto(codigo);
+    if (prod == NULL) {
         printf("Produto não encontrado!\n");
         return;
     }
@@ -92,81 +75,56 @@ void tela_cadastrar_venda(void) {
     printf("Quantidade desejada: ");
     scanf("%d", &venda.quantidade);
 
-    Produto* prod = buscarProduto(codigo);
     venda.valorTotal = prod->valor * venda.quantidade;
-    
+    venda.numeroVenda = obterNumeroVenda();
+    venda.status = 1;  // Venda ativa
     strcpy(venda.cpfCliente, cpf);
     strcpy(venda.codigoProduto, codigo);
-    
+
     printf("Data da compra (dd/mm/aaaa): ");
     scanf("%10s", venda.data);
-    
+
     gravarVenda(&venda);
-    
-    printf("\nVenda cadastrada com sucesso!\n");
-    printf("\t\t\t>>> Tecle <ENTER> para continuar...");
+    printf("\nVenda cadastrada com sucesso! Número da venda: %d\n", venda.numeroVenda);
     getchar();
 }
 
 void tela_pesquisar_venda(void) {
-    char cpf[12];
-    
-    system("clear||cls");
-    printf("---------------------------------------------------------------------------\n");
-    printf("          - - - - - Sistema de Gestão SIG-PHARMACY - - - - -               \n");
-    printf("---------------------------------------------------------------------------\n");
-    printf("               - - - - - Pesquisar Venda - - - - -                        \n");
-    printf("---------------------------------------------------------------------------\n");
+    int numeroVenda;
+    printf("Digite o número da venda para pesquisar: ");
+    scanf("%d", &numeroVenda);
 
-    printf("Digite o CPF do cliente para pesquisar a venda: ");
-    scanf("%11s", cpf);
-    
-    Venda* venda = buscarVenda(cpf);
-    if (venda != NULL) {
+    Venda* venda = buscarVendaPorNumero(numeroVenda);
+    if (venda != NULL && venda->status == 1) {
         exibirVenda(venda);
-        free(venda);
     } else {
-        printf("Venda não encontrada para o CPF: %s\n", cpf);
+        printf("Venda não encontrada ou excluída.\n");
     }
-    
-    printf("\t\t\t>>> Tecle <ENTER> para continuar...");
+    free(venda);
+
+    printf("\n\nTecle ENTER para continuar!\n");
+    getchar();
     getchar();
 }
 
 void tela_atualizar_venda(void) {
-    char cpf[12], codigo[8];
-    Venda* venda;
+    int numeroVenda;
+    printf("Digite o número da venda para atualizar: ");
+    scanf("%d", &numeroVenda);
 
-    system("clear||cls");
-    printf("---------------------------------------------------------------------------\n");
-    printf("          - - - - - Sistema de Gestão SIG-PHARMACY - - - - -               \n");
-    printf("---------------------------------------------------------------------------\n");
-    printf("               - - - - - Atualizar Venda - - - - -                        \n");
-    printf("---------------------------------------------------------------------------\n");
-    printf("Digite o CPF do cliente que efetuou a compra: ");
-    scanf("%11s", cpf);
-    getchar();
-    printf("Digite o código do produto que deseja atualizar: ");
-    scanf("%7s", codigo);
-    getchar();
-
-    venda = buscarVenda(cpf);
-    if (venda == NULL) {
-        printf("Venda não encontrada para o CPF: %s\n", cpf);
+    Venda* venda = buscarVendaPorNumero(numeroVenda);
+    if (venda == NULL || venda->status == 0) {
+        printf("Venda não encontrada ou já excluída.\n");
         return;
     }
 
-    if (strcmp(venda->codigoProduto, codigo) != 0) {
-        printf("Produto não encontrado na venda para o código: %s\n", codigo);
-        free(venda);
-        return;
-    }
-
-    printf("Atualizando a venda...\n");
     printf("Digite a nova quantidade: ");
     scanf("%d", &venda->quantidade);
+
     Produto* prod = buscarProduto(venda->codigoProduto);
-    venda->valorTotal = prod->valor * venda->quantidade;
+    if (prod) {
+        venda->valorTotal = prod->valor * venda->quantidade;
+    }
 
     printf("Digite a nova data (dd/mm/aaaa): ");
     scanf("%10s", venda->data);
@@ -174,107 +132,59 @@ void tela_atualizar_venda(void) {
     regravarVenda(venda);
     printf("\nVenda atualizada com sucesso!\n");
     free(venda);
-}
 
+    printf("\n\nTecle ENTER para continuar!\n");
+    getchar();
+    getchar();
+}
 
 void tela_excluir_venda(void) {
-    char cpf[12], codigo[8];
-    Venda* venda;
+    int numeroVenda;
+    printf("Digite o número da venda para excluir: ");
+    scanf("%d", &numeroVenda);
 
-    system("clear||cls");
-    printf("---------------------------------------------------------------------------\n");
-    printf("          - - - - - Sistema de Gestão SIG-PHARMACY - - - - -               \n");
-    printf("---------------------------------------------------------------------------\n");
-    printf("               - - - - - Excluir Venda - - - - -                         \n");
-    printf("---------------------------------------------------------------------------\n");
-    printf("Digite o CPF do cliente que efetuou a compra: ");
-    scanf("%11s", cpf);
-    getchar();
-    printf("Digite o código do produto que deseja excluir: ");
-    scanf("%7s", codigo);
-    getchar();
-
-    venda = buscarVenda(cpf);
-    if (venda == NULL) {
-        printf("Venda não encontrada para o CPF: %s\n", cpf);
-        return;
+    Venda* venda = buscarVendaPorNumero(numeroVenda);
+    if (venda != NULL && venda->status == 1) {
+        exibirVenda(venda);
+        printf("\nDeseja realmente excluir esta venda? (s/n): ");
+        char confirmacao;
+        scanf(" %c", &confirmacao);
+        if (confirmacao == 's' || confirmacao == 'S') {
+            excluirVendaLogica(numeroVenda);
+            printf("\nVenda excluída com sucesso (lógica).\n");
+        } else {
+            printf("\nOperação de exclusão cancelada.\n");
+        }
+    } else {
+        printf("Venda não encontrada ou já excluída.\n");
     }
-
-    if (strcmp(venda->codigoProduto, codigo) != 0) {
-        printf("Produto não encontrado na venda para o código: %s\n", codigo);
-        free(venda);
-        return;
-    }
-
-    excluirVenda(cpf, codigo);
-    printf("\nVenda excluída com sucesso!\n");
     free(venda);
-}
 
-void excluirVenda(char* cpf, char* codigo) {
-    FILE* fp = fopen("Vendas.dat", "rb");
-    FILE* temp = fopen("TempVendas.dat", "wb");
-    
-    if (fp == NULL || temp == NULL) {
-        printf("Erro ao abrir os arquivos!\n");
-        return;
-    }
-    
-    Venda venda;
-    while (fread(&venda, sizeof(Venda), 1, fp)) {
-        if (strcmp(venda.cpfCliente, cpf) != 0 || strcmp(venda.codigoProduto, codigo) != 0) {
-            fwrite(&venda, sizeof(Venda), 1, temp);  // Copia as vendas que não são a que deve ser excluída
-        }
-    }
-    
-    fclose(fp);
-    fclose(temp);
-    
-    remove("Vendas.dat");
-    rename("TempVendas.dat", "Vendas.dat");
+    printf("\n\nTecle ENTER para continuar!\n");
+    getchar();
+    getchar();
 }
-
-void regravarVenda(Venda* venda) {
-    FILE* fp = fopen("Vendas.dat", "rb+");
-    if (fp == NULL) {
-        printf("Erro ao abrir o arquivo de vendas para atualização!\n");
-        return;
-    }
-    
-    Venda temp;
-    while (fread(&temp, sizeof(Venda), 1, fp)) {
-        if (strcmp(temp.cpfCliente, venda->cpfCliente) == 0 && strcmp(temp.codigoProduto, venda->codigoProduto) == 0) {
-            fseek(fp, -sizeof(Venda), SEEK_CUR);
-            fwrite(venda, sizeof(Venda), 1, fp);
-            fclose(fp);
-            return;
-        }
-    }
-    fclose(fp);
-    printf("Venda não encontrada para atualizar.\n");
-}
-
 
 void gravarVenda(Venda* venda) {
-    FILE* fp = fopen("Vendas.dat", "ab");
+    FILE* fp = fopen("vendas.dat", "ab");
     if (fp == NULL) {
-        printf("Erro ao abrir o arquivo de vendas para gravação!\n");
+        printf("Erro ao abrir o arquivo de vendas.\n");
         return;
     }
     fwrite(venda, sizeof(Venda), 1, fp);
     fclose(fp);
 }
 
-Venda* buscarVenda(char* cpf) {
-    FILE* fp = fopen("Vendas.dat", "rb");
+Venda* buscarVendaPorNumero(int numeroVenda) {
+    FILE* fp = fopen("vendas.dat", "rb");
     if (fp == NULL) {
-        printf("Erro ao abrir o arquivo de vendas para leitura!\n");
+        printf("Erro ao abrir o arquivo de vendas.\n");
         return NULL;
     }
-    
-    Venda* venda = (Venda*) malloc(sizeof(Venda));
+
+    Venda* venda = (Venda*)malloc(sizeof(Venda));
     while (fread(venda, sizeof(Venda), 1, fp)) {
-        if (strcmp(venda->cpfCliente, cpf) == 0) {
+        if (venda->numeroVenda == numeroVenda) {
             fclose(fp);
             return venda;
         }
@@ -284,18 +194,57 @@ Venda* buscarVenda(char* cpf) {
     return NULL;
 }
 
-void exibirVenda(Venda* venda) {
-    if (venda == NULL) {
-        printf("Venda não encontrada!\n");
-    } else {
-        printf("\n- - - Detalhes da Venda - - -\n");
-        printf("CPF do cliente: %s\n", venda->cpfCliente);
-        printf("Código do produto: %s\n", venda->codigoProduto);
-        printf("Quantidade: %d\n", venda->quantidade);
-        printf("Valor total: %.2f\n", venda->valorTotal);
-        printf("Data da venda: %s\n", venda->data);
+void regravarVenda(Venda* venda) {
+    FILE* fp = fopen("vendas.dat", "rb+");
+    if (fp == NULL) {
+        printf("Erro ao abrir o arquivo de vendas.\n");
+        return;
     }
-    printf("\n\nTecle <ENTER> para continuar...");
-    getchar();
+
+    Venda temp;
+    while (fread(&temp, sizeof(Venda), 1, fp)) {
+        if (temp.numeroVenda == venda->numeroVenda) {
+            fseek(fp, -sizeof(Venda), SEEK_CUR);
+            fwrite(venda, sizeof(Venda), 1, fp);
+            fclose(fp);
+            return;
+        }
+    }
+    fclose(fp);
 }
 
+void excluirVendaLogica(int numeroVenda) {
+    Venda* venda = buscarVendaPorNumero(numeroVenda);
+    if (venda) {
+        venda->status = 0;
+        regravarVenda(venda);
+        free(venda);
+    }
+}
+
+void exibirVenda(const Venda* venda) {
+    printf("\nDetalhes da Venda:\n");
+    printf("Número da Venda: %d\n", venda->numeroVenda);
+    printf("CPF do Cliente: %s\n", venda->cpfCliente);
+    printf("Código do Produto: %s\n", venda->codigoProduto);
+    printf("Quantidade: %d\n", venda->quantidade);
+    printf("Valor Total: %.2f\n", venda->valorTotal);
+    printf("Data: %s\n", venda->data);
+}
+
+int obterNumeroVenda() {
+    FILE* fp = fopen("vendas.dat", "rb");
+    if (!fp) return 1;  // Começa do 1 se o arquivo não existir
+
+    Venda venda;
+    int ultimoNumero = 0;
+
+    while (fread(&venda, sizeof(Venda), 1, fp)) {
+        if (venda.numeroVenda > ultimoNumero) {
+            ultimoNumero = venda.numeroVenda;
+        }
+    }
+
+    fclose(fp);
+    return ultimoNumero + 1;  // Próximo número da venda
+}
