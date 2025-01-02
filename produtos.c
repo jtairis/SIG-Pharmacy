@@ -10,7 +10,7 @@ typedef struct produto Produto;
 void moduloproduto(void) {
     int opcao;
     do {
-        opcao = tela_menu_produto();  // Função que exibe o menu e retorna a escolha
+        opcao = tela_menu_produto();
         switch(opcao) {
             case 1:
                 cadastrarProduto();
@@ -29,10 +29,10 @@ void moduloproduto(void) {
                 break;
             default:
                 printf("\nOpção inválida! Tente novamente.\n");
-                getchar();  // Pausa para o usuário ler a mensagem
+                getchar();
                 break;
         } 		
-    } while (opcao != 0);  // Continua até que o usuário escolha a opção 0
+    } while (opcao != 0);
 }
 
 void cadastrarProduto(void) {
@@ -62,7 +62,7 @@ void atualizarProduto(void) {
     } else {
         printf("\nProduto encontrado! Atualizando dados...\n");
         prod = tela_cadastrar_produto();
-        strcpy(prod->codigo, codigo);  // Mantém o código original
+        strcpy(prod->codigo, codigo);
         regravarProduto(prod);
         free(prod);
     }
@@ -74,10 +74,8 @@ void excluirProduto(void) {
     char* codigo;
     char opcao;
 
-    // Solicita o código do produto a ser excluído
     codigo = tela_excluir_produto();
 
-    // Busca o produto no arquivo
     prod = buscarProduto(codigo);
 
     if (prod == NULL) {
@@ -103,7 +101,6 @@ void excluirProduto(void) {
     free(codigo);
 }
 
-// Função para mostrar o menu de produtos
 int tela_menu_produto() {
     int op;
     system("clear||cls");
@@ -124,7 +121,6 @@ int tela_menu_produto() {
     return op;
 }
 
-// Função para cadastrar produto
 Produto* tela_cadastrar_produto(void) {
     Produto *prod = (Produto*) malloc(sizeof(Produto));
     printf("\n");
@@ -173,6 +169,12 @@ Produto* tela_cadastrar_produto(void) {
 // Função para pesquisar produto
 char* tela_pesquisar_produto(void) {
     char* codigo = (char*) malloc(12 * sizeof(char));
+    printf("\n");
+    printf("---------------------------------------------------------------------------\n");
+    printf("          - - - - Sistema de Gestão SIG-PHARMACY - - - - - \n");
+    printf("---------------------------------------------------------------------------\n");
+    printf("               - - - - - Pesquisar Produto - - - - - \n");
+    printf("---------------------------------------------------------------------------\n");
     printf("Informe o código do produto: ");
     scanf("%11[^\n]", codigo);
     getchar();  
@@ -182,6 +184,12 @@ char* tela_pesquisar_produto(void) {
 // Função para atualizar produto
 char* tela_atualizar_produto(void) {
     char* codigo = (char*) malloc(12 * sizeof(char));
+    printf("\n");
+    printf("---------------------------------------------------------------------------\n");
+    printf("          - - - - Sistema de Gestão SIG-PHARMACY - - - - - \n");
+    printf("---------------------------------------------------------------------------\n");
+    printf("               - - - - - Atualizar Produto - - - - - \n");
+    printf("---------------------------------------------------------------------------\n");
     printf("Informe o código do produto: ");
     scanf("%11[^\n]", codigo);
     getchar();
@@ -191,6 +199,12 @@ char* tela_atualizar_produto(void) {
 // Função para excluir produto
 char* tela_excluir_produto(void) {
     char* codigo = (char*) malloc(12 * sizeof(char));
+    printf("\n");
+    printf("---------------------------------------------------------------------------\n");
+    printf("          - - - - Sistema de Gestão SIG-PHARMACY - - - - - \n");
+    printf("---------------------------------------------------------------------------\n");
+    printf("               - - - - - Excluir Produto - - - - - \n");
+    printf("---------------------------------------------------------------------------\n");
     printf("Informe o código do produto: ");
     scanf("%11[^\n]", codigo);
     getchar();
@@ -256,8 +270,8 @@ void regravarProduto(Produto* prod) {
     while (fread(prodLido, sizeof(Produto), 1, fp) && !achou) {
         if (strcmp(prodLido->codigo, prod->codigo) == 0) {
             achou = 1;
-            fseek(fp, -1 * sizeof(Produto), SEEK_CUR);  // Voltar para o começo do registro
-            fwrite(prod, sizeof(Produto), 1, fp);  // Sobrescrever com os novos dados
+            fseek(fp, -1 * sizeof(Produto), SEEK_CUR);
+            fwrite(prod, sizeof(Produto), 1, fp);
         }
     }
     fclose(fp);

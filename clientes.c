@@ -6,7 +6,7 @@
 void modulocliente(void) {
     int opcao;
     do {
-        opcao = tela_menu_cliente();  // Função que exibe o menu e retorna a escolha
+        opcao = tela_menu_cliente();
         switch(opcao) {
             case 1:
                 cadastrarCliente();
@@ -25,10 +25,10 @@ void modulocliente(void) {
                 break;
             default:
                 printf("\nOpção inválida! Tente novamente.\n");
-                getchar();  // Pausa para o usuário ler a mensagem
+                getchar();
                 break;
         }        
-    } while (opcao != 0);  // Continua até que o usuário escolha a opção 0
+    } while (opcao != 0);
 }
 
 void cadastrarCliente(void) {
@@ -148,6 +148,12 @@ Cliente* tela_cadastrar_cliente(void) {
 
 char* tela_pesquisar_cliente(void) {
     char* cpf = (char*) malloc(15 * sizeof(char));
+    printf("\n");
+    printf("---------------------------------------------------------------------------\n");
+    printf("          - - - - Sistema de Gestão SIG-PHARMACY - - - - - \n");
+    printf("---------------------------------------------------------------------------\n");
+    printf("               - - - - - Pesquisar Cliente - - - - - \n");
+    printf("---------------------------------------------------------------------------\n");
     printf("Informe o CPF do cliente: ");
     scanf("%14[^\n]", cpf);
     getchar();  
@@ -156,6 +162,12 @@ char* tela_pesquisar_cliente(void) {
 
 char* tela_atualizar_cliente(void) {
     char* cpf = (char*) malloc(15 * sizeof(char));
+    printf("\n");
+    printf("---------------------------------------------------------------------------\n");
+    printf("          - - - - Sistema de Gestão SIG-PHARMACY - - - - - \n");
+    printf("---------------------------------------------------------------------------\n");
+    printf("               - - - - - Atualizar Cliente - - - - - \n");
+    printf("---------------------------------------------------------------------------\n");
     printf("Informe o CPF do cliente: ");
     scanf("%14[^\n]", cpf);
     getchar();
@@ -164,6 +176,12 @@ char* tela_atualizar_cliente(void) {
 
 char* tela_excluir_cliente(void) {
     char* cpf = (char*) malloc(15 * sizeof(char));
+    printf("\n");
+    printf("---------------------------------------------------------------------------\n");
+    printf("          - - - - Sistema de Gestão SIG-PHARMACY - - - - - \n");
+    printf("---------------------------------------------------------------------------\n");
+    printf("               - - - - - Excluir Cliente - - - - - \n");
+    printf("---------------------------------------------------------------------------\n");
     printf("Informe o CPF do cliente: ");
     scanf("%14[^\n]", cpf);
     getchar();
@@ -208,7 +226,6 @@ void exibirCliente(Cliente* cli) {
         printf("Telefone: %s\n", cli->tele);
         printf("E-mail: %s\n", cli->email);
         printf("Data de nascimento: %s\n", cli->data);
-        printf("Status: %d\n", cli->status);
     }
     printf("\n\nTecle ENTER para continuar!\n");
     getchar();

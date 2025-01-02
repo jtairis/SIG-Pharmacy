@@ -89,7 +89,7 @@ Venda* tela_cadastrar_venda(void) {
         printf("----- Quantidade desejada: ");
         if (scanf("%d", &venda->quantidade) != 1 || venda->quantidade <= 0) {
             printf("Quantidade inválida! Deve ser um número positivo.\n");
-            while (getchar() != '\n'); // Limpar o buffer
+            while (getchar() != '\n');
         }
     } while (venda->quantidade <= 0);
 
@@ -105,9 +105,8 @@ Venda* tela_cadastrar_venda(void) {
     } while (!validar_data(venda->data));
 
     venda->numeroVenda = obterNumeroVenda();
-    venda->status = 1;  // Venda ativa
+    venda->status = 1;
 
-    // Chama a função de gravar a venda
     gravarVenda(venda);
     printf("Venda cadastrada com sucesso!\n");
 
@@ -116,6 +115,12 @@ Venda* tela_cadastrar_venda(void) {
 
 void tela_pesquisar_venda(void) {
     int numeroVenda;
+    printf("\n");
+    printf("---------------------------------------------------------------------------\n");
+    printf("          - - - - Sistema de Gestão SIG-PHARMACY - - - - - \n");
+    printf("---------------------------------------------------------------------------\n");
+    printf("               - - - - - Pesquisar Venda - - - - - \n");
+    printf("---------------------------------------------------------------------------\n");
     printf("Digite o número da venda para pesquisar: ");
     scanf("%d", &numeroVenda);
 
@@ -134,6 +139,12 @@ void tela_pesquisar_venda(void) {
 
 void tela_atualizar_venda(void) {
     int numeroVenda;
+    printf("\n");
+    printf("---------------------------------------------------------------------------\n");
+    printf("          - - - - Sistema de Gestão SIG-PHARMACY - - - - - \n");
+    printf("---------------------------------------------------------------------------\n");
+    printf("               - - - - - Atualizar Venda - - - - - \n");
+    printf("---------------------------------------------------------------------------\n");
     printf("Digite o número da venda para atualizar: ");
     scanf("%d", &numeroVenda);
 
@@ -165,6 +176,12 @@ void tela_atualizar_venda(void) {
 
 void tela_excluir_venda(void) {
     int numeroVenda;
+    printf("\n");
+    printf("---------------------------------------------------------------------------\n");
+    printf("          - - - - Sistema de Gestão SIG-PHARMACY - - - - - \n");
+    printf("---------------------------------------------------------------------------\n");
+    printf("               - - - - - Excluir Venda - - - - - \n");
+    printf("---------------------------------------------------------------------------\n");
     printf("Digite o número da venda para excluir: ");
     scanf("%d", &numeroVenda);
 
@@ -259,7 +276,7 @@ void exibirVenda(const Venda* venda) {
 
 int obterNumeroVenda() {
     FILE* fp = fopen("vendas.dat", "rb");
-    if (!fp) return 1;  // Começa do 1 se o arquivo não existir
+    if (!fp) return 1;
 
     Venda venda;
     int ultimoNumero = 0;
@@ -271,5 +288,5 @@ int obterNumeroVenda() {
     }
 
     fclose(fp);
-    return ultimoNumero + 1;  // Próximo número da venda
+    return ultimoNumero + 1;
 }

@@ -131,7 +131,6 @@ void relatorioProdutosPorFaixaPreco(void) {
     printf("Informe o valor máximo: ");
     scanf("%f", &valorMax);
 
-    // Verifica se o valor mínimo é maior que o valor máximo
     if (valorMin > valorMax) {
         printf("Erro: O valor mínimo não pode ser maior que o valor máximo.\n");
         return;
@@ -144,7 +143,7 @@ void relatorioProdutosPorFaixaPreco(void) {
     }
 
     Produto prod;
-    int produtosEncontrados = 0;  // Variável para verificar se encontramos produtos que atendem ao critério
+    int produtosEncontrados = 0;
 
     printf("\n----------------------------------------------------\n");
     printf("   Relatório de Produtos na Faixa de Preço R$ %.2f - %.2f\n", valorMin, valorMax);
@@ -365,31 +364,52 @@ void tela_relatorios_vendas(void) {
 }
 
 void relatorioGeralVendas(void) {
-    FILE *fp = fopen("vendas.dat", "rb");
-    if (fp == NULL) {
-        printf("Erro ao abrir o arquivo de vendas!\n");
+    FILE *fpVendas = fopen("vendas.dat", "rb");
+    FILE *fpClientes = fopen("Cliente.dat", "rb");
+    FILE *fpProdutos = fopen("Produto.dat", "rb");
+
+    if (fpVendas == NULL || fpClientes == NULL || fpProdutos == NULL) {
+        printf("Erro ao abrir os arquivos!\n");
         return;
     }
 
     Venda venda;
+    Cliente cli;
+    Produto prod;
+
     printf("\n----------------------------------------------------\n");
     printf("               Relatório Geral de Vendas            \n");
     printf("----------------------------------------------------\n");
 
-    while (fread(&venda, sizeof(Venda), 1, fp)) {
+    while (fread(&venda, sizeof(Venda), 1, fpVendas)) {
         if (venda.status == 1) {
+            fseek(fpClientes, 0, SEEK_SET);
+            while (fread(&cli, sizeof(Cliente), 1, fpClientes)) {
+                if (cli.status == 1 && strcmp(cli.cpf, venda.cpfCliente) == 0) {
+                    break;
+                }
+            }
+
+            fseek(fpProdutos, 0, SEEK_SET);
+            while (fread(&prod, sizeof(Produto), 1, fpProdutos)) {
+                if (prod.status == 1 && strcmp(prod.codigo, venda.codigo) == 0) {
+                    break;
+                }
+            }
+
             printf("Número da Venda: %d\n", venda.numeroVenda);
-            printf("CPF do Cliente: %s\n", venda.cpfCliente);
-            printf("Código do Produto: %s\n", venda.codigo);
+            printf("Cliente: %s\n", cli.nome);
+            printf("Produto: %s\n", prod.nome);
             printf("Quantidade: %d\n", venda.quantidade);
             printf("Valor Total: %.2f\n", venda.valorTotal);
             printf("Data: %s\n", venda.data);
-            
             printf("----------------------------------------------------\n");
         }
     }
 
-    fclose(fp);
+    fclose(fpVendas);
+    fclose(fpClientes);
+    fclose(fpProdutos);
     printf("\nPressione <ENTER> para continuar...");
     getchar();
 }
@@ -401,24 +421,43 @@ void relatorioVendasPorCliente(void) {
     scanf("%11s", cpf);
     getchar();
 
-    FILE *fp = fopen("vendas.dat", "rb");
-    if (fp == NULL) {
-        printf("Erro ao abrir o arquivo de vendas!\n");
+    FILE *fpVendas = fopen("vendas.dat", "rb");
+    FILE *fpClientes = fopen("Cliente.dat", "rb");
+    FILE *fpProdutos = fopen("Produto.dat", "rb");
+
+    if (fpVendas == NULL || fpClientes == NULL || fpProdutos == NULL) {
+        printf("Erro ao abrir os arquivos!\n");
         return;
     }
 
     Venda venda;
+    Cliente cli;
+    Produto prod;
     int vendasEncontradas = 0;
 
     printf("\n----------------------------------------------------\n");
     printf("               Relatório de Vendas por Cliente       \n");
     printf("----------------------------------------------------\n");
 
-    while (fread(&venda, sizeof(Venda), 1, fp)) {
+    while (fread(&venda, sizeof(Venda), 1, fpVendas)) {
         if (venda.status == 1 && strcmp(venda.cpfCliente, cpf) == 0) {
+            fseek(fpClientes, 0, SEEK_SET);
+            while (fread(&cli, sizeof(Cliente), 1, fpClientes)) {
+                if (cli.status == 1 && strcmp(cli.cpf, venda.cpfCliente) == 0) {
+                    break;
+                }
+            }
+
+            fseek(fpProdutos, 0, SEEK_SET);
+            while (fread(&prod, sizeof(Produto), 1, fpProdutos)) {
+                if (prod.status == 1 && strcmp(prod.codigo, venda.codigo) == 0) {
+                    break;
+                }
+            }
+
             printf("Número da Venda: %d\n", venda.numeroVenda);
-            printf("CPF do Cliente: %s\n", venda.cpfCliente);
-            printf("Código do Produto: %s\n", venda.codigo);
+            printf("Cliente: %s\n", cli.nome);
+            printf("Produto: %s\n", prod.nome);
             printf("Quantidade: %d\n", venda.quantidade);
             printf("Valor Total: %.2f\n", venda.valorTotal);
             printf("Data: %s\n", venda.data);
@@ -431,7 +470,9 @@ void relatorioVendasPorCliente(void) {
         printf("Nenhuma venda encontrada para o CPF informado.\n");
     }
 
-    fclose(fp);
+    fclose(fpVendas);
+    fclose(fpClientes);
+    fclose(fpProdutos);
     printf("\nPressione <ENTER> para continuar...");
     getchar();
 }
@@ -442,24 +483,43 @@ void relatorioVendasPorData(void) {
     scanf("%10s", data);
     getchar();
 
-    FILE *fp = fopen("vendas.dat", "rb");
-    if (fp == NULL) {
-        printf("Erro ao abrir o arquivo de vendas!\n");
+    FILE *fpVendas = fopen("vendas.dat", "rb");
+    FILE *fpClientes = fopen("Cliente.dat", "rb");
+    FILE *fpProdutos = fopen("Produto.dat", "rb");
+
+    if (fpVendas == NULL || fpClientes == NULL || fpProdutos == NULL) {
+        printf("Erro ao abrir os arquivos!\n");
         return;
     }
 
     Venda venda;
+    Cliente cli;
+    Produto prod;
     int vendasEncontradas = 0;
 
     printf("\n----------------------------------------------------\n");
     printf("               Relatório de Vendas por Data          \n");
     printf("----------------------------------------------------\n");
 
-    while (fread(&venda, sizeof(Venda), 1, fp)) {
+    while (fread(&venda, sizeof(Venda), 1, fpVendas)) {
         if (venda.status == 1 && strcmp(venda.data, data) == 0) {
+            fseek(fpClientes, 0, SEEK_SET);
+            while (fread(&cli, sizeof(Cliente), 1, fpClientes)) {
+                if (cli.status == 1 && strcmp(cli.cpf, venda.cpfCliente) == 0) {
+                    break;
+                }
+            }
+
+            fseek(fpProdutos, 0, SEEK_SET);
+            while (fread(&prod, sizeof(Produto), 1, fpProdutos)) {
+                if (prod.status == 1 && strcmp(prod.codigo, venda.codigo) == 0) {
+                    break;
+                }
+            }
+
             printf("Número da Venda: %d\n", venda.numeroVenda);
-            printf("CPF do Cliente: %s\n", venda.cpfCliente);
-            printf("Código do Produto: %s\n", venda.codigo);
+            printf("Cliente: %s\n", cli.nome);
+            printf("Produto: %s\n", prod.nome);
             printf("Quantidade: %d\n", venda.quantidade);
             printf("Valor Total: %.2f\n", venda.valorTotal);
             printf("Data: %s\n", venda.data);
@@ -472,7 +532,9 @@ void relatorioVendasPorData(void) {
         printf("Nenhuma venda encontrada para a data informada.\n");
     }
 
-    fclose(fp);
+    fclose(fpVendas);
+    fclose(fpClientes);
+    fclose(fpProdutos);
     printf("\nPressione <ENTER> para continuar...");
     getchar();
 }
