@@ -11,3 +11,6 @@ void relatorioGeralProdutos(void);
 void relatorioProdutosPorDataValidade(void);
 void relatorioGeralClientes(void);
 void relatorioClientesPorData(void);
+void relatorioGeralVendas(void);
+void relatorioVendasPorCliente(void);
+void relatorioVendasPorData(void);

@@ -4,6 +4,7 @@
 #include "vendas.h"
 #include "clientes.h"
 #include "produtos.h"
+#include "valida.h"
 
 void modulovenda(void) {
     int opcao;
@@ -51,42 +52,66 @@ int tela_menu_venda(void) {
     return op;
 }
 
-void tela_cadastrar_venda(void) {
-    Venda venda;
-    char cpf[12], codigo[8];
+Venda* tela_cadastrar_venda(void) {
+    Venda* venda = (Venda*) malloc(sizeof(Venda));
+    printf("\n");
+    printf("---------------------------------------------------------------------------\n");
+    printf("          - - - - Sistema de Gestão SIG-PHARMACY - - - - - \n");
+    printf("---------------------------------------------------------------------------\n");
+    printf("               - - - - - Cadastrar Nova Venda - - - - - \n");
+    printf("---------------------------------------------------------------------------\n");
 
-    printf("CPF do cliente: ");
-    scanf("%11s", cpf);
+    do {
+        printf("----- CPF do cliente (11 dígitos): ");
+        scanf("%11s", venda->cpfCliente);  
+        getchar();
+        if (!validar_cpf(venda->cpfCliente)) {
+            printf("CPF inválido! Certifique-se de inserir 11 dígitos.\n");
+        } else if (buscarCliente(venda->cpfCliente) == NULL) {
+            printf("Cliente não encontrado!\n");
+        }
+    } while (!validar_cpf(venda->cpfCliente) || buscarCliente(venda->cpfCliente) == NULL);
 
-    if (buscarCliente(cpf) == NULL) {
-        printf("Cliente não encontrado!\n");
-        return;
-    }
+    do {
+        printf("----- Código do produto (7 dígitos): ");
+        scanf("%7s", venda->codigo);  
+        getchar();
+        if (!validar_codigo(venda->codigo)) {
+            printf("Código inválido! Deve conter exatamente 7 caracteres numéricos.\n");
+        } else if (buscarProduto(venda->codigo) == NULL) {
+            printf("Produto não encontrado!\n");
+        }
+    } while (!validar_codigo(venda->codigo) || buscarProduto(venda->codigo) == NULL);
 
-    printf("Código do produto: ");
-    scanf("%7s", codigo);
+    Produto* prod = buscarProduto(venda->codigo);
 
-    Produto* prod = buscarProduto(codigo);
-    if (prod == NULL) {
-        printf("Produto não encontrado!\n");
-        return;
-    }
+    do {
+        printf("----- Quantidade desejada: ");
+        if (scanf("%d", &venda->quantidade) != 1 || venda->quantidade <= 0) {
+            printf("Quantidade inválida! Deve ser um número positivo.\n");
+            while (getchar() != '\n'); // Limpar o buffer
+        }
+    } while (venda->quantidade <= 0);
 
-    printf("Quantidade desejada: ");
-    scanf("%d", &venda.quantidade);
+    venda->valorTotal = prod->valor * venda->quantidade;
 
-    venda.valorTotal = prod->valor * venda.quantidade;
-    venda.numeroVenda = obterNumeroVenda();
-    venda.status = 1;  // Venda ativa
-    strcpy(venda.cpfCliente, cpf);
-    strcpy(venda.codigoProduto, codigo);
+    do {
+        printf("----- Data da compra (dd/mm/aaaa): ");
+        scanf("%10s", venda->data);  
+        getchar();
+        if (!validar_data(venda->data)) {
+            printf("Data inválida! Use o formato dd/mm/aaaa.\n");
+        }
+    } while (!validar_data(venda->data));
 
-    printf("Data da compra (dd/mm/aaaa): ");
-    scanf("%10s", venda.data);
+    venda->numeroVenda = obterNumeroVenda();
+    venda->status = 1;  // Venda ativa
 
-    gravarVenda(&venda);
-    printf("\nVenda cadastrada com sucesso! Número da venda: %d\n", venda.numeroVenda);
-    getchar();
+    // Chama a função de gravar a venda
+    gravarVenda(venda);
+    printf("Venda cadastrada com sucesso!\n");
+
+    return venda;
 }
 
 void tela_pesquisar_venda(void) {
@@ -121,7 +146,7 @@ void tela_atualizar_venda(void) {
     printf("Digite a nova quantidade: ");
     scanf("%d", &venda->quantidade);
 
-    Produto* prod = buscarProduto(venda->codigoProduto);
+    Produto* prod = buscarProduto(venda->codigo);
     if (prod) {
         venda->valorTotal = prod->valor * venda->quantidade;
     }
@@ -226,7 +251,7 @@ void exibirVenda(const Venda* venda) {
     printf("\nDetalhes da Venda:\n");
     printf("Número da Venda: %d\n", venda->numeroVenda);
     printf("CPF do Cliente: %s\n", venda->cpfCliente);
-    printf("Código do Produto: %s\n", venda->codigoProduto);
+    printf("Código do Produto: %s\n", venda->codigo);
     printf("Quantidade: %d\n", venda->quantidade);
     printf("Valor Total: %.2f\n", venda->valorTotal);
     printf("Data: %s\n", venda->data);

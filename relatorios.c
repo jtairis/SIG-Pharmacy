@@ -326,15 +326,153 @@ void relatorioClientesPorData(void) {
 
 
 void tela_relatorios_vendas(void) {
-    system("clear||cls");
-    printf("\n");
-    printf("-------------------------------------------------------------------------- \n");
-    printf("          - - - - - Sistema de Gestão SIG-PHARMACY - - - - -               \n");
-    printf("---------------------------------------------------------------------------\n");
-    printf("                 - - - - - Relatórios de Vendas - - - - -                  \n");
+    int opcao;
+    do {
+        system("clear||cls");
+        printf("\n");
+        printf("-------------------------------------------------------------------------- \n");
+        printf("          - - - - - Sistema de Gestão SIG-PHARMACY - - - - -               \n");
+        printf("---------------------------------------------------------------------------\n");
+        printf("                 - - - - - Relatórios de Vendas - - - - -                  \n");
+        printf("---------------------------------------------------------------------------\n");
+        printf("           1. Relatório Geral de Vendas                                    \n");
+        printf("           2. Relatório de Vendas por Cliente (CPF)                        \n");
+        printf("           3. Relatório de Vendas por Data                                 \n");
+        printf("           0. Voltar ao Menu de Relatórios                                 \n");
+        printf("---------------------------------------------------------------------------\n");
+        printf("           Digite o número da sua opção:                                   \n");
+        scanf("%d", &opcao);
+        getchar();
+
+        switch(opcao) {
+            case 1:
+                relatorioGeralVendas();
+                break;
+            case 2:
+                relatorioVendasPorCliente();
+                break;
+            case 3:
+                relatorioVendasPorData();
+                break;
+            case 0:
+                printf("\nVoltando ao menu de relatórios...\n");
+                break;
+            default:
+                printf("\nOpção inválida! Tente novamente.\n");
+                break;
+        }
+    } while (opcao != 0);
+}
+
+void relatorioGeralVendas(void) {
+    FILE *fp = fopen("vendas.dat", "rb");
+    if (fp == NULL) {
+        printf("Erro ao abrir o arquivo de vendas!\n");
+        return;
+    }
+
+    Venda venda;
+    printf("\n----------------------------------------------------\n");
+    printf("               Relatório Geral de Vendas            \n");
+    printf("----------------------------------------------------\n");
+
+    while (fread(&venda, sizeof(Venda), 1, fp)) {
+        if (venda.status == 1) {
+            printf("Número da Venda: %d\n", venda.numeroVenda);
+            printf("CPF do Cliente: %s\n", venda.cpfCliente);
+            printf("Código do Produto: %s\n", venda.codigo);
+            printf("Quantidade: %d\n", venda.quantidade);
+            printf("Valor Total: %.2f\n", venda.valorTotal);
+            printf("Data: %s\n", venda.data);
+            
+            printf("----------------------------------------------------\n");
+        }
+    }
+
+    fclose(fp);
+    printf("\nPressione <ENTER> para continuar...");
     getchar();
-    printf("---------------------------------------------------------------------------\n");
-    printf("\n");
-    printf("\t\t\t>>> Tecle <ENTER> para continuar...");
+}
+
+
+void relatorioVendasPorCliente(void) {
+    char cpf[12];
+    printf("Informe o CPF do cliente (somente números): ");
+    scanf("%11s", cpf);
+    getchar();
+
+    FILE *fp = fopen("vendas.dat", "rb");
+    if (fp == NULL) {
+        printf("Erro ao abrir o arquivo de vendas!\n");
+        return;
+    }
+
+    Venda venda;
+    int vendasEncontradas = 0;
+
+    printf("\n----------------------------------------------------\n");
+    printf("               Relatório de Vendas por Cliente       \n");
+    printf("----------------------------------------------------\n");
+
+    while (fread(&venda, sizeof(Venda), 1, fp)) {
+        if (venda.status == 1 && strcmp(venda.cpfCliente, cpf) == 0) {
+            printf("Número da Venda: %d\n", venda.numeroVenda);
+            printf("CPF do Cliente: %s\n", venda.cpfCliente);
+            printf("Código do Produto: %s\n", venda.codigo);
+            printf("Quantidade: %d\n", venda.quantidade);
+            printf("Valor Total: %.2f\n", venda.valorTotal);
+            printf("Data: %s\n", venda.data);
+            printf("----------------------------------------------------\n");
+            vendasEncontradas = 1;
+        }
+    }
+
+    if (!vendasEncontradas) {
+        printf("Nenhuma venda encontrada para o CPF informado.\n");
+    }
+
+    fclose(fp);
+    printf("\nPressione <ENTER> para continuar...");
+    getchar();
+}
+
+void relatorioVendasPorData(void) {
+    char data[11];
+    printf("Informe a data da venda (formato DD/MM/AAAA): ");
+    scanf("%10s", data);
+    getchar();
+
+    FILE *fp = fopen("vendas.dat", "rb");
+    if (fp == NULL) {
+        printf("Erro ao abrir o arquivo de vendas!\n");
+        return;
+    }
+
+    Venda venda;
+    int vendasEncontradas = 0;
+
+    printf("\n----------------------------------------------------\n");
+    printf("               Relatório de Vendas por Data          \n");
+    printf("----------------------------------------------------\n");
+
+    while (fread(&venda, sizeof(Venda), 1, fp)) {
+        if (venda.status == 1 && strcmp(venda.data, data) == 0) {
+            printf("Número da Venda: %d\n", venda.numeroVenda);
+            printf("CPF do Cliente: %s\n", venda.cpfCliente);
+            printf("Código do Produto: %s\n", venda.codigo);
+            printf("Quantidade: %d\n", venda.quantidade);
+            printf("Valor Total: %.2f\n", venda.valorTotal);
+            printf("Data: %s\n", venda.data);
+            printf("----------------------------------------------------\n");
+            vendasEncontradas = 1;
+        }
+    }
+
+    if (!vendasEncontradas) {
+        printf("Nenhuma venda encontrada para a data informada.\n");
+    }
+
+    fclose(fp);
+    printf("\nPressione <ENTER> para continuar...");
     getchar();
 }
