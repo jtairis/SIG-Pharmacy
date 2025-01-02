@@ -8,7 +8,6 @@
 #include "relatorios.h"
 #include "valida.h"
 
-// Assinatura das funções
 
 int tela_menu_principal(void);
 void tela_final(void);
@@ -48,8 +47,6 @@ int main(void) {
 }
 
 
-
-// Funções
 
 int tela_menu_principal(void) {
     int op;
