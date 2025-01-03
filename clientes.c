@@ -61,9 +61,9 @@ void pesquisarCliente(void) {
 void atualizarCliente(void) {
     Cliente* cli;
     char* cpf;
-    cpf = tela_atualizar_cliente();  // Solicita o CPF para buscar o cliente.
+    cpf = tela_atualizar_cliente();
 
-    cli = buscarCliente(cpf);  // Busca o cliente com o CPF informado.
+    cli = buscarCliente(cpf);
 
     if (cli == NULL) {
         printf("\n\nCliente não encontrado!\n\n");
@@ -173,42 +173,37 @@ Cliente* tela_cadastrar_cliente(void) {
     printf("               - - - - - Cadastrar Novo Cliente - - - - - \n");
     printf("---------------------------------------------------------------------------\n");
 
-    // Validação do CPF
     do {
         printf("-----           CPF (apenas números): ");
         scanf("%14[^\n]", cli->cpf);
         getchar();
     } while (strlen(cli->cpf) == 0 || !validar_cpf(cli->cpf));
 
-    // Validação do Nome
     do {
         printf("----- Nome: ");
         scanf("%51[^\n]", cli->nome);
         getchar();
-    } while (strlen(cli->nome) == 0);  // Verifica se o nome não está vazio
+    } while (strlen(cli->nome) == 0);
 
-    // Validação do Telefone
     do {
         printf("----- Telefone: ");
         scanf("%12[^\n]", cli->tele);
         getchar();
-    } while (!validar_telefone(cli->tele));  // Verifica se o telefone é válido
+    } while (!validar_telefone(cli->tele));
 
-    // Validação do E-mail
     do {
         printf("----- E-mail: ");
         scanf("%30[^\n]", cli->email);
         getchar();
-    } while (!validar_email(cli->email));  // Verifica se o e-mail é válido
+    } while (!validar_email(cli->email));
 
-    // Validação da Data de Nascimento
     do {
         printf("----- Data de nascimento (dd/mm/aaaa): ");
         scanf("%10[^\n]", cli->data);
         getchar();
-    } while (!validar_data(cli->data));  // Verifica se a data está no formato correto
+    } while (!validar_data(cli->data));
 
-    cli->status = 1;  // Cliente ativo
+    cli->status = 1;
     return cli;
 }
 
@@ -308,8 +303,8 @@ void regravarCliente(Cliente* cli) {
     while (fread(cliLido, sizeof(Cliente), 1, fp) && !achou) {
         if (strcmp(cliLido->cpf, cli->cpf) == 0) {
             achou = 1;
-            fseek(fp, -1 * sizeof(Cliente), SEEK_CUR);  // Voltar para o começo do registro
-            fwrite(cli, sizeof(Cliente), 1, fp);  // Sobrescrever com os novos dados
+            fseek(fp, -1 * sizeof(Cliente), SEEK_CUR);
+            fwrite(cli, sizeof(Cliente), 1, fp);
         }
     }
     fclose(fp);

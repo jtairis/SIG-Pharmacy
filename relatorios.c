@@ -12,7 +12,7 @@
 void modulorelatorio(void) {
     int opcao;
     do {
-        opcao = tela_menu_relatorio();  // Função que exibe o menu e retorna a escolha
+        opcao = tela_menu_relatorio();
         switch(opcao) {
             case 1:
                 tela_relatorios_produtos();
@@ -28,7 +28,7 @@ void modulorelatorio(void) {
                 break;
             default:
                 printf("\nOpção inválida! Tente novamente.\n");
-                getchar();  // Pausa para o usuário ler a mensagem
+                getchar();
                 break;
         }
     } while (opcao != 0);

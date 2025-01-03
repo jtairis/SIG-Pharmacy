@@ -62,8 +62,8 @@ void atualizarProduto(void) {
         printf("\n\nProduto não encontrado!\n\n");
     } else {
         printf("\nProduto encontrado! Atualizando dados...\n");
-        exibirProduto(prod);  // Mostra os dados atuais antes de atualizar
-        atualizarDadosProduto(prod);  // Atualiza apenas os campos editáveis
+        exibirProduto(prod);
+        atualizarDadosProduto(prod);
         regravarProduto(prod);
         printf("\nProduto atualizado com sucesso!\n");
     }
@@ -290,8 +290,7 @@ void tela_erro(void) {
 int verificarCodigoExistente(char* codigo) {
     FILE* fp = fopen("Produto.dat", "rb");
     if (fp == NULL) {
-        // O arquivo ainda não existe, então não há códigos cadastrados
-        return 0; // Código não existe
+        return 0;
     }
 
     Produto* prod = (Produto*) malloc(sizeof(Produto));
@@ -299,12 +298,12 @@ int verificarCodigoExistente(char* codigo) {
         if (strcmp(prod->codigo, codigo) == 0 && prod->status == 1) {
             free(prod);
             fclose(fp);
-            return 1; // Código já existe
+            return 1;
         }
     }
     free(prod);
     fclose(fp);
-    return 0; // Código não existe
+    return 0;
 }
 
 void atualizarDadosProduto(Produto* prod) {
