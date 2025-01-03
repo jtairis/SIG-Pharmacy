@@ -122,7 +122,7 @@ int tela_menu_produto() {
 }
 
 Produto* tela_cadastrar_produto(void) {
-    Produto *prod = (Produto*) malloc(sizeof(Produto));
+    Produto* prod = (Produto*) malloc(sizeof(Produto));
     printf("\n");
     printf("---------------------------------------------------------------------------\n");
     printf("          - - - - Sistema de Gestão SIG-PHARMACY - - - - - \n");
@@ -282,4 +282,24 @@ void regravarProduto(Produto* prod) {
 void tela_erro(void) {
     printf("Erro! Não foi possível realizar a operação.\n");
     getchar();
+}
+
+int verificarCodigoExistente(char* codigo) {
+    FILE* fp = fopen("Produto.dat", "rb");
+    if (fp == NULL) {
+        // O arquivo ainda não existe, então não há códigos cadastrados
+        return 0; // Código não existe
+    }
+
+    Produto* prod = (Produto*) malloc(sizeof(Produto));
+    while (fread(prod, sizeof(Produto), 1, fp)) {
+        if (strcmp(prod->codigo, codigo) == 0 && prod->status == 1) {
+            free(prod);
+            fclose(fp);
+            return 1; // Código já existe
+        }
+    }
+    free(prod);
+    fclose(fp);
+    return 0; // Código não existe
 }

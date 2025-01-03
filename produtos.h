@@ -25,5 +25,5 @@ void gravarProduto(Produto* prod);
 Produto* buscarProduto(char* codigo);
 void exibirProduto(Produto* prod);
 void regravarProduto(Produto* prod);
-
+int verificarCodigoExistente(char* codigo);
 

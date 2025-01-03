@@ -1,6 +1,9 @@
 #include <stdio.h>
 #include <string.h>
 #include <ctype.h>
+#include "produtos.h"
+#include "vendas.h"
+#include "clientes.h"
 
 int validar_nome(char* nome) {
     return strlen(nome) > 0; // Nome não pode ser vazio
@@ -84,15 +87,20 @@ int validar_email(const char *email) {
 
 // Valida o código (somente números, 7 dígitos)
 int validar_codigo(char* codigo) {
-    // Verificar se o código possui exatamente 7 caracteres numéricos
-    if (strlen(codigo) != 7) {
-        return 0; // Código inválido
-    }
-    for (int i = 0; i < 7; i++) {
-        if (!isdigit(codigo[i])) {
-            return 0; // Se algum caractere não for número
+    // Verifique se o código contém apenas números
+    for (int i = 0; codigo[i] != '\0'; i++) {
+        if (codigo[i] < '0' || codigo[i] > '9') {
+            printf("Erro: O código deve conter apenas números.\n");
+            return 0; // Código inválido
         }
     }
+
+    // Verifique se o código já existe no arquivo
+    if (verificarCodigoExistente(codigo)) {
+        printf("Erro: Já existe um produto com o código %s.\n", codigo);
+        return 0; // Código inválido
+    }
+
     return 1; // Código válido
 }
 
