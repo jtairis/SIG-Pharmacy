@@ -57,15 +57,18 @@ void atualizarProduto(void) {
     char* codigo;
     codigo = tela_atualizar_produto();
     prod = buscarProduto(codigo);
+
     if (prod == NULL) {
         printf("\n\nProduto não encontrado!\n\n");
     } else {
         printf("\nProduto encontrado! Atualizando dados...\n");
-        prod = tela_cadastrar_produto();
-        strcpy(prod->codigo, codigo);
+        exibirProduto(prod);  // Mostra os dados atuais antes de atualizar
+        atualizarDadosProduto(prod);  // Atualiza apenas os campos editáveis
         regravarProduto(prod);
-        free(prod);
+        printf("\nProduto atualizado com sucesso!\n");
     }
+
+    free(prod);
     free(codigo);
 }
 
@@ -302,4 +305,30 @@ int verificarCodigoExistente(char* codigo) {
     free(prod);
     fclose(fp);
     return 0; // Código não existe
+}
+
+void atualizarDadosProduto(Produto* prod) {
+    do {
+        printf("----- Nome do produto (%s): ", prod->nome);
+        scanf("%50[^\n]", prod->nome);  
+        getchar();
+    } while (!validar_nome(prod->nome));
+
+    do {
+        printf("----- Valor (%.2f): ", prod->valor);
+        scanf("%f", &prod->valor);  
+        getchar();
+    } while (!validar_valor(prod->valor));
+
+    do {
+        printf("----- Data de validade (%s): ", prod->data);
+        scanf("%10s", prod->data);  
+        getchar();
+    } while (!validar_data(prod->data));
+
+    do {
+        printf("----- Descrição (%s): ", prod->descricao);
+        scanf("%100[^\n]", prod->descricao);  
+        getchar();
+    } while (!validar_descricao(prod->descricao));
 }
