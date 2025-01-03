@@ -151,3 +151,49 @@ int validar_descricao(char* descricao) {
     return strlen(descricao) > 0; // Descrição não pode ser vazia
 }
 
+int validar_cpf_venda(char* cpf) {
+    // Verifica se o CPF tem 11 caracteres e se são todos números
+    if (strlen(cpf) != 11) {
+        printf("Erro: CPF deve ter 11 dígitos.\n");
+        return 0; // CPF inválido devido ao número de dígitos
+    }
+
+    for (int i = 0; i < 11; i++) {
+        if (!isdigit(cpf[i])) {
+            printf("Erro: O CPF deve conter apenas números.\n");
+            return 0; // CPF inválido devido a caracteres não numéricos
+        }
+    }
+
+    // Verifica se o cliente existe
+    if (buscarCliente(cpf) == NULL) {
+        printf("Erro: Cliente não encontrado!\n");
+        return 0; // Cliente não encontrado
+    }
+
+    return 1; // CPF válido e cliente encontrado
+}
+
+int validar_codigo_venda(char* codigo) {
+    // Verifica se o código tem 7 caracteres
+    if (strlen(codigo) != 7) {
+        printf("Erro: Código de produto deve ter 7 dígitos.\n");
+        return 0;
+    }
+
+    // Verifica se o código contém apenas números
+    for (int i = 0; i < 7; i++) {
+        if (!isdigit(codigo[i])) {
+            printf("Erro: O código de produto deve conter apenas números.\n");
+            return 0;
+        }
+    }
+
+    // Verifica se o produto existe no estoque
+    if (buscarProduto(codigo) == NULL) {
+        printf("Erro: Produto não encontrado!\n");
+        return 0;
+    }
+
+    return 1; // Código válido e produto encontrado
+}
