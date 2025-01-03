@@ -250,7 +250,7 @@ char* tela_excluir_cliente(void) {
 }
 
 void gravarCliente(Cliente* cli) {
-    FILE* fp = fopen("Cliente.dat", "ab");
+    FILE* fp = fopen("Cliente.dat", "ab"); // "ab" cria o arquivo caso ele não exista
     if (fp == NULL) {
         printf("Erro ao abrir o arquivo para gravação!\n");
         return;
@@ -262,9 +262,19 @@ void gravarCliente(Cliente* cli) {
 Cliente* buscarCliente(const char* cpf) {
     FILE* fp = fopen("Cliente.dat", "rb");
     if (fp == NULL) {
-        printf("Erro ao abrir o arquivo para leitura!\n");
+        // Arquivo não existe, ou houve erro na abertura
+        printf("Arquivo não encontrado. Criando arquivo...\n");
+        
+        // Tenta criar o arquivo e retornar NULL
+        FILE* create_fp = fopen("Cliente.dat", "wb");
+        if (create_fp == NULL) {
+            printf("Erro ao criar o arquivo Cliente.dat!\n");
+            return NULL;
+        }
+        fclose(create_fp); // Fecha o arquivo criado e retorna NULL
         return NULL;
     }
+
     Cliente* cli = (Cliente*) malloc(sizeof(Cliente));
     while (fread(cli, sizeof(Cliente), 1, fp)) {
         if (strcmp(cli->cpf, cpf) == 0 && cli->status == 1) {

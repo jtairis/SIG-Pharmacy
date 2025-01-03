@@ -124,6 +124,12 @@ int validar_email(const char *email) {
 
 // Valida o código (somente números, 7 dígitos)
 int validar_codigo(char* codigo) {
+    // Verifique se o comprimento do código é exatamente 7 dígitos
+    if (strlen(codigo) != 7) {
+        printf("Erro: O código deve conter exatamente 7 dígitos.\n");
+        return 0; // Código inválido
+    }
+
     // Verifique se o código contém apenas números
     for (int i = 0; codigo[i] != '\0'; i++) {
         if (codigo[i] < '0' || codigo[i] > '9') {
@@ -143,7 +149,13 @@ int validar_codigo(char* codigo) {
 
 // Valida o valor (aceita números e vírgula)
 int validar_valor(float valor) {
-    return valor > 0; // Valor deve ser positivo
+    // Verifica se o valor é positivo
+    if (valor > 0) {
+        return 1; // Valor válido
+    } else {
+        printf("Erro: O valor deve ser um número positivo.\n");
+        return 0; // Valor inválido
+    }
 }
 
 // Função para validar a descrição (somente letras e espaços)

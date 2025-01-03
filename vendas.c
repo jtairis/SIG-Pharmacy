@@ -200,7 +200,7 @@ void tela_excluir_venda(void) {
         scanf(" %c", &confirmacao);
         if (confirmacao == 's' || confirmacao == 'S') {
             excluirVendaLogica(numeroVenda);
-            printf("\nVenda excluída com sucesso (lógica).\n");
+            printf("\nVenda excluída com sucesso.\n");
         } else {
             printf("\nOperação de exclusão cancelada.\n");
         }

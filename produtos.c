@@ -134,31 +134,31 @@ Produto* tela_cadastrar_produto(void) {
     printf("---------------------------------------------------------------------------\n");
 
     do {
-        printf("----- Codigo (apenas números): ");
+        printf(" Codigo (apenas números): ");
         scanf("%7s", prod->codigo);  
     } while (!validar_codigo(prod->codigo));
     getchar();
 
     do {
-        printf("----- Nome do produto: ");
+        printf(" Nome do produto: ");
         scanf("%50[^\n]", prod->nome);  
         getchar();
     } while (!validar_nome(prod->nome));
 
     do {
-        printf("----- Valor: ");
+        printf(" Valor(1.50): ");
         scanf("%f", &prod->valor);  
         getchar();
     } while (!validar_valor(prod->valor));
 
     do {
-        printf("----- Data de validade (dd/mm/aaaa): ");
+        printf(" Data de validade (dd/mm/aaaa): ");
         scanf("%10s", prod->data);  
         getchar();
     } while (!validar_data(prod->data));
 
     do {
-        printf("----- Descrição: ");
+        printf(" Descrição: ");
         scanf("%100[^\n]", prod->descricao);  
         getchar();
     } while (!validar_descricao(prod->descricao));
@@ -308,25 +308,25 @@ int verificarCodigoExistente(char* codigo) {
 
 void atualizarDadosProduto(Produto* prod) {
     do {
-        printf("----- Nome do produto (%s): ", prod->nome);
+        printf(" Nome do produto (%s): ", prod->nome);
         scanf("%50[^\n]", prod->nome);  
         getchar();
     } while (!validar_nome(prod->nome));
 
     do {
-        printf("----- Valor (%.2f): ", prod->valor);
+        printf(" Valor (%.2f): ", prod->valor);
         scanf("%f", &prod->valor);  
         getchar();
     } while (!validar_valor(prod->valor));
 
     do {
-        printf("----- Data de validade (%s): ", prod->data);
+        printf(" Data de validade (%s): ", prod->data);
         scanf("%10s", prod->data);  
         getchar();
     } while (!validar_data(prod->data));
 
     do {
-        printf("----- Descrição (%s): ", prod->descricao);
+        printf(" Descrição (%s): ", prod->descricao);
         scanf("%100[^\n]", prod->descricao);  
         getchar();
     } while (!validar_descricao(prod->descricao));
