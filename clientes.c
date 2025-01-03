@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include "clientes.h"
+#include "valida.h"
 
 void modulocliente(void) {
     int opcao;
@@ -34,7 +35,16 @@ void modulocliente(void) {
 void cadastrarCliente(void) {
     Cliente *cli;
     cli = tela_cadastrar_cliente();
+
+    if (buscarCliente(cli->cpf) != NULL) {
+        printf("\nErro: O CPF %s já está cadastrado!\n", cli->cpf);
+        getchar();
+        free(cli);
+        return;
+    }
+
     gravarCliente(cli);
+    printf("\nCliente cadastrado com sucesso!\n");
     free(cli);
 }
 
@@ -51,17 +61,52 @@ void pesquisarCliente(void) {
 void atualizarCliente(void) {
     Cliente* cli;
     char* cpf;
-    cpf = tela_atualizar_cliente();
-    cli = buscarCliente(cpf);
+    cpf = tela_atualizar_cliente();  // Solicita o CPF para buscar o cliente.
+
+    cli = buscarCliente(cpf);  // Busca o cliente com o CPF informado.
+
     if (cli == NULL) {
         printf("\n\nCliente não encontrado!\n\n");
     } else {
         printf("\nCliente encontrado! Atualizando dados...\n");
-        cli = tela_cadastrar_cliente();
-        strcpy(cli->cpf, cpf);
-        regravarCliente(cli);
-        free(cli);
+
+        Cliente* novoCli = (Cliente*) malloc(sizeof(Cliente));
+        
+        do {
+            printf("----- Nome: ");
+            scanf("%51[^\n]", novoCli->nome);
+            getchar();
+        } while (strlen(novoCli->nome) == 0);
+
+        do {
+            printf("----- Telefone: ");
+            scanf("%12[^\n]", novoCli->tele);
+            getchar();
+        } while (!validar_telefone(novoCli->tele));
+
+        do {
+            printf("----- E-mail: ");
+            scanf("%30[^\n]", novoCli->email);
+            getchar();
+        } while (!validar_email(novoCli->email));
+
+        do {
+            printf("----- Data de nascimento (dd/mm/aaaa): ");
+            scanf("%10[^\n]", novoCli->data);
+            getchar();
+        } while (!validar_data(novoCli->data));
+
+        strcpy(novoCli->cpf, cpf);
+
+        novoCli->status = cli->status;
+
+        regravarCliente(novoCli);
+
+        printf("\nDados do cliente atualizados com sucesso!\n");
+        free(novoCli);
+        getchar();
     }
+
     free(cpf);
 }
 
@@ -88,8 +133,10 @@ void excluirCliente(void) {
             cli->status = 0;
             regravarCliente(cli);
             printf("\nCliente excluído com sucesso!\n");
+            getchar();
         } else {
             printf("\nA exclusão foi cancelada.\n");
+            getchar();
         }
     }
 
@@ -125,23 +172,42 @@ Cliente* tela_cadastrar_cliente(void) {
     printf("---------------------------------------------------------------------------\n");
     printf("               - - - - - Cadastrar Novo Cliente - - - - - \n");
     printf("---------------------------------------------------------------------------\n");
+
+    // Validação do CPF
     do {
         printf("-----           CPF (apenas números): ");
         scanf("%14[^\n]", cli->cpf);
         getchar();
-    } while (strlen(cli->cpf) == 0);
-    printf("----- Nome: ");
-    scanf("%51[^\n]", cli->nome);
-    getchar();
-    printf("----- Telefone: ");
-    scanf("%12[^\n]", cli->tele);
-    getchar();
-    printf("----- E-mail: ");
-    scanf("%30[^\n]", cli->email);
-    getchar();
-    printf("----- Data de nascimento (dd/mm/aaaa): ");
-    scanf("%10[^\n]", cli->data);
-    getchar();
+    } while (strlen(cli->cpf) == 0 || !validar_cpf(cli->cpf));
+
+    // Validação do Nome
+    do {
+        printf("----- Nome: ");
+        scanf("%51[^\n]", cli->nome);
+        getchar();
+    } while (strlen(cli->nome) == 0);  // Verifica se o nome não está vazio
+
+    // Validação do Telefone
+    do {
+        printf("----- Telefone: ");
+        scanf("%12[^\n]", cli->tele);
+        getchar();
+    } while (!validar_telefone(cli->tele));  // Verifica se o telefone é válido
+
+    // Validação do E-mail
+    do {
+        printf("----- E-mail: ");
+        scanf("%30[^\n]", cli->email);
+        getchar();
+    } while (!validar_email(cli->email));  // Verifica se o e-mail é válido
+
+    // Validação da Data de Nascimento
+    do {
+        printf("----- Data de nascimento (dd/mm/aaaa): ");
+        scanf("%10[^\n]", cli->data);
+        getchar();
+    } while (!validar_data(cli->data));  // Verifica se a data está no formato correto
+
     cli->status = 1;  // Cliente ativo
     return cli;
 }
@@ -198,7 +264,7 @@ void gravarCliente(Cliente* cli) {
     fclose(fp);
 }
 
-Cliente* buscarCliente(char* cpf) {
+Cliente* buscarCliente(const char* cpf) {
     FILE* fp = fopen("Cliente.dat", "rb");
     if (fp == NULL) {
         printf("Erro ao abrir o arquivo para leitura!\n");

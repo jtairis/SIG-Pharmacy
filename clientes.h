@@ -20,6 +20,6 @@ char* tela_pesquisar_cliente(void);
 char* tela_atualizar_cliente(void);
 char* tela_excluir_cliente(void);
 void gravarCliente(Cliente* clt);
-Cliente* buscarCliente(char* cpf);
+Cliente* buscarCliente(const char* cpf);
 void exibirCliente(Cliente* clt);
 void regravarCliente(Cliente* clt);
