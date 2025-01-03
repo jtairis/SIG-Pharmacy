@@ -1,0 +1,4 @@
+cadastrar produto: informar mensagem de erro ao digitar o codigo do produto
+Não ta cadastrando o nome do produto: pode ser erro no buffer
+Erro de armazenamento, os dados cadastrados não estão sendo Salvos.
+impossobilitando todo o restante do modulo
