@@ -133,6 +133,10 @@ Cliente* tela_cadastrar_cliente(void) {
     printf("----- Nome: ");
     scanf("%51[^\n]", cli->nome);
     getchar();
+    for (int i = 0; cli->nome[i] != '\0'; i++) {
+    cli->nome[i] = toupper(cli->nome[i]);
+    }
+
     printf("----- Telefone: ");
     scanf("%12[^\n]", cli->tele);
     getchar();

@@ -9,6 +9,7 @@ void tela_relatorios_vendas(void);
 void relatorioProdutosPorFaixaPreco(void);
 void relatorioGeralProdutos(void);
 void relatorioProdutosPorDataValidade(void);
+void relatorioProdAlfabetica();
 void relatorioGeralClientes(void);
 void relatorioClientesPorData(void);
 void relatorioClientesAlfabetica();

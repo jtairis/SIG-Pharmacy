@@ -140,6 +140,10 @@ Produto* tela_cadastrar_produto(void) {
         printf("----- Nome do produto: ");
         scanf("%50[^\n]", prod->nome);  
         getchar();
+        for (int i = 0; prod->nome[i] != '\0'; i++) {
+        prod->nome[i] = toupper(prod->nome[i]);
+        }
+        
     } while (!validar_nome(prod->nome));
 
     do {
