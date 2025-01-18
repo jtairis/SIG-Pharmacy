@@ -71,7 +71,7 @@ void tela_relatorios_produtos(void) {
         printf("           1. Relatório Geral de Produtos                                  \n");
         printf("           2. Relatório de Produtos por Faixa de Preço                     \n");
         printf("           3. Relatório de Produtos por Data de Validade                   \n");
-        printf("           4. Voltar ao Menu de Relatórios                                 \n");
+        printf("           4. Relatório de Produtos por Ordem Alfabetica                   \n");
         printf("           0. Voltar ao Menu de Relatórios                                 \n");
         printf("---------------------------------------------------------------------------\n");
         printf("           Digite o número da sua opção:                                   \n");
@@ -215,70 +215,65 @@ void relatorioProdutosPorDataValidade(void) {
     getchar();
 }
 
-void relatorioProdAlfabetica(){
-    FILE* fp = fopen("Cliente.dat", "rb");
+void relatorioProdAlfabetica(void) {
+    FILE *fp = fopen("Produto.dat", "rb");
     if (fp == NULL) {
-        printf("Erro ao abrir o arquivo de clientes!\n");
+        printf("Erro ao abrir o arquivo de produtos!\n");
         return;
     }
 
-    Cliente* clientes = NULL;  // Ponteiro para armazenar os registros
-    int qtdClientes = 0;       // Contador de clientes
-    Cliente cli;
+    Produto *produtos = NULL;
+    int count = 0;
 
-    // Lê os registros do arquivo para a memória
-    while (fread(&cli, sizeof(Cliente), 1, fp)) {
-        if (cli.status == 1) { // Apenas clientes ativos
-            clientes = realloc(clientes, (qtdClientes + 1) * sizeof(Cliente));
-            if (clientes == NULL) {
-                printf("Erro ao alocar memória!\n");
-                fclose(fp);
-                return;
-            }
-            clientes[qtdClientes] = cli;
-            qtdClientes++;
+    Produto prod;
+    while (fread(&prod, sizeof(Produto), 1, fp)) {
+        if (prod.status == 1) { // Apenas produtos ativos
+            produtos = realloc(produtos, (count + 1) * sizeof(Produto));
+            produtos[count] = prod;
+            count++;
         }
     }
     fclose(fp);
 
-    if (qtdClientes == 0) {
-        printf("Nenhum cliente encontrado!\n");
-        free(clientes);
+    if (count == 0) {
+        printf("Nenhum produto encontrado para exibição!\n");
+        free(produtos);
         return;
     }
 
-    // Ordenar os registros por nome em ordem alfabética
-    for (int i = 0; i < qtdClientes - 1; i++) {
-        for (int j = i + 1; j < qtdClientes; j++) {
-            if (strcmp(clientes[i].nome, clientes[j].nome) > 0) {
-                Cliente temp = clientes[i];
-                clientes[i] = clientes[j];
-                clientes[j] = temp;
+    // Ordenar produtos por ordem alfabética
+    for (int i = 0; i < count - 1; i++) {
+        for (int j = i + 1; j < count; j++) {
+            if (strcmp(produtos[i].nome, produtos[j].nome) > 0) {
+                Produto temp = produtos[i];
+                produtos[i] = produtos[j];
+                produtos[j] = temp;
             }
         }
     }
 
-    // Exibir os registros ordenados
-    printf("------------------------------------------------------\n");
-    printf("          Relatório de Produtos por Ordem Alfabética  \n");
-    printf("------------------------------------------------------\n");
+    // Exibir os produtos ordenados
+    printf("\n----------------------------------------------------\n");
+    printf("         Relatório de Produtos em Ordem Alfabética  \n");
+    printf("----------------------------------------------------\n");
 
-    for (int i = 0; i < qtdClientes; i++) {
-        printf("CPF: %s\n", clientes[i].cpf);
-        printf("Nome: %s\n", clientes[i].nome);
-        printf("Telefone: %s\n", clientes[i].tele);
-        printf("E-mail: %s\n", clientes[i].email);
-        printf("Data de Nascimento: %s\n", clientes[i].data);
+    for (int i = 0; i < count; i++) {
+        printf("Código: %s\n", produtos[i].codigo);
+        printf("Nome: %s\n", produtos[i].nome);
+        printf("Valor: %.2f\n", produtos[i].valor);
+        printf("Data de validade: %s\n", produtos[i].data);
+        printf("Descrição: %s\n", produtos[i].descricao);
         printf("----------------------------------------------------\n");
     }
 
-    // Liberar memória alocada
-    free(clientes);
+    // Liberar memória
+    free(produtos);
 
     printf("\nPressione <ENTER> para continuar...");
     getchar();
-    
+    getchar();
 }
+
 
 void tela_relatorios_clientes(void) {
     int opcao;

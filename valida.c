@@ -2,9 +2,23 @@
 #include <string.h>
 #include <ctype.h>
 
-int validar_nome(char* nome) {
-    return strlen(nome) > 0; // Nome não pode ser vazio
+int validar_nome(const char *nome) {
+    // Nome não pode estar vazio
+    if (strlen(nome) == 0) {
+        printf("Erro: O nome não pode estar vazio!\n");
+        return 0;
+    }
+
+    // Nome deve conter apenas letras e espaços
+    for (int i = 0; nome[i] != '\0'; i++) {
+        if (!isalpha(nome[i]) && nome[i] != ' ') {
+            printf("Erro: O nome deve conter apenas letras!\n");
+            return 0;
+        }
+    }
+    return 1;
 }
+
 
 int validar_data(char* data) {
     if (strlen(data) != 10) {

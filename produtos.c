@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <ctype.h>
 #include "valida.h"
 #include "produtos.h"
 
@@ -137,14 +138,28 @@ Produto* tela_cadastrar_produto(void) {
     getchar();
 
     do {
-        printf("----- Nome do produto: ");
-        scanf("%50[^\n]", prod->nome);  
-        getchar();
-        for (int i = 0; prod->nome[i] != '\0'; i++) {
+    printf("----- Nome do produto: ");
+    fgets(prod->nome, sizeof(prod->nome), stdin);
+
+    // Limpa o buffer caso haja um caractere residual
+    if (strchr(prod->nome, '\n') == NULL) {
+        int ch;
+        while ((ch = getchar()) != '\n' && ch != EOF);
+    }
+
+    // Remove o caractere de nova linha, se existir
+    size_t len = strlen(prod->nome);
+    if (len > 0 && prod->nome[len - 1] == '\n') {
+        prod->nome[len - 1] = '\0';
+    }
+
+    // Converte o nome do produto para maiúsculas
+    for (int i = 0; prod->nome[i] != '\0'; i++) {
         prod->nome[i] = toupper(prod->nome[i]);
-        }
-        
-    } while (!validar_nome(prod->nome));
+    }
+
+} while (!validar_nome(prod->nome));
+
 
     do {
         printf("----- Valor: ");
