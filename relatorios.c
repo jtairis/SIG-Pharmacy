@@ -225,6 +225,7 @@ void tela_relatorios_clientes(void) {
         printf("---------------------------------------------------------------------------\n");
         printf("           1. Relatório Geral de Clientes Ativos                           \n");
         printf("           2. Relatório de Clientes por Data de Nascimento                 \n");
+        printf("           3. Relatório de Clientes por Ordem Alfabética                 \n");
         printf("           0. Voltar ao Menu de Relatórios                                 \n");
         printf("---------------------------------------------------------------------------\n");
         printf("           Digite o número da sua opção:                                   \n");
@@ -238,6 +239,8 @@ void tela_relatorios_clientes(void) {
             case 2:
                 relatorioClientesPorData();
                 break;
+            case 3:
+                relatorioClientesAlfabetica();
             case 0:
                 printf("\nVoltando ao menu de relatórios...\n");
                 break;
@@ -322,7 +325,70 @@ void relatorioClientesPorData(void) {
     printf("\nPressione <ENTER> para continuar...");
     getchar();
 }
+void relatorioClientesAlfabetica(){
+    FILE* fp = fopen("Cliente.dat", "rb");
+    if (fp == NULL) {
+        printf("Erro ao abrir o arquivo de clientes!\n");
+        return;
+    }
 
+    Cliente* clientes = NULL;  // Ponteiro para armazenar os registros
+    int qtdClientes = 0;       // Contador de clientes
+    Cliente cli;
+
+    // Lê os registros do arquivo para a memória
+    while (fread(&cli, sizeof(Cliente), 1, fp)) {
+        if (cli.status == 1) { // Apenas clientes ativos
+            clientes = realloc(clientes, (qtdClientes + 1) * sizeof(Cliente));
+            if (clientes == NULL) {
+                printf("Erro ao alocar memória!\n");
+                fclose(fp);
+                return;
+            }
+            clientes[qtdClientes] = cli;
+            qtdClientes++;
+        }
+    }
+    fclose(fp);
+
+    if (qtdClientes == 0) {
+        printf("Nenhum cliente encontrado!\n");
+        free(clientes);
+        return;
+    }
+
+    // Ordenar os registros por nome em ordem alfabética
+    for (int i = 0; i < qtdClientes - 1; i++) {
+        for (int j = i + 1; j < qtdClientes; j++) {
+            if (strcmp(clientes[i].nome, clientes[j].nome) > 0) {
+                Cliente temp = clientes[i];
+                clientes[i] = clientes[j];
+                clientes[j] = temp;
+            }
+        }
+    }
+
+    // Exibir os registros ordenados
+    printf("\n----------------------------------------------------\n");
+    printf("          Relatório de Clientes em Ordem Alfabética\n");
+    printf("----------------------------------------------------\n");
+
+    for (int i = 0; i < qtdClientes; i++) {
+        printf("CPF: %s\n", clientes[i].cpf);
+        printf("Nome: %s\n", clientes[i].nome);
+        printf("Telefone: %s\n", clientes[i].tele);
+        printf("E-mail: %s\n", clientes[i].email);
+        printf("Data de Nascimento: %s\n", clientes[i].data);
+        printf("----------------------------------------------------\n");
+    }
+
+    // Liberar memória alocada
+    free(clientes);
+
+    printf("\nPressione <ENTER> para continuar...");
+    getchar();
+    
+}
 
 void tela_relatorios_vendas(void) {
     int opcao;
