@@ -112,16 +112,17 @@ void relatorioGeralProdutos(void) {
     printf("\n----------------------------------------------------\n");
     printf("               Relatório Geral de Produtos           \n");
     printf("----------------------------------------------------\n");
+    
     while (fread(&prod, sizeof(Produto), 1, fp)) {
-        if (prod.status == 1) {
-            printf("Código: %s\n", prod.codigo);
-            printf("Nome: %s\n", prod.nome);
-            printf("Valor: %.2f\n", prod.valor);
-            printf("Data de validade: %s\n", prod.data);
-            printf("Descrição: %s\n", prod.descricao);
-            printf("----------------------------------------------------\n");
-        }
+        printf("Código: %s\n", prod.codigo);
+        printf("Nome: %s\n", prod.nome);
+        printf("Valor: %.2f\n", prod.valor);
+        printf("Data de validade: %s\n", prod.data);
+        printf("Descrição: %s\n", prod.descricao);
+        printf("status: %d\n", prod.status);
+        printf("----------------------------------------------------\n");
     }
+
     fclose(fp);
     printf("\nPressione <ENTER> para continuar...");
     getchar();
@@ -285,9 +286,9 @@ void tela_relatorios_clientes(void) {
         printf("---------------------------------------------------------------------------\n");
         printf("                 - - - - - Relatórios de Clientes - - - - -                \n");
         printf("---------------------------------------------------------------------------\n");
-        printf("           1. Relatório Geral de Clientes Ativos                           \n");
+        printf("           1. Relatório Geral de Clientes                                  \n");
         printf("           2. Relatório de Clientes por Data de Nascimento                 \n");
-        printf("           3. Relatório de Clientes por Ordem Alfabética                 \n");
+        printf("           3. Relatório de Clientes por Ordem Alfabética                   \n");
         printf("           0. Voltar ao Menu de Relatórios                                 \n");
         printf("---------------------------------------------------------------------------\n");
         printf("           Digite o número da sua opção:                                   \n");
@@ -328,19 +329,18 @@ void relatorioGeralClientes(void) {
     printf("----------------------------------------------------\n");
 
     while (fread(&cli, sizeof(Cliente), 1, fp)) {
-        if (cli.status == 1) {
-            printf("CPF: %s\n", cli.cpf);
-            printf("Nome: %s\n", cli.nome);
-            printf("Telefone: %s\n", cli.tele);
-            printf("E-mail: %s\n", cli.email);
-            printf("Data de Nascimento: %s\n", cli.data);
-            printf("----------------------------------------------------\n");
-            clientesEncontrados = 1;
-        }
+        printf("CPF: %s\n", cli.cpf);
+        printf("Nome: %s\n", cli.nome);
+        printf("Telefone: %s\n", cli.tele);
+        printf("E-mail: %s\n", cli.email);
+        printf("Data de Nascimento: %s\n", cli.data);
+        printf("status: %d\n", cli.status);
+        printf("----------------------------------------------------\n");
+        clientesEncontrados = 1;
     }
 
     if (!clientesEncontrados) {
-        printf("Nenhum cliente ativo encontrado.\n");
+        printf("Nenhum cliente encontrado.\n");
     }
 
     fclose(fp);
@@ -513,29 +513,28 @@ void relatorioGeralVendas(void) {
     printf("----------------------------------------------------\n");
 
     while (fread(&venda, sizeof(Venda), 1, fpVendas)) {
-        if (venda.status == 1) {
-            fseek(fpClientes, 0, SEEK_SET);
-            while (fread(&cli, sizeof(Cliente), 1, fpClientes)) {
-                if (cli.status == 1 && strcmp(cli.cpf, venda.cpfCliente) == 0) {
-                    break;
-                }
+        fseek(fpClientes, 0, SEEK_SET);
+        while (fread(&cli, sizeof(Cliente), 1, fpClientes)) {
+            if (strcmp(cli.cpf, venda.cpfCliente) == 0) {
+                break;
             }
-
-            fseek(fpProdutos, 0, SEEK_SET);
-            while (fread(&prod, sizeof(Produto), 1, fpProdutos)) {
-                if (prod.status == 1 && strcmp(prod.codigo, venda.codigo) == 0) {
-                    break;
-                }
-            }
-
-            printf("Número da Venda: %d\n", venda.numeroVenda);
-            printf("Cliente: %s\n", cli.nome);
-            printf("Produto: %s\n", prod.nome);
-            printf("Quantidade: %d\n", venda.quantidade);
-            printf("Valor Total: %.2f\n", venda.valorTotal);
-            printf("Data: %s\n", venda.data);
-            printf("----------------------------------------------------\n");
         }
+
+        fseek(fpProdutos, 0, SEEK_SET);
+        while (fread(&prod, sizeof(Produto), 1, fpProdutos)) {
+            if (strcmp(prod.codigo, venda.codigo) == 0) {
+                break;
+            }
+        }
+
+        printf("Número da Venda: %d\n", venda.numeroVenda);
+        printf("Cliente: %s\n", cli.nome);
+        printf("Produto: %s\n", prod.nome);
+        printf("Quantidade: %d\n", venda.quantidade);
+        printf("Valor Total: %.2f\n", venda.valorTotal);
+        printf("Data: %s\n", venda.data);
+        printf("status: %d\n", venda.status);
+        printf("----------------------------------------------------\n");
     }
 
     fclose(fpVendas);
