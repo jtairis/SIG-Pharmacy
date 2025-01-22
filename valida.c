@@ -139,10 +139,10 @@ int validar_codigo(char* codigo) {
     }
 
     // Verifique se o código já existe no arquivo
-    if (verificarCodigoExistente(codigo)) {
-        printf("Erro: Já existe um produto com o código %s.\n", codigo);
-        return 0; // Código inválido
-    }
+    //if (verificarCodigoExistente(codigo)) {
+       // printf("Erro: Já existe um produto com o código %s.\n", codigo);
+        //return 0; // Código inválido
+    //}
 
     return 1; // Código válido
 }

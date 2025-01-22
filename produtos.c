@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <ctype.h>
 #include "valida.h"
 #include "produtos.h"
 
@@ -57,18 +58,15 @@ void atualizarProduto(void) {
     char* codigo;
     codigo = tela_atualizar_produto();
     prod = buscarProduto(codigo);
-
     if (prod == NULL) {
         printf("\n\nProduto não encontrado!\n\n");
     } else {
         printf("\nProduto encontrado! Atualizando dados...\n");
-        exibirProduto(prod);
-        atualizarDadosProduto(prod);
+        prod = tela_cadastrar_produto();
+        strcpy(prod->codigo, codigo);
         regravarProduto(prod);
-        printf("\nProduto atualizado com sucesso!\n");
+        free(prod);
     }
-
-    free(prod);
     free(codigo);
 }
 
@@ -135,7 +133,8 @@ Produto* tela_cadastrar_produto(void) {
 
     do {
         printf(" Codigo (apenas números): ");
-        scanf("%7s", prod->codigo);  
+        scanf("%s", prod->codigo);
+        getchar();  
     } while (!validar_codigo(prod->codigo));
     getchar();
 
@@ -285,49 +284,4 @@ void regravarProduto(Produto* prod) {
 void tela_erro(void) {
     printf("Erro! Não foi possível realizar a operação.\n");
     getchar();
-}
-
-int verificarCodigoExistente(char* codigo) {
-    FILE* fp = fopen("Produto.dat", "rb");
-    if (fp == NULL) {
-        return 0;
-    }
-
-    Produto* prod = (Produto*) malloc(sizeof(Produto));
-    while (fread(prod, sizeof(Produto), 1, fp)) {
-        if (strcmp(prod->codigo, codigo) == 0 && prod->status == 1) {
-            free(prod);
-            fclose(fp);
-            return 1;
-        }
-    }
-    free(prod);
-    fclose(fp);
-    return 0;
-}
-
-void atualizarDadosProduto(Produto* prod) {
-    do {
-        printf(" Nome do produto (%s): ", prod->nome);
-        scanf("%50[^\n]", prod->nome);  
-        getchar();
-    } while (!validar_nome(prod->nome));
-
-    do {
-        printf(" Valor (%.2f): ", prod->valor);
-        scanf("%f", &prod->valor);  
-        getchar();
-    } while (!validar_valor(prod->valor));
-
-    do {
-        printf(" Data de validade (%s): ", prod->data);
-        scanf("%10s", prod->data);  
-        getchar();
-    } while (!validar_data(prod->data));
-
-    do {
-        printf(" Descrição (%s): ", prod->descricao);
-        scanf("%100[^\n]", prod->descricao);  
-        getchar();
-    } while (!validar_descricao(prod->descricao));
 }

@@ -1,8 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <ctype.h>
 #include <string.h>
 #include "clientes.h"
-#include "valida.h"
 
 void modulocliente(void) {
     int opcao;
@@ -35,16 +35,7 @@ void modulocliente(void) {
 void cadastrarCliente(void) {
     Cliente *cli;
     cli = tela_cadastrar_cliente();
-
-    if (buscarCliente(cli->cpf) != NULL) {
-        printf("\nErro: O CPF %s já está cadastrado!\n", cli->cpf);
-        getchar();
-        free(cli);
-        return;
-    }
-
     gravarCliente(cli);
-    printf("\nCliente cadastrado com sucesso!\n");
     free(cli);
 }
 
@@ -62,51 +53,16 @@ void atualizarCliente(void) {
     Cliente* cli;
     char* cpf;
     cpf = tela_atualizar_cliente();
-
     cli = buscarCliente(cpf);
-
     if (cli == NULL) {
         printf("\n\nCliente não encontrado!\n\n");
     } else {
         printf("\nCliente encontrado! Atualizando dados...\n");
-
-        Cliente* novoCli = (Cliente*) malloc(sizeof(Cliente));
-        
-        do {
-            printf("----- Nome: ");
-            scanf("%51[^\n]", novoCli->nome);
-            getchar();
-        } while (strlen(novoCli->nome) == 0);
-
-        do {
-            printf("----- Telefone: ");
-            scanf("%12[^\n]", novoCli->tele);
-            getchar();
-        } while (!validar_telefone(novoCli->tele));
-
-        do {
-            printf("----- E-mail: ");
-            scanf("%30[^\n]", novoCli->email);
-            getchar();
-        } while (!validar_email(novoCli->email));
-
-        do {
-            printf("----- Data de nascimento (dd/mm/aaaa): ");
-            scanf("%10[^\n]", novoCli->data);
-            getchar();
-        } while (!validar_data(novoCli->data));
-
-        strcpy(novoCli->cpf, cpf);
-
-        novoCli->status = cli->status;
-
-        regravarCliente(novoCli);
-
-        printf("\nDados do cliente atualizados com sucesso!\n");
-        free(novoCli);
-        getchar();
+        cli = tela_cadastrar_cliente();
+        strcpy(cli->cpf, cpf);
+        regravarCliente(cli);
+        free(cli);
     }
-
     free(cpf);
 }
 
@@ -133,10 +89,8 @@ void excluirCliente(void) {
             cli->status = 0;
             regravarCliente(cli);
             printf("\nCliente excluído com sucesso!\n");
-            getchar();
         } else {
             printf("\nA exclusão foi cancelada.\n");
-            getchar();
         }
     }
 
@@ -172,38 +126,28 @@ Cliente* tela_cadastrar_cliente(void) {
     printf("---------------------------------------------------------------------------\n");
     printf("               - - - - - Cadastrar Novo Cliente - - - - - \n");
     printf("---------------------------------------------------------------------------\n");
-
     do {
         printf("-----           CPF (apenas números): ");
         scanf("%14[^\n]", cli->cpf);
         getchar();
-    } while (strlen(cli->cpf) == 0 || !validar_cpf(cli->cpf));
+    } while (strlen(cli->cpf) == 0);
+    printf("----- Nome: ");
+    scanf("%51[^\n]", cli->nome);
+    getchar();
+    for (int i = 0; cli->nome[i] != '\0'; i++) {
+    cli->nome[i] = toupper(cli->nome[i]);
+    }
 
-    do {
-        printf("----- Nome: ");
-        scanf("%51[^\n]", cli->nome);
-        getchar();
-    } while (strlen(cli->nome) == 0);
-
-    do {
-        printf("----- Telefone: ");
-        scanf("%12[^\n]", cli->tele);
-        getchar();
-    } while (!validar_telefone(cli->tele));
-
-    do {
-        printf("----- E-mail: ");
-        scanf("%30[^\n]", cli->email);
-        getchar();
-    } while (!validar_email(cli->email));
-
-    do {
-        printf("----- Data de nascimento (dd/mm/aaaa): ");
-        scanf("%10[^\n]", cli->data);
-        getchar();
-    } while (!validar_data(cli->data));
-
-    cli->status = 1;
+    printf("----- Telefone: ");
+    scanf("%12[^\n]", cli->tele);
+    getchar();
+    printf("----- E-mail: ");
+    scanf("%30[^\n]", cli->email);
+    getchar();
+    printf("----- Data de nascimento (dd/mm/aaaa): ");
+    scanf("%10[^\n]", cli->data);
+    getchar();
+    cli->status = 1;  // Cliente ativo
     return cli;
 }
 
@@ -250,7 +194,7 @@ char* tela_excluir_cliente(void) {
 }
 
 void gravarCliente(Cliente* cli) {
-    FILE* fp = fopen("Cliente.dat", "ab"); // "ab" cria o arquivo caso ele não exista
+    FILE* fp = fopen("Cliente.dat", "ab");
     if (fp == NULL) {
         printf("Erro ao abrir o arquivo para gravação!\n");
         return;
@@ -259,22 +203,12 @@ void gravarCliente(Cliente* cli) {
     fclose(fp);
 }
 
-Cliente* buscarCliente(const char* cpf) {
+Cliente* buscarCliente(char* cpf) {
     FILE* fp = fopen("Cliente.dat", "rb");
     if (fp == NULL) {
-        // Arquivo não existe, ou houve erro na abertura
-        printf("Arquivo não encontrado. Criando arquivo...\n");
-        
-        // Tenta criar o arquivo e retornar NULL
-        FILE* create_fp = fopen("Cliente.dat", "wb");
-        if (create_fp == NULL) {
-            printf("Erro ao criar o arquivo Cliente.dat!\n");
-            return NULL;
-        }
-        fclose(create_fp); // Fecha o arquivo criado e retorna NULL
+        printf("Erro ao abrir o arquivo para leitura!\n");
         return NULL;
     }
-
     Cliente* cli = (Cliente*) malloc(sizeof(Cliente));
     while (fread(cli, sizeof(Cliente), 1, fp)) {
         if (strcmp(cli->cpf, cpf) == 0 && cli->status == 1) {
@@ -313,8 +247,8 @@ void regravarCliente(Cliente* cli) {
     while (fread(cliLido, sizeof(Cliente), 1, fp) && !achou) {
         if (strcmp(cliLido->cpf, cli->cpf) == 0) {
             achou = 1;
-            fseek(fp, -1 * sizeof(Cliente), SEEK_CUR);
-            fwrite(cli, sizeof(Cliente), 1, fp);
+            fseek(fp, -1 * sizeof(Cliente), SEEK_CUR);  // Voltar para o começo do registro
+            fwrite(cli, sizeof(Cliente), 1, fp);  // Sobrescrever com os novos dados
         }
     }
     fclose(fp);
