@@ -465,6 +465,7 @@ void tela_relatorios_vendas(void) {
         printf("           1. Relatório Geral de Vendas                                    \n");
         printf("           2. Relatório de Vendas por Cliente (CPF)                        \n");
         printf("           3. Relatório de Vendas por Data                                 \n");
+        printf("           4. Relatório de Vendas por ....                                 \n");
         printf("           0. Voltar ao Menu de Relatórios                                 \n");
         printf("---------------------------------------------------------------------------\n");
         printf("           Digite o número da sua opção:                                   \n");
@@ -481,6 +482,8 @@ void tela_relatorios_vendas(void) {
             case 3:
                 relatorioVendasPorData();
                 break;
+            case 4:
+                relatorio(); //falta implentar a ideia
             case 0:
                 printf("\nVoltando ao menu de relatórios...\n");
                 break;
@@ -663,6 +666,15 @@ void relatorioVendasPorData(void) {
     fclose(fpVendas);
     fclose(fpClientes);
     fclose(fpProdutos);
+    printf("\nPressione <ENTER> para continuar...");
+    getchar();
+}
+
+void relatorio(void){
+
+    printf("\n----------------------------------------------------\n");
+    printf("               Relatório de Vendas por ....        \n");
+    printf("----------------------------------------------------\n");
     printf("\nPressione <ENTER> para continuar...");
     getchar();
 }

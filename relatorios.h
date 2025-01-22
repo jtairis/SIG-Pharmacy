@@ -16,3 +16,4 @@ void relatorioClientesAlfabetica();
 void relatorioGeralVendas(void);
 void relatorioVendasPorCliente(void);
 void relatorioVendasPorData(void);
+void relatorio();

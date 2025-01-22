@@ -123,7 +123,7 @@ int tela_menu_produto() {
 }
 
 Produto* tela_cadastrar_produto(void) {
-    Produto *prod = (Produto*) malloc(sizeof(Produto));
+    Produto* prod = (Produto*) malloc(sizeof(Produto));
     printf("\n");
     printf("---------------------------------------------------------------------------\n");
     printf("          - - - - Sistema de Gestão SIG-PHARMACY - - - - - \n");
@@ -132,49 +132,32 @@ Produto* tela_cadastrar_produto(void) {
     printf("---------------------------------------------------------------------------\n");
 
     do {
-        printf("----- Codigo (apenas números): ");
-        scanf("%7s", prod->codigo);  
+        printf(" Codigo (apenas números): ");
+        scanf("%s", prod->codigo);
+        getchar();  
     } while (!validar_codigo(prod->codigo));
     getchar();
 
     do {
-    printf("----- Nome do produto: ");
-    fgets(prod->nome, sizeof(prod->nome), stdin);
-
-    // Limpa o buffer caso haja um caractere residual
-    if (strchr(prod->nome, '\n') == NULL) {
-        int ch;
-        while ((ch = getchar()) != '\n' && ch != EOF);
-    }
-
-    // Remove o caractere de nova linha, se existir
-    size_t len = strlen(prod->nome);
-    if (len > 0 && prod->nome[len - 1] == '\n') {
-        prod->nome[len - 1] = '\0';
-    }
-
-    // Converte o nome do produto para maiúsculas
-    for (int i = 0; prod->nome[i] != '\0'; i++) {
-        prod->nome[i] = toupper(prod->nome[i]);
-    }
-
-} while (!validar_nome(prod->nome));
-
+        printf(" Nome do produto: ");
+        scanf("%50[^\n]", prod->nome);  
+        getchar();
+    } while (!validar_nome(prod->nome));
 
     do {
-        printf("----- Valor: ");
+        printf(" Valor(1.50): ");
         scanf("%f", &prod->valor);  
         getchar();
     } while (!validar_valor(prod->valor));
 
     do {
-        printf("----- Data de validade (dd/mm/aaaa): ");
+        printf(" Data de validade (dd/mm/aaaa): ");
         scanf("%10s", prod->data);  
         getchar();
     } while (!validar_data(prod->data));
 
     do {
-        printf("----- Descrição: ");
+        printf(" Descrição: ");
         scanf("%100[^\n]", prod->descricao);  
         getchar();
     } while (!validar_descricao(prod->descricao));
