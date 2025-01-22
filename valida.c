@@ -122,30 +122,40 @@ int validar_email(const char *email) {
 }
 
 
-// Valida o código (somente números, 7 dígitos)
+// Valida o código (somente números, exatamente 7 dígitos)
 int validar_codigo(char* codigo) {
-    // Verifique se o comprimento do código é exatamente 7 dígitos
-    if (strlen(codigo) != 7) {
-        printf("Erro: O código deve conter exatamente 7 dígitos.\n");
+    int comprimento = strlen(codigo);
+
+    // Verifique se o comprimento do código é maior que 7
+    if (comprimento > 7) {
+        printf("Erro: O código não pode ter mais que 7 dígitos.\n");
         return 0; // Código inválido
     }
 
-    // Verifique se o código contém apenas números
-    for (int i = 0; codigo[i] != '\0'; i++) {
-        if (codigo[i] < '0' || codigo[i] > '9') {
+    // Verifique se o comprimento do código é menor que 7
+    if (comprimento < 7) {
+        printf("Erro: O código não pode ter menos que 7 dígitos.\n");
+        return 0; // Código inválido
+    }
+
+    // Verifique se todos os caracteres são números
+    for (int i = 0; i < 7; i++) {
+        if (!isdigit(codigo[i])) { // Verifica se o caractere não é numérico
             printf("Erro: O código deve conter apenas números.\n");
             return 0; // Código inválido
         }
     }
 
     // Verifique se o código já existe no arquivo
-    //if (verificarCodigoExistente(codigo)) {
-       // printf("Erro: Já existe um produto com o código %s.\n", codigo);
-        //return 0; // Código inválido
-    //}
+    if (verificarCodigoExistente(codigo)) {
+        printf("Erro: Já existe um produto com o código %s.\n", codigo);
+        return 0; // Código inválido
+    }
 
     return 1; // Código válido
 }
+
+
 
 // Valida o valor (aceita números e vírgula)
 int validar_valor(float valor) {

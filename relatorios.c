@@ -465,7 +465,7 @@ void tela_relatorios_vendas(void) {
         printf("           1. Relatório Geral de Vendas                                    \n");
         printf("           2. Relatório de Vendas por Cliente (CPF)                        \n");
         printf("           3. Relatório de Vendas por Data                                 \n");
-        printf("           4. Relatório de Vendas por ....                                 \n");
+        printf("           4. Relatório de Vendas por ordem alfabetica                     \n");
         printf("           0. Voltar ao Menu de Relatórios                                 \n");
         printf("---------------------------------------------------------------------------\n");
         printf("           Digite o número da sua opção:                                   \n");
@@ -483,7 +483,7 @@ void tela_relatorios_vendas(void) {
                 relatorioVendasPorData();
                 break;
             case 4:
-                relatorio(); //falta implentar a ideia
+                gerarRelatorioClientesEVendas();
             case 0:
                 printf("\nVoltando ao menu de relatórios...\n");
                 break;
@@ -670,11 +670,86 @@ void relatorioVendasPorData(void) {
     getchar();
 }
 
-void relatorio(void){
+void gerarRelatorioClientesEVendas(void) {
+    FILE* fp = fopen("Cliente.dat", "rb");
+    if (fp == NULL) {
+        printf("Erro ao abrir o arquivo de clientes!\n");
+        return;
+    }
 
-    printf("\n----------------------------------------------------\n");
-    printf("               Relatório de Vendas por ....        \n");
-    printf("----------------------------------------------------\n");
+    // Carregar todos os clientes
+    Cliente clientes[100];
+    int totalClientes = 0;
+
+    while (fread(&clientes[totalClientes], sizeof(Cliente), 1, fp)) {
+        totalClientes++;
+    }
+    fclose(fp);
+
+    if (totalClientes == 0) {
+        printf("Nenhum cliente cadastrado.\n");
+        return;
+    }
+
+    // Ordenar clientes por nome
+    qsort(clientes, totalClientes, sizeof(Cliente), compararClientes);
+
+    // Exibir o relatório
+    printf("\n---------------------------------------------------------------------------\n");
+    printf("                Relatório de Clientes e Vendas\n");
+    printf("---------------------------------------------------------------------------\n");
+
+    for (int i = 0; i < totalClientes; i++) {
+        printf("\nCliente: %s (CPF: %s)\n", clientes[i].nome, clientes[i].cpf);
+        printf("---------------------------------------------------------------------------\n");
+
+        // Exibir vendas do cliente atual
+        exibirVendasDoCliente(clientes[i].cpf, clientes[i].nome);
+    }
+
     printf("\nPressione <ENTER> para continuar...");
     getchar();
+}
+
+// Função para comparar clientes por nome
+int compararClientes(const void* a, const void* b) {
+    Cliente* cliente1 = (Cliente*)a;
+    Cliente* cliente2 = (Cliente*)b;
+    return strcmp(cliente1->nome, cliente2->nome);
+}
+
+// Função para exibir vendas associadas a um cliente
+void exibirVendasDoCliente(char* cpf, char* nome) {
+    FILE* fp = fopen("vendas.dat", "rb");
+    if (fp == NULL) {
+        printf("Erro ao abrir o arquivo de vendas!\n");
+        return;
+    }
+
+    Venda venda;
+    int vendasEncontradas = 0;
+
+    while (fread(&venda, sizeof(Venda), 1, fp)) {
+        if (venda.status == 1 && strcmp(venda.cpfCliente, cpf) == 0) {
+            if (!vendasEncontradas) {
+                printf("| Nº Venda | Código Produto | Quantidade | Valor Total | Data da Venda |\n");
+                printf("---------------------------------------------------------------------------\n");
+            }
+
+            printf("| %-8d | %-14s | %-10d | R$%-10.2f | %-12s |\n",
+                   venda.numeroVenda,
+                   venda.codigo,
+                   venda.quantidade,
+                   venda.valorTotal,
+                   venda.data);
+
+            vendasEncontradas = 1;
+        }
+    }
+
+    if (!vendasEncontradas) {
+        printf("Nenhuma venda registrada para este cliente.\n");
+    }
+
+    fclose(fp);
 }

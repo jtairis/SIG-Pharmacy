@@ -3,6 +3,7 @@
 #include <ctype.h>
 #include <string.h>
 #include "clientes.h"
+#include "valida.h"
 
 void modulocliente(void) {
     int opcao;
@@ -33,11 +34,13 @@ void modulocliente(void) {
 }
 
 void cadastrarCliente(void) {
+    verificar_arquivo_cliente();
     Cliente *cli;
     cli = tela_cadastrar_cliente();
     gravarCliente(cli);
     free(cli);
 }
+
 
 void pesquisarCliente(void) {
     Cliente* cli;
@@ -54,15 +57,17 @@ void atualizarCliente(void) {
     char* cpf;
     cpf = tela_atualizar_cliente();
     cli = buscarCliente(cpf);
+
     if (cli == NULL) {
         printf("\n\nCliente não encontrado!\n\n");
     } else {
         printf("\nCliente encontrado! Atualizando dados...\n");
-        cli = tela_cadastrar_cliente();
-        strcpy(cli->cpf, cpf);
+        exibirCliente(cli);
+        atualizarDadosCliente(cli);
         regravarCliente(cli);
         free(cli);
     }
+
     free(cpf);
 }
 
@@ -126,28 +131,46 @@ Cliente* tela_cadastrar_cliente(void) {
     printf("---------------------------------------------------------------------------\n");
     printf("               - - - - - Cadastrar Novo Cliente - - - - - \n");
     printf("---------------------------------------------------------------------------\n");
+
+    // Validação do CPF
     do {
-        printf("-----           CPF (apenas números): ");
+        printf("----- CPF (apenas números): ");
         scanf("%14[^\n]", cli->cpf);
         getchar();
-    } while (strlen(cli->cpf) == 0);
-    printf("----- Nome: ");
-    scanf("%51[^\n]", cli->nome);
-    getchar();
+    } while (!validar_cpf(cli->cpf)); // Verifica se o CPF é válido e único
+
+    // Validação do Nome
+    do {
+        printf("----- Nome: ");
+        scanf("%51[^\n]", cli->nome);
+        getchar();
+    } while (!validar_nome(cli->nome)); // Verifica se o nome não está vazio
     for (int i = 0; cli->nome[i] != '\0'; i++) {
-    cli->nome[i] = toupper(cli->nome[i]);
+        cli->nome[i] = toupper(cli->nome[i]); // Converte o nome para letras maiúsculas
     }
 
-    printf("----- Telefone: ");
-    scanf("%12[^\n]", cli->tele);
-    getchar();
-    printf("----- E-mail: ");
-    scanf("%30[^\n]", cli->email);
-    getchar();
-    printf("----- Data de nascimento (dd/mm/aaaa): ");
-    scanf("%10[^\n]", cli->data);
-    getchar();
-    cli->status = 1;  // Cliente ativo
+    // Validação do Telefone
+    do {
+        printf("----- Telefone: ");
+        scanf("%12[^\n]", cli->tele);
+        getchar();
+    } while (!validar_telefone(cli->tele)); // Verifica se o telefone é válido
+
+    // Validação do E-mail
+    do {
+        printf("----- E-mail: ");
+        scanf("%30[^\n]", cli->email);
+        getchar();
+    } while (!validar_email(cli->email)); // Verifica se o e-mail é válido
+
+    // Validação da Data de Nascimento
+    do {
+        printf("----- Data de nascimento (dd/mm/aaaa): ");
+        scanf("%10[^\n]", cli->data);
+        getchar();
+    } while (!validar_data(cli->data)); // Verifica se a data está no formato correto e é válida
+
+    cli->status = 1; // Cliente ativo
     return cli;
 }
 
@@ -203,7 +226,7 @@ void gravarCliente(Cliente* cli) {
     fclose(fp);
 }
 
-Cliente* buscarCliente(char* cpf) {
+Cliente* buscarCliente(const char* cpf) {
     FILE* fp = fopen("Cliente.dat", "rb");
     if (fp == NULL) {
         printf("Erro ao abrir o arquivo para leitura!\n");
@@ -247,10 +270,62 @@ void regravarCliente(Cliente* cli) {
     while (fread(cliLido, sizeof(Cliente), 1, fp) && !achou) {
         if (strcmp(cliLido->cpf, cli->cpf) == 0) {
             achou = 1;
-            fseek(fp, -1 * sizeof(Cliente), SEEK_CUR);  // Voltar para o começo do registro
-            fwrite(cli, sizeof(Cliente), 1, fp);  // Sobrescrever com os novos dados
+            fseek(fp, -1 * sizeof(Cliente), SEEK_CUR);
+            fwrite(cli, sizeof(Cliente), 1, fp);
         }
     }
     fclose(fp);
     free(cliLido);
+}
+
+void verificar_arquivo_cliente(void) {
+    FILE *fp = fopen("Cliente.dat", "rb");
+    if (fp == NULL) { 
+        fp = fopen("Cliente.dat", "wb");
+        if (fp == NULL) {
+            printf("Erro: Não foi possível criar o arquivo Cliente.dat.\n");
+            exit(1);
+        }
+        printf("Arquivo Cliente.dat criado com sucesso!\n");
+    }
+    fclose(fp);
+}
+
+
+void atualizarDadosCliente(Cliente* cli) {
+    if (cli == NULL) {
+        printf("\nErro: Cliente não encontrado ou inválido!\n");
+        return;
+    }
+
+    printf("\nAtualizando dados do cliente (CPF: %s):\n", cli->cpf);
+
+    do {
+        printf(" Nome (%s): ", cli->nome);
+        scanf("%50[^\n]", cli->nome);
+        getchar();
+    } while (!validar_nome(cli->nome));
+    for (int i = 0; cli->nome[i] != '\0'; i++) {
+        cli->nome[i] = toupper(cli->nome[i]);
+    }
+
+    do {
+        printf(" Telefone (%s): ", cli->tele);
+        scanf("%12[^\n]", cli->tele);
+        getchar();
+    } while (!validar_telefone(cli->tele));
+
+    do {
+        printf(" E-mail (%s): ", cli->email);
+        scanf("%30[^\n]", cli->email);
+        getchar();
+    } while (!validar_email(cli->email));
+
+    do {
+        printf(" Data de nascimento (%s): ", cli->data);
+        scanf("%10[^\n]", cli->data);
+        getchar();
+    } while (!validar_data(cli->data));
+
+    printf("\nDados do cliente atualizados com sucesso!\n");
 }

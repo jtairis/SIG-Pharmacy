@@ -16,4 +16,6 @@ void relatorioClientesAlfabetica();
 void relatorioGeralVendas(void);
 void relatorioVendasPorCliente(void);
 void relatorioVendasPorData(void);
-void relatorio();
+int compararClientes(const void* a, const void* b);
+void exibirVendasDoCliente(char* cpf, char* nome);
+void gerarRelatorioClientesEVendas(void);
