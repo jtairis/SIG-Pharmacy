@@ -61,32 +61,29 @@ Venda* tela_cadastrar_venda(void) {
     printf("               - - - - - Cadastrar Nova Venda - - - - - \n");
     printf("---------------------------------------------------------------------------\n");
 
-
     do {
         printf("----- CPF do cliente (11 dígitos): ");
         scanf("%11s", venda->cpfCliente);  
         getchar();
-        if (!validar_cpf_venda(venda->cpfCliente)) {
+        if (!validar_cpf(venda->cpfCliente)) {
             printf("CPF inválido! Certifique-se de inserir 11 dígitos.\n");
         } else if (buscarCliente(venda->cpfCliente) == NULL) {
             printf("Cliente não encontrado!\n");
         }
-    } while (!validar_cpf_venda(venda->cpfCliente) || buscarCliente(venda->cpfCliente) == NULL);
+    } while (!validar_cpf(venda->cpfCliente) || buscarCliente(venda->cpfCliente) == NULL);
 
-
-    Produto* prod = NULL;
     do {
         printf("----- Código do produto (7 dígitos): ");
         scanf("%7s", venda->codigo);  
         getchar();
-
-        if (!validar_codigo_venda(venda->codigo)) {
-            printf("Código inválido ou produto não encontrado. Tente novamente.\n");
-        } else {
-            prod = buscarProduto(venda->codigo);
+        if (!validar_codigo(venda->codigo)) {
+            printf("Código inválido! Deve conter exatamente 7 caracteres numéricos.\n");
+        } else if (buscarProduto(venda->codigo) == NULL) {
+            printf("Produto não encontrado!\n");
         }
-    } while (prod == NULL);
+    } while (!validar_codigo(venda->codigo) || buscarProduto(venda->codigo) == NULL);
 
+    Produto* prod = buscarProduto(venda->codigo);
 
     do {
         printf("----- Quantidade desejada: ");
@@ -96,9 +93,7 @@ Venda* tela_cadastrar_venda(void) {
         }
     } while (venda->quantidade <= 0);
 
-
     venda->valorTotal = prod->valor * venda->quantidade;
-
 
     do {
         printf("----- Data da compra (dd/mm/aaaa): ");
@@ -109,10 +104,8 @@ Venda* tela_cadastrar_venda(void) {
         }
     } while (!validar_data(venda->data));
 
-
     venda->numeroVenda = obterNumeroVenda();
     venda->status = 1;
-
 
     gravarVenda(venda);
     printf("Venda cadastrada com sucesso!\n");
@@ -200,7 +193,7 @@ void tela_excluir_venda(void) {
         scanf(" %c", &confirmacao);
         if (confirmacao == 's' || confirmacao == 'S') {
             excluirVendaLogica(numeroVenda);
-            printf("\nVenda excluída com sucesso.\n");
+            printf("\nVenda excluída com sucesso (lógica).\n");
         } else {
             printf("\nOperação de exclusão cancelada.\n");
         }
