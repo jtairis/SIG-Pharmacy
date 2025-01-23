@@ -414,13 +414,13 @@ void relatorioClientesAlfabetica() {
         return;
     }
 
-    Cliente* clientes = NULL;  // Ponteiro para armazenar os registros
-    int qtdClientes = 0;       // Contador de clientes
+    Cliente* clientes = NULL;  
+    int qtdClientes = 0;       
     Cliente cli;
 
-    // Lê os registros do arquivo para a memória
+
     while (fread(&cli, sizeof(Cliente), 1, fp)) {
-        if (cli.status == 1) { // Apenas clientes ativos
+        if (cli.status == 1) { 
             clientes = realloc(clientes, (qtdClientes + 1) * sizeof(Cliente));
             if (clientes == NULL) {
                 printf("Erro ao alocar memória!\n");
@@ -439,7 +439,7 @@ void relatorioClientesAlfabetica() {
         return;
     }
 
-    // Ordenar os registros por nome em ordem alfabética
+
     for (int i = 0; i < qtdClientes - 1; i++) {
         for (int j = i + 1; j < qtdClientes; j++) {
             if (strcmp(clientes[i].nome, clientes[j].nome) > 0) {
@@ -450,7 +450,6 @@ void relatorioClientesAlfabetica() {
         }
     }
 
-    // Exibir os registros ordenados em formato de tabela
     printf("\n----------------------------------------------------------------------------------------------------------\n");
     printf("                                     Relatório de Clientes em Ordem Alfabética\n");
     printf("----------------------------------------------------------------------------------------------------------\n");

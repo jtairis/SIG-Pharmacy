@@ -132,45 +132,43 @@ Cliente* tela_cadastrar_cliente(void) {
     printf("               - - - - - Cadastrar Novo Cliente - - - - - \n");
     printf("---------------------------------------------------------------------------\n");
 
-    // Validação do CPF
+
     do {
         printf("----- CPF (apenas números): ");
         scanf("%14[^\n]", cli->cpf);
         getchar();
-    } while (!validar_cpf(cli->cpf)); // Verifica se o CPF é válido e único
+    } while (!validar_cpf(cli->cpf)); 
 
-    // Validação do Nome
+
     do {
         printf("----- Nome: ");
         scanf("%51[^\n]", cli->nome);
         getchar();
-    } while (!validar_nome(cli->nome)); // Verifica se o nome não está vazio
+    } while (!validar_nome(cli->nome)); 
     for (int i = 0; cli->nome[i] != '\0'; i++) {
-        cli->nome[i] = toupper(cli->nome[i]); // Converte o nome para letras maiúsculas
+        cli->nome[i] = toupper(cli->nome[i]); 
     }
 
-    // Validação do Telefone
     do {
         printf("----- Telefone: ");
         scanf("%12[^\n]", cli->tele);
         getchar();
-    } while (!validar_telefone(cli->tele)); // Verifica se o telefone é válido
+    } while (!validar_telefone(cli->tele)); 
 
-    // Validação do E-mail
+
     do {
         printf("----- E-mail: ");
         scanf("%30[^\n]", cli->email);
         getchar();
-    } while (!validar_email(cli->email)); // Verifica se o e-mail é válido
+    } while (!validar_email(cli->email)); 
 
-    // Validação da Data de Nascimento
     do {
         printf("----- Data de nascimento (dd/mm/aaaa): ");
         scanf("%10[^\n]", cli->data);
         getchar();
-    } while (!validar_data(cli->data)); // Verifica se a data está no formato correto e é válida
+    } while (!validar_data(cli->data)); 
 
-    cli->status = 1; // Cliente ativo
+    cli->status = 1;
     return cli;
 }
 
