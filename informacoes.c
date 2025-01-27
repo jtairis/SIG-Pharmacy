@@ -62,9 +62,9 @@ void tela_equipe(void) {
     printf("                                                                         \n");
     printf("            Este projeto foi desenvolvido por:                           \n");
     printf("                                                                         \n");
-    printf("            Dupla: Julia Costa e Juliany Tairis                          \n");
-    printf("            E-mail: juliajs.costa@gmail.com | Julianytairis04@gmail.com  \n");
-    printf("            Git: https://github.com/jtairis/SIG-Pharmacy.git             \n");
+    printf("            Grupo: Julia Costa,Juliany Tairis                            \n");
+    printf("            Julia Costa,Juliany Tairis                                   \n");
+    printf("            leandro e arthur                                             \n");
     printf("            Este projeto teve como base o Sistema De Gestão Escolar      \n");
     printf("            disponibilizado pelo professor Flavius Gorgonio.             \n");
     printf("                                                                         \n");
